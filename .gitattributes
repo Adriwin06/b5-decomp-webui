@@ -1,0 +1,7 @@
+* text=auto
+
+# Asset provenance is byte-exact, including the bundled font licenses.
+assets/* -text
+assets/*.json text eol=lf
+assets/*.svg text eol=lf
+assets/*-OFL.txt whitespace=-blank-at-eol,cr-at-eol

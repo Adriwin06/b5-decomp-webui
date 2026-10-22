@@ -1,0 +1,48 @@
+{
+  "$description": "Paradise theme. Public token names become --b5-{group}-{name} CSS properties.",
+  "color": {
+    "$type": "color",
+    "background": { "$value": { "colorSpace": "srgb", "components": [0.062745, 0.054902, 0.054902] } },
+    "surface": { "$value": { "colorSpace": "srgb", "components": [0.082353, 0.070588, 0.070588] } },
+    "raised": { "$value": { "colorSpace": "srgb", "components": [0.129412, 0.098039, 0.094118] } },
+    "hover": { "$value": { "colorSpace": "srgb", "components": [0.156863, 0.101961, 0.098039] } },
+    "text": { "$value": { "colorSpace": "srgb", "components": [0.945098, 0.933333, 0.898039] } },
+    "muted": { "$value": { "colorSpace": "srgb", "components": [0.776471, 0.72549, 0.670588] } },
+    "line": { "$value": { "colorSpace": "srgb", "components": [0.223529, 0.188235, 0.180392] } },
+    "red": { "$value": { "colorSpace": "srgb", "components": [0.835294, 0.14902, 0.188235] } },
+    "gold": { "$value": { "colorSpace": "srgb", "components": [0.929412, 0.741176, 0.329412] } },
+    "success": { "$value": { "colorSpace": "srgb", "components": [0.65098, 0.811765, 0.513725] } },
+    "danger": { "$value": { "colorSpace": "srgb", "components": [1, 0.572549, 0.537255] } },
+    "info": { "$value": { "colorSpace": "srgb", "components": [0.576471, 0.741176, 0.901961] } },
+    "accent": { "$value": "{color.red}" },
+    "focus": { "$value": "{color.gold}" },
+    "warning": { "$value": "{color.gold}" }
+  },
+  "font": {
+    "$type": "fontFamily",
+    "display": { "$value": ["B5 Anton", "Impact", "Arial Narrow", "sans-serif"] },
+    "head": { "$value": ["B5 Oswald", "Arial Narrow", "sans-serif"] },
+    "body": { "$value": ["Segoe UI", "Arial", "sans-serif"] },
+    "mono": { "$value": ["Cascadia Code", "Consolas", "monospace"] }
+  },
+  "space": {
+    "$type": "dimension",
+    "1": { "$value": { "value": 4, "unit": "px" } },
+    "2": { "$value": { "value": 8, "unit": "px" } },
+    "3": { "$value": { "value": 12, "unit": "px" } },
+    "4": { "$value": { "value": 16, "unit": "px" } },
+    "5": { "$value": { "value": 24, "unit": "px" } },
+    "6": { "$value": { "value": 32, "unit": "px" } },
+    "7": { "$value": { "value": 48, "unit": "px" } },
+    "8": { "$value": { "value": 64, "unit": "px" } }
+  },
+  "control": {
+    "$type": "dimension",
+    "height": { "$value": { "value": 44, "unit": "px" } },
+    "radius": { "$value": { "value": 2, "unit": "px" } }
+  },
+  "motion": {
+    "$type": "duration",
+    "fast": { "$value": { "value": 160, "unit": "ms" } }
+  }
+}

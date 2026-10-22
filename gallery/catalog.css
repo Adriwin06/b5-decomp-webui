@@ -1,0 +1,55 @@
+.catalog-intro { padding-block: 42px 30px; max-width: 760px; }
+.catalog-intro > .b5-eyebrow { color: var(--b5-color-gold); font-size: 9px; }
+.catalog-intro h1 { font: italic clamp(48px, 5.3vw, 76px)/1.1 var(--b5-font-display); margin: 17px 0 22px; }
+.catalog-intro h1 .b5-title-mark { margin-left: -9px; }
+.catalog-intro > p { max-width: 630px; color: var(--b5-color-muted); font-size: 14px; line-height: 1.9; margin-bottom: 22px; }
+.catalog-tools { display: grid; gap: 24px; padding-block: 22px; border-block: 1px solid var(--b5-color-line); }
+.catalog-search { max-width: 560px; }
+.catalog-tools .b5-filter { font-size: 16px; padding-inline: 15px; }
+.catalog-result-count { padding-block: 18px 25px; font-family: var(--b5-font-mono); font-size: 10px; }
+.catalog-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; }
+.catalog-card { min-width: 0; background: var(--b5-color-surface); border: 1px solid var(--b5-color-line); scroll-margin-top: 24px; }
+.catalog-card--wide { grid-column: 1 / -1; }
+.catalog-card__header { padding: 21px 24px 17px; border-bottom: 1px solid var(--b5-color-line); }
+.catalog-card__header .b5-eyebrow { color: var(--b5-color-muted); font-size: 8px; }
+.catalog-card__header h2 { font: italic 25px/1.3 var(--b5-font-display); text-transform: uppercase; margin-block: 7px; }
+.catalog-card__header p { color: var(--b5-color-muted); font-size: 12px; line-height: 1.7; }
+.catalog-card__header .b5-link { margin-top: 8px; font-size: 13px; }
+.catalog-demo { padding: 27px 25px; min-width: 0; }
+.catalog-demo--flush { padding: 17px 0; }
+.catalog-demo--flush .b5-tabpanel { padding: 24px; color: var(--b5-color-muted); font-size: 13px; }
+.catalog-demo .b5-destination { max-width: 710px; margin-inline: auto; }
+.catalog-demo .b5-destination__art { min-height: 330px; }
+.catalog-demo .b5-destination__logo { max-height: 330px; }
+.catalog-demo .b5-destination__label { right: 8%; bottom: 18px; }
+.catalog-demo-note { margin-top: 18px; }
+.catalog-skin-picker { max-width: 220px; margin-top: 24px; }
+.catalog-source { border-top: 1px solid var(--b5-color-line); padding: 12px 20px; }
+.catalog-source > summary { cursor: pointer; color: var(--b5-color-muted); font: 10px/1.6 var(--b5-font-mono); text-transform: uppercase; letter-spacing: .05em; }
+.catalog-source .b5-code { margin-top: 12px; max-height: 340px; font-size: 10px; }
+.catalog-source .b5-button { font-size: 11px; margin-top: 12px; }
+.catalog-assets { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+.catalog-asset { display: grid; gap: 12px; align-content: space-between; padding: 14px; min-width: 0; border: 1px solid var(--b5-color-line); background: #211d19; color: var(--b5-color-text); text-align: left; }
+.catalog-asset:hover { border-color: var(--b5-color-gold); }
+.catalog-asset img { width: 100%; height: 80px; object-fit: contain; background: #74685d; }
+.catalog-asset span { font: 9px var(--b5-font-mono); overflow-wrap: anywhere; }
+.catalog-demo .b5-table { min-width: 540px; }
+@media (max-width: 1000px) { .catalog-grid { grid-template-columns: minmax(0, 1fr); } .catalog-card--wide { grid-column: auto; } }
+@media (max-width: 580px) {
+  .catalog-intro { padding-top: 30px; }
+  .catalog-intro > .b5-eyebrow { font-size: 7px; }
+  .catalog-intro h1 { font-size: 54px; }
+  .catalog-intro > p { font-size: 13px; }
+  .catalog-intro .b5-status { font-size: 9px; }
+  .catalog-tools { gap: 16px; }
+  .catalog-tools .b5-filter { font-size: 14px; padding-inline: 12px; }
+  .catalog-card__header { padding: 18px; }
+  .catalog-demo { padding: 24px 18px; }
+  .catalog-demo--flush { padding-inline: 0; }
+  .catalog-demo .b5-destination__art { min-height: 205px; padding-inline: 0; }
+  .catalog-demo .b5-destination__label { font-size: 13px; bottom: 5px; right: 3%; }
+  .catalog-demo .b5-connection__kicker { font-size: 9px; }
+  .catalog-demo .b5-connection__address { font-size: 12px; }
+  .catalog-assets { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .garage-topbar > .b5-row > .garage-text-link { display: none; }
+}

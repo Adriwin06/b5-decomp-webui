@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Isolated consumer fixture</title><link rel="stylesheet" href="../../dist/b5-ui.css"><script type="module" src="./consumer.js"></script></head>
+<body>
+  <h1 id="outside-heading">Host page heading</h1><button id="outside-button" type="button" data-tone="danger">Host button</button>
+  <main id="app" class="b5-ui">
+    <h2 id="inside-heading">Library content</h2>
+    <div class="b5-tabs" id="tabs">
+      <div class="b5-tablist" role="tablist" aria-label="Fixture views">
+        <button class="b5-tab" type="button" id="first" role="tab" aria-controls="first-panel" aria-selected="true">First</button>
+        <button class="b5-tab" type="button" id="disabled" role="tab" aria-controls="disabled-panel" disabled>Disabled</button>
+        <button class="b5-tab" type="button" id="last" role="tab" aria-controls="last-panel">Last</button>
+      </div>
+      <div id="first-panel" tabindex="0">First panel</div><div id="disabled-panel" hidden>Disabled panel</div><div id="last-panel" hidden>Last panel</div>
+    </div>
+    <code id="copy-text">example.invalid:27900</code><button class="b5-button" type="button" id="copy" data-b5-copy="copy-text">Copy address</button>
+    <button class="b5-button" type="button" id="dialog-trigger" data-b5-dialog-open="fixture-dialog">Open fixture</button>
+    <dialog class="b5-dialog" id="fixture-dialog" aria-labelledby="fixture-title"><h2 id="fixture-title" tabindex="-1" data-b5-initial-focus>Fixture dialog</h2><label class="b5-field"><span class="b5-label">Dialog visibility</span><select class="b5-select" data-b5-select><option>Public</option><option>Friends only</option><option>Private</option></select></label><button class="b5-button" type="button" data-b5-dialog-close>Close fixture</button></dialog>
+    <form id="select-form" aria-label="Select fixture">
+      <label class="b5-field"><span class="b5-label">Fixture status</span><select class="b5-select" data-b5-select id="fixture-select" name="status" required><option value="">All statuses</option><option value="alpha">Alpha</option><option value="disabled" disabled>No body</option><optgroup label="Available"><option value="beta">Beta</option><option value="gamma">Gamma</option></optgroup><optgroup label="Unavailable" disabled><option value="blocked">Blocked source</option></optgroup></select></label>
+      <button class="b5-button" type="reset">Reset selection</button>
+    </form>
+    <div class="b5-filter-group b5-filter-group--paint" id="fixture-filters" role="group" aria-label="Fixture filters"><button class="b5-filter" type="button" data-b5-value="all" aria-pressed="true">All</button><button class="b5-filter" type="button" data-b5-value="disabled" disabled>Disabled filter</button><button class="b5-filter" type="button" data-b5-value="space">With space</button></div>
+    <nav class="b5-pagination" id="fixture-pager" data-b5-pager data-b5-total="95" data-b5-page-size="10" aria-label="Fixture pages"></nav>
+  </main>
+</body>
+</html>

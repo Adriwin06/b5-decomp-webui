@@ -1,0 +1,43 @@
+{
+  "name": "b5-decomp-webui",
+  "version": "0.1.0",
+  "description": "Shared web UI framework for the Burnout Paradise decompilation ecosystem.",
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Adriwin06/b5-decomp-webui.git"
+  },
+  "engines": {
+    "node": ">=22.12"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/b5-ui.d.ts",
+      "import": "./dist/b5-ui.js"
+    },
+    "./style.css": "./dist/b5-ui.css",
+    "./tokens": "./tokens/paradise.tokens.json",
+    "./assets/*": "./dist/assets/*"
+  },
+  "files": [
+    "dist",
+    "tokens",
+    "docs",
+    "THIRD_PARTY.md"
+  ],
+  "scripts": {
+    "assets:paint": "node tools/prepare-paint.mjs",
+    "build": "node tools/build.mjs",
+    "dev": "node tools/serve.mjs --watch",
+    "preview": "node tools/serve.mjs",
+    "test": "npm run build && node --test tests/unit/*.test.mjs && playwright test",
+    "test:unit": "node --test tests/unit/*.test.mjs",
+    "test:browser": "playwright test",
+    "prepare": "node tools/build.mjs"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.14.0",
+    "@playwright/test": "1.64.1"
+  }
+}
