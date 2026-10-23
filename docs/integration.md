@@ -6,7 +6,8 @@ Build with `npm ci && npm run build`, or unpack a versioned `npm pack` artifact.
 Serve the complete `dist/` folder at any static prefix, such as `/ui/` or
 `/static/b5-ui/`. Font and texture URLs are relative to `b5-ui.css` and work under
 subdirectories. No font CDN, runtime dependency or Node server is required.
-The ESM entry imports `select.js` and `pager.js`; keep both next to `b5-ui.js`.
+The ESM entry imports `select.js`, `pager.js` and `download.js`; keep all three
+next to `b5-ui.js`.
 
 Load `b5-ui.js` as an ES module. Under a strict Content Security Policy, put
 initialization code in an external module allowed by `script-src 'self'`.
@@ -63,6 +64,7 @@ Preserve the relative directory structure when exposing the files:
 /ui/b5-ui.js
 /ui/select.js
 /ui/pager.js
+/ui/download.js
 /ui/assets/anton-latin.ttf
 /ui/assets/banner-red.png
 ... the remaining distribution files

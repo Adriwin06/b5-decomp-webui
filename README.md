@@ -73,8 +73,9 @@ or a specific Git commit rather than following a moving branch.
   panels, illustrated empty states and the shared Paradise artwork kit.
 - Site headers, hero/destination compositions, server connection blocks, lobbies,
   player rows, rosters, configuration panels and numbered setup steps.
-- Six download treatments, release counters, contents previews, progress rings,
-  activity charts, timelines, metadata sections and menu cursor rows.
+- Six download treatments, full-game / update-only choosers, release counters,
+  contents previews, progress rings, activity charts, timelines, metadata
+  sections and menu cursor rows.
 - Buttons, native form controls, panels, metrics, badges, alerts and loading states.
 - Keyboard-operable tabs, native modal dialogs and drawers, copy actions and
   dismissible notifications.

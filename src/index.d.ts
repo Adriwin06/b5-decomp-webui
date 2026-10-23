@@ -23,6 +23,14 @@ export interface SelectController {
   destroy(): void;
 }
 export function createSelect(select: HTMLSelectElement): SelectController;
+export interface DownloadMenuController {
+  readonly element: HTMLButtonElement;
+  readonly opened: boolean;
+  open(options?: { focus?: false | 'first' | 'last' }): void;
+  close(options?: { restoreFocus?: boolean }): void;
+  destroy(): void;
+}
+export function createDownloadMenu(container: HTMLElement): DownloadMenuController;
 export function createFilterGroup(container: HTMLElement): {
   readonly value: string;
   select(value: string, options?: { focus?: boolean; emit?: boolean }): boolean;

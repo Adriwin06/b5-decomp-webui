@@ -55,10 +55,25 @@ export const components = [
   },
   {
     id: 'roster', title: 'Live roster panel', category: 'patterns',
-    summary: 'A painted gold header, count tile, empty and populated states.',
+    summary: 'A gold masthead, labelled count, illustrated empty state and compact driver rows.',
     keywords: 'who driving players roster side panel gold header count empty populated',
     action: { id: 'catalog-roster-toggle', label: 'Show populated state ↗' },
-    markup: `<aside class="b5-panel b5-panel--paint b5-roster" aria-labelledby="catalog-roster-title"><header class="b5-panel__header"><h3 id="catalog-roster-title">Who's driving</h3><span class="b5-count-tile" id="catalog-roster-count">0</span></header><div class="b5-panel__body"><p>Live from the streets of Paradise.</p><div id="catalog-roster-content" class="b5-roster__empty"><p>A quiet moment in Paradise.</p><p>Be the first to hit the road.</p></div></div><footer class="b5-panel__footer"><span class="b5-status" data-tone="warning">COMMUNITY SERVER / LIVE ROSTER</span></footer></aside>`
+    markup: `<aside class="b5-panel b5-panel--paint b5-roster" aria-labelledby="catalog-roster-title">
+  <header class="b5-panel__header">
+    <h3 id="catalog-roster-title">Who's driving</h3>
+    <span class="b5-roster__count" role="status"><span class="b5-count-tile" id="catalog-roster-count">0</span><span>Online</span></span>
+  </header>
+  <div class="b5-panel__body">
+    <p>Live from the streets of Paradise.</p>
+    <div id="catalog-roster-content" class="b5-roster__empty">
+      <span class="b5-roster__symbol" aria-hidden="true"></span>
+      <h4 class="b5-roster__empty-title">A quiet moment in Paradise.</h4>
+      <p>Be the first to hit the road.</p>
+      <a class="b5-link" href="./examples.html#connect-example">Get connected ${icon('arrow')}</a>
+    </div>
+  </div>
+  <footer class="b5-panel__footer"><span class="b5-status" data-tone="warning">Community server</span><span>Live roster</span></footer>
+</aside>`
   },
   {
     id: 'empty-state', title: 'Illustrated empty states', category: 'feedback', wide: true,
@@ -69,7 +84,7 @@ export const components = [
   {
     id: 'search-refresh', title: 'Search & refresh', category: 'controls',
     summary: 'Quiet controls for a live directory or a dense developer view.',
-    keywords: 'refresh busy loading icon search lobbies players underline minimal toolbar',
+    keywords: 'refresh busy loading icon search lobbies players field minimal toolbar',
     markup: `<div class="b5-section-header"><span class="b5-eyebrow">LIVE DIRECTORY</span><button id="catalog-refresh" class="b5-refresh" type="button">${icon('refresh')} Refresh</button></div><label class="b5-search">${icon('search')}<input class="b5-input" id="catalog-demo-search" type="search" aria-label="Search example lobbies or players" placeholder="Search lobbies or players"></label><p id="catalog-refresh-result" class="b5-hint catalog-demo-note" role="status">Ready to refresh the example.</p>`
   },
   {
@@ -97,9 +112,30 @@ export const components = [
   },
   {
     id: 'downloads', title: 'Download controls', category: 'controls', wide: true,
-    summary: 'Six shared treatments, a count ribbon and a contents preview. This sample downloads the integration guide.',
-    keywords: 'download build counter preview eye asphalt streak skyline tire burn torn split livery',
-    markup: `<div class="b5-download-group"><a class="b5-download" id="catalog-download" data-skin="tireburn" href="../docs/integration.md" download="b5-integration-guide.md">${icon('download')}<span>Download guide<small>v0.1.0 · sample file</small></span></a><span class="b5-download-counter">128 downloads</span><span class="b5-tooltip"><button class="b5-download-preview" type="button" data-b5-dialog-open="catalog-build-dialog" aria-label="Preview sample contents" aria-describedby="catalog-download-tooltip">${icon('eye')}</button><span id="catalog-download-tooltip" role="tooltip">Preview the sample contents</span></span></div><label class="b5-field catalog-skin-picker"><span class="b5-label">Treatment</span><select class="b5-select" data-b5-select id="catalog-download-skin"><option value="tireburn">Tire burn</option><option value="asphalt">Asphalt</option><option value="streak">Crimson streak</option><option value="skyline">Paradise skyline</option><option value="torn">Torn poster</option><option value="split">Split livery</option></select></label>`, sourceIds: ['catalog-build-dialog']
+    summary: 'Build picker, download count and file preview. Demo choices download sample documentation; sizes are illustrative.',
+    keywords: 'download build full game update only package menu popover counter preview eye asphalt streak skyline tire burn torn split livery',
+    markup: `<div class="b5-download-group" data-b5-download-menu id="catalog-download-group">
+  <button class="b5-download" id="catalog-download" data-skin="tireburn" type="button" popovertarget="catalog-download-menu" aria-controls="catalog-download-menu">
+    ${icon('download')}<span><strong>Download build</strong><small>v0.1.0 · PC</small></span>
+  </button>
+  <span class="b5-download-counter"><strong>128</strong><small>Downloads</small></span>
+  <span class="b5-tooltip"><button class="b5-download-preview" type="button" data-b5-dialog-open="catalog-build-dialog" aria-label="Preview sample contents" aria-describedby="catalog-download-tooltip">${icon('eye')}</button><span id="catalog-download-tooltip" role="tooltip">Preview the sample contents</span></span>
+  <div class="b5-download-menu" id="catalog-download-menu" popover="auto" role="region" aria-labelledby="catalog-download-menu-title">
+    <header class="b5-download-menu__header"><span class="b5-eyebrow" id="catalog-download-menu-title">Choose your download</span><span class="b5-muted">v0.1.0</span></header>
+    <a class="b5-download-option" href="../docs/integration.md" download="sample-full-game-guide.md">
+      <span class="b5-download-option__icon" aria-hidden="true">${icon('folder')}</span>
+      <span class="b5-download-option__title">Full game</span><span class="b5-download-option__size">4.69 GB</span>
+      <span class="b5-download-option__description">Game files, DLLs and assets. For your first install or when the assets change.</span>
+    </a>
+    <a class="b5-download-option" href="../CHANGELOG.md" download="sample-update-notes.md">
+      <span class="b5-download-option__icon" aria-hidden="true">${icon('refresh')}</span>
+      <span class="b5-download-option__title">Update only</span><span class="b5-download-option__size">8.2 MB</span>
+      <span class="b5-download-option__description">Executable, DLLs and .cgsmap. Extract over your existing game folder.</span>
+    </a>
+    <footer class="b5-download-menu__note"><span class="b5-status" data-tone="success">Assets unchanged</span><p>Already have the game folder? <strong>Update only</strong> is all you need.</p><small class="b5-hint">Demo packages download sample documentation.</small></footer>
+  </div>
+</div>
+<label class="b5-field catalog-skin-picker"><span class="b5-label">Treatment</span><select class="b5-select" data-b5-select id="catalog-download-skin"><option value="tireburn">Tire burn</option><option value="asphalt">Asphalt</option><option value="streak">Crimson streak</option><option value="skyline">Paradise skyline</option><option value="torn">Torn poster</option><option value="split">Split livery</option></select></label>`, sourceIds: ['catalog-build-dialog'], api: 'enhance(root); // or createDownloadMenu(group)'
   },
   {
     id: 'progress-rings', title: 'Progress rings', category: 'data', wide: true,
@@ -227,7 +263,7 @@ Key=<span class="b5-code__value">YOUR_SERVER_KEY</span></code></pre><div class="
     id: 'trees', title: 'Expandable trees', category: 'data',
     summary: 'Native disclosures with the shared menu hover treatment.',
     keywords: 'tree files directories archive build preview expandable details summary',
-    markup: `<div class="b5-tree b5-tree--menu"><details open><summary>sample-build</summary><ul><li><details><summary>ui</summary><ul><li>b5-ui.css</li><li>b5-ui.js</li><li>select.js</li><li>pager.js</li></ul></details></li><li><details><summary>assets</summary><ul><li>paradise-city.webp</li><li>banner-red.png</li></ul></details></li><li>README.md</li></ul></details></div>`
+    markup: `<div class="b5-tree b5-tree--menu"><details open><summary>sample-build</summary><ul><li><details><summary>ui</summary><ul><li>b5-ui.css</li><li>b5-ui.js</li><li>select.js</li><li>pager.js</li><li>download.js</li></ul></details></li><li><details><summary>assets</summary><ul><li>paradise-city.webp</li><li>banner-red.png</li></ul></details></li><li>README.md</li></ul></details></div>`
   },
   {
     id: 'loading-states', title: 'Loading, stale & error', category: 'feedback',

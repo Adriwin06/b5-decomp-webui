@@ -3,6 +3,8 @@ import { createSelect } from './select.js';
 export { createSelect } from './select.js';
 import { createPager } from './pager.js';
 export { createPager } from './pager.js';
+import { createDownloadMenu } from './download.js';
+export { createDownloadMenu } from './download.js';
 const tabControllers = new WeakMap();
 const filterControllers = new WeakMap();
 const enhancements = new WeakMap();
@@ -314,6 +316,7 @@ export function enhance(root = document) {
   const ownedSelects = new Map();
   const ownedFilters = new Map();
   const ownedPagers = new Map();
+  const ownedDownloads = new Map();
   let destroyed = false;
   function refresh() {
     if (destroyed) throw new Error('This enhancement has been destroyed');
@@ -342,6 +345,12 @@ export function enhance(root = document) {
       if (!root.contains(pager)) { controller.destroy(); ownedPagers.delete(pager); }
     }
     for (const pager of root.querySelectorAll('[data-b5-pager]')) if (!ownedPagers.has(pager)) ownedPagers.set(pager, createPager(pager));
+    for (const [group, controller] of ownedDownloads) {
+      if (!root.contains(group)) { controller.destroy(); ownedDownloads.delete(group); }
+    }
+    const downloads = [...root.querySelectorAll('[data-b5-download-menu]')];
+    if (root.matches?.('[data-b5-download-menu]')) downloads.unshift(root);
+    for (const group of downloads) if (!ownedDownloads.has(group)) ownedDownloads.set(group, createDownloadMenu(group));
   }
   async function onClick(event) {
     const trigger = event.target.closest?.('[data-b5-dialog-open], [data-b5-dialog-close], [data-b5-copy]');
@@ -396,10 +405,12 @@ export function enhance(root = document) {
       for (const select of ownedSelects.values()) select.destroy();
       for (const filter of ownedFilters.values()) filter.destroy();
       for (const pager of ownedPagers.values()) pager.destroy();
+      for (const download of ownedDownloads.values()) download.destroy();
       ownedTabs.clear();
       ownedSelects.clear();
       ownedFilters.clear();
       ownedPagers.clear();
+      ownedDownloads.clear();
       enhancements.delete(root);
     }
   };

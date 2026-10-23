@@ -67,12 +67,23 @@ test('directory example combines painted filters, search, empty, stale and loadi
   await page.locator('#directory-example-state').selectOption('empty');
   await expect(page.locator('#example-lobby-count')).toHaveText('0');
   await expect(page.locator('#example-roster')).toContainText('A quiet moment in Paradise.');
+  await expect(page.locator('#example-roster').getByRole('link', { name: 'Get connected' })).toHaveAttribute('href', '#connect-example');
+  await expect(page.locator('#example-roster')).not.toHaveAttribute('tabindex');
   await expect(page.locator('#lobby-examples')).toContainText('Open roads. Your move.');
   await page.locator('#directory-example-state').selectOption('stale');
   await expect(page.locator('#example-stale')).toBeVisible();
+  await expect(page.locator('#example-roster-count-label')).toHaveText('Last seen');
+  await expect(page.locator('#example-roster-count')).toHaveText('17');
   await expect(page.locator('#lobby-examples .b5-lobby')).toHaveCount(3);
   await page.locator('#directory-example-state').selectOption('loading');
   await expect(page.locator('#lobby-examples')).toContainText('Getting the example snapshot');
+  await expect(page.locator('#example-roster-count')).toHaveText('—');
+  await expect(page.locator('#example-roster').getByRole('status')).toHaveText('Waiting for the directory…');
+  await expect(page.locator('#example-roster').getByRole('link')).toHaveCount(0);
+  await page.locator('#directory-example-state').selectOption('active');
+  await expect(page.locator('#example-roster-count-label')).toHaveText('Online');
+  await expect(page.locator('#example-roster')).toHaveAttribute('tabindex', '0');
+  await expect(page.locator('#example-roster .b5-person')).toHaveCount(17);
 });
 
 test('developer modes keep the shared explorer inside its active tab panel', async ({ page }) => {

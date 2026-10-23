@@ -15,7 +15,12 @@
     </div>
     <code id="copy-text">example.invalid:27900</code><button class="b5-button" type="button" id="copy" data-b5-copy="copy-text">Copy address</button>
     <button class="b5-button" type="button" id="dialog-trigger" data-b5-dialog-open="fixture-dialog">Open fixture</button>
-    <dialog class="b5-dialog" id="fixture-dialog" aria-labelledby="fixture-title"><h2 id="fixture-title" tabindex="-1" data-b5-initial-focus>Fixture dialog</h2><label class="b5-field"><span class="b5-label">Dialog visibility</span><select class="b5-select" data-b5-select><option>Public</option><option>Friends only</option><option>Private</option></select></label><button class="b5-button" type="button" data-b5-dialog-close>Close fixture</button></dialog>
+    <dialog class="b5-dialog" id="fixture-dialog" aria-labelledby="fixture-title"><h2 id="fixture-title" tabindex="-1" data-b5-initial-focus>Fixture dialog</h2><label class="b5-field"><span class="b5-label">Dialog visibility</span><select class="b5-select" data-b5-select><option>Public</option><option>Friends only</option><option>Private</option></select></label>
+      <div class="b5-download-group" data-b5-download-menu id="fixture-download-group">
+        <button class="b5-download" id="fixture-download" type="button" popovertarget="fixture-download-menu" aria-controls="fixture-download-menu">Download fixture</button>
+        <div class="b5-download-menu" id="fixture-download-menu" popover="auto" role="region" aria-label="Fixture downloads"><a class="b5-download-option" href="../../docs/integration.md" download>Full game</a><a class="b5-download-option" href="../../CHANGELOG.md" download>Update only</a></div>
+      </div>
+      <button class="b5-button" type="button" data-b5-dialog-close>Close fixture</button></dialog>
     <form id="select-form" aria-label="Select fixture">
       <label class="b5-field"><span class="b5-label">Fixture status</span><select class="b5-select" data-b5-select id="fixture-select" name="status" required><option value="">All statuses</option><option value="alpha">Alpha</option><option value="disabled" disabled>No body</option><optgroup label="Available"><option value="beta">Beta</option><option value="gamma">Gamma</option></optgroup><optgroup label="Unavailable" disabled><option value="blocked">Blocked source</option></optgroup></select></label>
       <button class="b5-button" type="reset">Reset selection</button>

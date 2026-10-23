@@ -55,6 +55,7 @@ for (const width of [1440, 390]) {
       '#buttons .b5-button--paint:not(.b5-button--paint-gold):not(.b5-button--paint-red)',
       '#buttons .b5-button--paint-gold', '#buttons .b5-button--paint-red',
       '#destination .b5-destination__label', '#roster .b5-panel__header',
+      '#downloads .b5-download strong',
       '#menu-tabs .b5-tab[aria-selected=true]', '#dropdowns .b5-select-trigger >> nth=0'
     ];
     for (const selector of selectors) {

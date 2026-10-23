@@ -89,6 +89,14 @@ const emptyRoster = $('catalog-roster-content').innerHTML;
 $('catalog-roster-toggle').addEventListener('click', event => {
   populated = !populated;
   $('catalog-roster-content').classList.toggle('b5-roster__empty', !populated);
+  $('catalog-roster-content').classList.toggle('b5-roster__list', populated);
+  if (populated) {
+    $('catalog-roster-content').setAttribute('role', 'region');
+    $('catalog-roster-content').setAttribute('aria-label', 'Sample player roster');
+    $('catalog-roster-content').tabIndex = 0;
+  } else {
+    for (const attribute of ['role', 'aria-label', 'tabindex']) $('catalog-roster-content').removeAttribute(attribute);
+  }
   $('catalog-roster-content').innerHTML = populated ? person('D1', 'Driver 01', 'Hosting a lobby', '', 'HOST') + person('D2', 'Driver 02', 'In a lobby', 'gold') : emptyRoster;
   $('catalog-roster-count').textContent = populated ? '2' : '0';
   event.currentTarget.textContent = populated ? 'Show empty state ↗' : 'Show populated state ↗';

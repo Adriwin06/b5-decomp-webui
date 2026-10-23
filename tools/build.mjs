@@ -76,6 +76,7 @@ export async function build() {
   await copyFile(path.join(root, 'src/index.js'), path.join(output, 'b5-ui.js'));
   await copyFile(path.join(root, 'src/select.js'), path.join(output, 'select.js'));
   await copyFile(path.join(root, 'src/pager.js'), path.join(output, 'pager.js'));
+  await copyFile(path.join(root, 'src/download.js'), path.join(output, 'download.js'));
   await copyFile(path.join(root, 'src/index.d.ts'), path.join(output, 'b5-ui.d.ts'));
   for (const entry of await readdir(path.join(root, 'assets'), { withFileTypes: true })) {
     if (entry.isFile()) await copyFile(path.join(root, 'assets', entry.name), path.join(output, 'assets', entry.name));

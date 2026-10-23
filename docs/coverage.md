@@ -39,7 +39,7 @@ control and viewport tests do not establish that visual alignment.
 | --- | --- |
 | Public identity and layout | `#navigation`, `#destination`, `#footers`; `.b5-hero`, `.b5-directory`, `.b5-scenery`, layout utilities |
 | Primary, secondary and textured actions | `#buttons`, `#downloads`, `#tooltips`, `#copy-actions` |
-| Release CTA, download count, preview and six visual variants | `#downloads`; asphalt, streak, skyline, tireburn, torn, split |
+| Release CTA, package chooser, sizes, asset note, count, preview and six skins | `#downloads`; `createDownloadMenu()`; asphalt, streak, skyline, tireburn, torn, split |
 | Translation-unit, function and executable metrics | `#progress-rings`, `#linear-progress`, `#summary-tiles`, `#statistics` |
 | Active goals and work-state summaries | `#summary-tiles`, `#panel-treatments`, `#menu-rows` |
 | Explorer modes, filtering, result navigation and rows | `#menu-tabs`, `#dropdowns`, `#search-refresh`, `#data-tables`, `#pagination` |

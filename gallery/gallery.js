@@ -51,8 +51,6 @@ const lobbies = [
   { name: 'Meet at the stadium', host: 'Driver 03', players: 8, location: 'Big Surf Island' }
 ];
 let directoryFilter = 'all';
-$('example-roster').className = 'b5-roster__list';
-$('example-roster').tabIndex = 0;
 $('example-roster').setAttribute('role', 'region');
 $('example-roster').setAttribute('aria-label', 'Sample player roster');
 function lobbyCard(lobby) {
@@ -63,7 +61,9 @@ function lobbyCard(lobby) {
   const availability = node('div');
   const status = node('span', 'b5-status', lobby.players < 8 ? 'Open slots' : 'Full');
   if (lobby.players < 8) status.dataset.tone = 'success';
-  availability.append(status, node('div', 'b5-lobby__capacity', `${lobby.players} / 8`));
+  const capacity = node('div', 'b5-lobby__capacity', String(lobby.players));
+  capacity.append(node('small', '', ' / 8 players'));
+  availability.append(status, capacity);
   header.append(identity, availability);
   const members = node('div', 'b5-lobby__members');
   const member = node('span', 'b5-member');
@@ -108,6 +108,11 @@ function renderDirectory() {
   $('example-all-count').textContent = String(available.length);
   $('example-space-count').textContent = String(available.filter(lobby => lobby.players < 8).length);
   $('example-roster-count').textContent = loading ? '—' : String(totalPlayers);
+  $('example-roster-count-label').textContent = state === 'stale' ? 'Last seen' : loading ? 'Loading' : 'Online';
+  $('example-roster-status').textContent = state === 'stale' ? 'Last snapshot' : loading ? 'Waiting for snapshot' : empty ? 'Roads are quiet' : 'Snapshot ready';
+  const rosterTone = state === 'stale' ? 'danger' : loading ? 'warning' : empty ? '' : 'success';
+  if (rosterTone) $('example-roster-status').dataset.tone = rosterTone;
+  else delete $('example-roster-status').dataset.tone;
   $('example-stale').hidden = state !== 'stale';
   $('online-example-status').textContent = state === 'stale' ? 'Example connection lost' : loading ? 'Loading example' : 'Example server online';
   $('online-example-status').dataset.tone = state === 'stale' ? 'danger' : loading ? 'warning' : 'success';
@@ -121,9 +126,21 @@ function renderDirectory() {
   else if (!matching.length) $('lobby-examples').replaceChildren(directoryEmpty('No matching lobbies', 'Try another name or clear your filters.', true));
   else $('lobby-examples').replaceChildren(...matching.map(lobbyCard));
   const people = available.flatMap(lobby => Array.from({ length: lobby.players }, (_, index) => ({ name: index ? `${lobby.host} crew ${index}` : lobby.host, host: index === 0 })));
-  if (!people.length) {
+  $('example-roster').classList.toggle('b5-roster__list', people.length > 0);
+  if (people.length) $('example-roster').tabIndex = 0;
+  else $('example-roster').removeAttribute('tabindex');
+  if (loading) {
+    const skeleton = node('div', 'b5-loading'); skeleton.setAttribute('role', 'status');
+    for (let index = 0; index < 3; index++) {
+      const row = node('span', 'b5-skeleton'); row.setAttribute('aria-hidden', 'true'); skeleton.append(row);
+    }
+    skeleton.append(node('p', 'b5-hint', 'Waiting for the directory…'));
+    $('example-roster').replaceChildren(skeleton);
+  } else if (!people.length) {
     const message = node('div', 'b5-roster__empty');
-    message.append(node('p', '', loading ? 'Waiting for the directory…' : 'A quiet moment in Paradise.'), node('p', '', loading ? 'Example data is loading.' : 'Be the first to hit the road.'));
+    const symbol = node('span', 'b5-roster__symbol'); symbol.setAttribute('aria-hidden', 'true');
+    const action = node('a', 'b5-link', 'Get connected ↗'); action.href = '#connect-example';
+    message.append(symbol, node('h4', 'b5-roster__empty-title', 'A quiet moment in Paradise.'), node('p', '', 'Be the first to hit the road.'), action);
     $('example-roster').replaceChildren(message);
   } else $('example-roster').replaceChildren(...people.map((player, index) => {
     const row = node('div', 'b5-person');
@@ -236,7 +253,7 @@ renderWork();
 $('work-build-preview').addEventListener('click', event => {
   const tree = node('div', 'b5-tree b5-tree--menu');
   const details = node('details'); details.open = true;
-  const list = node('ul'); for (const file of ['b5-ui.css', 'b5-ui.js', 'select.js', 'pager.js', 'assets/']) list.append(node('li', '', file));
+  const list = node('ul'); for (const file of ['b5-ui.css', 'b5-ui.js', 'select.js', 'pager.js', 'download.js', 'assets/']) list.append(node('li', '', file));
   details.append(node('summary', '', 'ui/'), list); tree.append(details);
   showDetails('Example build contents', [node('p', 'b5-hint', 'Illustrative files, not a downloadable game build.'), tree], event.currentTarget);
 });

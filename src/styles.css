@@ -57,7 +57,7 @@
     min-height: var(--b5-control-height); padding: 9px 18px; border: 1px solid var(--b5-color-line);
     border-radius: var(--b5-control-radius); background: var(--b5-color-raised); color: var(--b5-color-text);
     font: 13px/1.3 var(--b5-font-body); font-weight: 600; text-decoration: none; white-space: nowrap;
-    transition: background var(--b5-motion-fast), border-color var(--b5-motion-fast), translate var(--b5-motion-fast);
+    transition: background var(--b5-motion-fast), border-color var(--b5-motion-fast), color var(--b5-motion-fast), translate var(--b5-motion-fast);
   }
   .b5-button:hover, .b5-icon-button:hover { background: var(--b5-color-hover); border-color: var(--b5-color-muted); }
   .b5-button:active { translate: 0 1px; }
@@ -87,6 +87,8 @@
     background: var(--b5-color-background); color: var(--b5-color-text); font-size: 13px;
   }
   .b5-input::placeholder, .b5-textarea::placeholder { color: var(--b5-color-muted); opacity: 1; }
+  .b5-input, .b5-select, .b5-textarea { transition: border-color var(--b5-motion-fast), background var(--b5-motion-fast); }
+  .b5-input:focus-visible, .b5-select:focus-visible, .b5-textarea:focus-visible { outline-offset: 2px; border-color: var(--b5-color-gold); }
   .b5-input:hover, .b5-select:hover, .b5-textarea:hover { border-color: var(--b5-color-muted); }
   .b5-input[aria-invalid='true'], .b5-select[aria-invalid='true'], .b5-textarea[aria-invalid='true'] { border-color: var(--b5-color-danger); }
   .b5-field-error { color: var(--b5-color-danger); font-size: 12px; }
@@ -95,10 +97,10 @@
   .b5-check { display: flex; gap: 10px; align-items: center; font-size: 13px; min-height: var(--b5-control-height); cursor: pointer; }
   .b5-check input { accent-color: var(--b5-color-accent); width: 17px; height: 17px; margin: 0; }
 
-  .b5-panel { min-width: 0; border: 1px solid var(--b5-color-line); background: var(--b5-color-surface); }
+  .b5-panel { min-width: 0; border: 1px solid var(--b5-color-line); background: var(--b5-color-surface); box-shadow: inset 0 1px 0 #ffffff04, 0 8px 24px #0002; }
   .b5-panel__header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; padding: 18px var(--b5-panel-padding, 24px); border-bottom: 1px solid var(--b5-color-line); }
   .b5-panel__body { padding: var(--b5-panel-padding, 24px); }
-  .b5-panel__footer { padding: 13px var(--b5-panel-padding, 24px); border-top: 1px solid var(--b5-color-line); color: var(--b5-color-muted); font-size: 12px; }
+  .b5-panel__footer { padding: 13px var(--b5-panel-padding, 24px); border-top: 1px solid var(--b5-color-line); color: var(--b5-color-muted); font-size: 12px; background: #00000012; }
   .b5-panel--accent { border-top: 3px solid var(--b5-color-accent); }
   .b5-stat { display: grid; gap: 5px; padding: 20px 24px; min-width: 0; border-left: 2px solid var(--b5-color-accent); background: var(--b5-color-surface); }
   .b5-stat__value { font: italic 42px/1.2 var(--b5-font-display); }
@@ -117,7 +119,7 @@
   .b5-alert[data-tone='success'] { --b5-tone: var(--b5-color-success); }
   .b5-alert strong { color: var(--b5-tone); }
   .b5-alert p { margin-top: 3px; color: var(--b5-color-muted); }
-  .b5-empty { display: grid; justify-items: start; gap: 10px; padding: 32px; border: 1px dashed var(--b5-color-line); background: var(--b5-color-background); }
+  .b5-empty { display: grid; justify-items: start; align-content: center; gap: 10px; padding: 32px; border: 1px solid var(--b5-color-line); background: var(--b5-color-background); }
   .b5-empty h3 { font: italic 24px/1.2 var(--b5-font-display); text-transform: uppercase; }
   .b5-empty p { font-size: 13px; color: var(--b5-color-muted); }
   .b5-empty .b5-button { margin-top: 5px; }
@@ -135,6 +137,7 @@
   .b5-table { border-collapse: collapse; width: 100%; font-size: 13px; text-align: left; }
   .b5-table th { color: var(--b5-color-muted); background: var(--b5-color-background); font: 10px/1.5 var(--b5-font-mono); letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; }
   .b5-table th, .b5-table td { padding: 14px 18px; border-bottom: 1px solid var(--b5-color-line); vertical-align: middle; }
+  .b5-table tbody tr { transition: background var(--b5-motion-fast); }
   .b5-table tbody tr:last-child td { border-bottom: 0; }
   .b5-table tbody tr:hover { background: var(--b5-color-hover); }
   .b5-table__action { border: 0; padding: 3px 0; background: transparent; color: var(--b5-color-text); text-align: left; font: inherit; text-decoration: underline; text-decoration-color: var(--b5-color-line); text-underline-offset: 4px; }

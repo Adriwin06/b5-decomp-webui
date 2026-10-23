@@ -176,11 +176,11 @@ generated combobox markup is not presented as the authoring interface.
 | Copyable server connection | `.b5-connection`, `__top`, `__kicker`, `__address` |
 | Public directory layout | `.b5-directory`, `.b5-directory-note`, `.b5-stat-strip` |
 | Painted surfaces | `.b5-panel--ink`, `.b5-panel--paint`, `.b5-panel--hazard`, `.b5-count-tile` |
-| Roster states | `.b5-roster`, `__empty`, `__list`, existing panel sections |
+| Roster states | `.b5-roster`, `__count`, `__empty`, `__symbol`, `__empty-title`, `__list`, existing panel sections |
 | People and membership | `.b5-person`, `__body`, `__name`, `__meta`, `__role`, `.b5-avatar`, `.b5-member` |
 | Lobby presentation | `.b5-lobby`, `__header`, `__title`, `__meta`, `__capacity`, `__members` |
 | Illustrated empty state | `.b5-empty--illustrated`, `.b5-empty__symbol`, `.b5-link` |
-| Release controls | `.b5-download-group`, `.b5-download`, `.b5-download-counter`, `.b5-download-preview` |
+| Release controls | `.b5-download-group`, `.b5-download`, `.b5-download-counter`, `.b5-download-preview`; optional `[data-b5-download-menu]` |
 | Radial metrics | `.b5-metric-card`, `__body`, `.b5-ring`, `__track`, `__fill`, `__label` |
 | Work/profile summaries | `.b5-summary-grid`, `.b5-summary`, `data-tone` |
 | Shared menu selection | `.b5-menu-list`, `.b5-menu-item`, `__title`, `__meta`, `__trailing`, `.b5-table--menu` |
@@ -219,15 +219,92 @@ original clipped black-brush control geometry, with the self-hosted
 `--b5-font-head` (Oswald) for their labels. `--b5-font-display` (Anton) remains
 the display face used by public headings and painted actions.
 
-The six download skins reproduce the source layer positions and sizes. The
-count and preview overlap their neighboring clipped edges by 8px, forming one
-continuous strip. Preserve `.b5-download-group` around those pieces.
+The download group supplies one clipped outline and a continuous gold underline.
+The trigger, inline count and preview share the same surface, separated by quiet
+vertical rules. Preserve `.b5-download-group` around those pieces. A two-line
+counter can contain a `<strong>` number and a `<small>` label. The eye is a
+separate contents preview. The default tire-burn treatment pairs the original
+red brush behind the title with visible tire marks and an italic gold counter.
+The download icon and metadata sit on the asphalt surface. Other skins provide
+optional artwork treatments on the trigger.
 
 Download treatments use `data-skin="asphalt|streak|skyline|tireburn|torn|split"`.
 They change presentation; download URLs and analytics belong to the consumer.
+
+## Build download chooser
+
+Use a native popover to offer a full game and an update package. A plain
+`.b5-download` anchor remains available for direct downloads. For a chooser,
+use a button and give its group `data-b5-download-menu`:
+
+```html
+<div class="b5-download-group" data-b5-download-menu>
+  <button class="b5-download" type="button" data-skin="tireburn"
+    popovertarget="build-downloads" aria-controls="build-downloads">
+    <span><strong>Download build</strong><small>Latest release</small></span>
+  </button>
+  <span class="b5-download-counter"><strong>128</strong><small>Downloads</small></span>
+  <!-- Optional .b5-download-preview button opens the application's file preview. -->
+  <div class="b5-download-menu" id="build-downloads" popover="auto"
+    role="region" aria-label="Build downloads">
+    <a class="b5-download-option" href="/download/full" download>
+      <span class="b5-download-option__icon" aria-hidden="true">↓</span>
+      <span class="b5-download-option__title">Full game</span>
+      <span class="b5-download-option__size">4.69 GB</span>
+      <span class="b5-download-option__description">For a first install, including assets.</span>
+    </a>
+    <a class="b5-download-option" href="/download/update" download>
+      <span class="b5-download-option__icon" aria-hidden="true">↓</span>
+      <span class="b5-download-option__title">Update only</span>
+      <span class="b5-download-option__size">8.2 MB</span>
+      <span class="b5-download-option__description">Extract over an existing game folder.</span>
+    </a>
+    <footer class="b5-download-menu__note">
+      <span class="b5-status" data-tone="success">Assets unchanged</span>
+      <p>Already have the game folder? <strong>Update only</strong> is all you need.</p>
+    </footer>
+  </div>
+</div>
+```
+
+Supply real URLs, sizes, release metadata and asset-change guidance from the
+application. The gallery uses illustrative sizes and downloads documentation.
+The optional `.b5-download-menu__header` holds a label and release identifier.
+Give each popover a unique ID and an accessible name. The native Popover API
+provides the top layer, light dismissal and invoker Tab order; the button still
+opens the native popover without the library enhancement.
+
+`enhance(root)` discovers download groups and positions the chooser beside its
+control, flips it above a low toolbar and keeps it inside the viewport. Enter
+and Space toggle it; Tab moves through the links. Up/Down, Home and End navigate
+choices, and Escape returns focus to the button. Following a package link
+closes the chooser; the preview action remains independent.
+
+For direct control, `createDownloadMenu(group)` returns
+`{ element, opened, open({ focus? }), close({ restoreFocus? }), destroy() }`.
+`focus` accepts `false`, `'first'` or `'last'`. Creation is idempotent;
+`destroy()` closes the popover and restores owned attributes and placement.
+An enhancement refresh releases removed groups and discovers inserted ones.
+
+## Roster composition
+
 Avatar colors use `data-color="gold|green|blue"`; the default is red.
 Use `.b5-roster__list` for a bounded scroll region and give a keyboard-scrollable
-region a `tabindex="0"` and accessible name.
+region a `tabindex="0"` and accessible name. Remove that tab stop when replacing
+the list with an empty or loading state; links in an empty state remain focusable.
+
+The gold panel header keeps its text level over the angled paint. An optional
+`.b5-roster__count` groups the existing count tile with a visible label such as
+"Online"; `role="status"` announces count updates. A stale snapshot should label
+its count "Last seen", and a loading count should use a dash rather than zero.
+Connection state and live data stay with the consuming application.
+
+For an illustrated roster empty state, put an `aria-hidden="true"`
+`.b5-roster__symbol`, a heading with `.b5-roster__empty-title`, a short description
+and an optional `.b5-link` inside `.b5-roster__empty`. The symbol reuses the
+bundled Downtown sign; the skyline is decorative CSS. Point the link to the
+application's connection instructions. Use a loading status instead of the
+empty-state invitation while waiting for the first snapshot.
 
 ## Themed selects
 

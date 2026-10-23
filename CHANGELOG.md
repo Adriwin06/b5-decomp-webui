@@ -2,6 +2,16 @@
 
 ## 0.1.0 — Unreleased
 
+- Redesign the build download control with one clipped asphalt surface, red
+  title paint, tire marks, an inline counter, integrated preview and package chooser. Add
+  shared popover positioning, keyboard navigation, asset guidance and examples.
+- Refine shared surfaces, search fields, focus treatments and panel footers;
+  make lobby cards more compact and distinguish hosts in player rosters.
+- Level gold header text over the paint, label roster counts and add a Downtown
+  sign, skyline and connection action to empty rosters. Show distinct loading
+  and last-snapshot states in the directory example.
+- Polish catalog navigation, artwork, preview surfaces and source disclosures;
+  bring search and category filters together on wide screens.
 - Fix title paint drifting from the text when resized; add rendered glyph/paint
   coverage checks for heading lengths and painted controls on desktop and mobile.
 - Restore original paint geometry, RGB textures, developer typography, panel
