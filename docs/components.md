@@ -414,7 +414,10 @@ application-owned.
 ```
 
 Add `data-b5-unit="results"` (or the `unit` option) to name what is counted. Numbers
-are formatted for the document language.
+are formatted for the document language. When the total arrives with the data, leave
+out `data-b5-pager` and call `createPager()` on the first response: `enhance()` would
+otherwise start the pager at a total of 0, reading "No results" while the data loads.
+Placeholder content inside the container (such as a `—` range) shows until then.
 
 `createPager(container, { total?, pageSize?, page?, unit?, locale? })` returns a controller with
 read-only `state`, `set(options, { emit? })` and `destroy()`. State contains
