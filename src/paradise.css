@@ -37,8 +37,9 @@
 
   /* ---- Hero ------------------------------------------------------------- */
   /* Red banner paint behind a word. The SVG levels the brush in its own coordinates
-     before it is stretched, so text and paint share one rotation at any length. */
-  .b5-title-mark { position: relative; display: inline-block; padding: .08em .5em .14em .17em; color: #fff; isolation: isolate; transform: rotate(-3deg); }
+     before it is stretched, so text and paint share one rotation at any length. The
+     padding keeps the letters clear of the brush's ragged ends, long labels included. */
+  .b5-title-mark { position: relative; display: inline-block; padding: .16em .9em .16em .22em; color: #fff; isolation: isolate; transform: rotate(-3deg); }
   .b5-title-mark::before { content: ''; position: absolute; inset: -.12em -.45em; z-index: -1; background: var(--b5-art-banner-level) center / 100% 100% no-repeat; filter: brightness(2.8) saturate(1.5); pointer-events: none; }
 
   .b5-hero { display: grid; grid-template-columns: 1.08fr 1fr; align-items: center; gap: 32px; min-height: 438px; padding: 38px 0 33px; }
