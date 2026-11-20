@@ -30,6 +30,7 @@
     "assets:paint": "node tools/prepare-paint.mjs",
     "build": "node tools/build.mjs",
     "export": "node tools/export.mjs",
+    "release": "node tools/release.mjs",
     "dev": "node tools/serve.mjs --watch",
     "preview": "node tools/serve.mjs",
     "test": "npm run build && node --test tests/unit/*.test.mjs && playwright test",

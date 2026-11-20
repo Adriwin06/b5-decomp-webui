@@ -29,8 +29,10 @@ progress dashboard (BP-work-server) uses the same chrome and controls.
   used for its look alone. The pager formats numbers for the page language and accepts
   a `unit` ("of 4,413 results"); an empty list reads "No results" (or "No files").
   Ink drawer titles keep the case of an identifier.
-- Add `npm run export -- <folder>`: builds and copies the distribution into a
-  consuming project with a `webui.json` naming the version and commit.
+- Publish builds on a `dist` branch that the sites check out as a git submodule:
+  `npm run release` commits the build of the current commit, with a `webui.json`
+  naming it. `npm run export -- <folder>` writes the same files into any folder,
+  keeping a checkout's `.git` link, to try unreleased changes in a site.
 - Ship the B5 mark as `assets/favicon.svg` for both sites.
 
 ## 0.1.0

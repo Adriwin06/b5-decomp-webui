@@ -55,14 +55,14 @@ general implementation of the complete DTCG specification.
 
 ## Rust / b5-decomp-server
 
-Paradise Online uses the library as-is: `web/ui/` is an export (see below), embedded
-by `src/web.rs` from a fixed file list and served under `/ui/`. A test checks that the
+Paradise Online uses the library as-is: `web/ui/` is a submodule on the `dist` branch
+(see below), embedded by `src/web.rs` from a fixed file list and served under `/ui/`. A test checks that the
 list matches the folder. The page's own `web/` files hold only its markup, layout and
 directory logic: lobby polling, the five-second refresh, stale data and copy text stay
 in the app, and the UI package knows nothing about `/v1/dashboard`.
 
 ```sh
-npm run export -- ../b5-decomp-server/web/ui
+git submodule update --remote web/ui   # then add new files to src/web.rs and commit
 ```
 
 The server's Content Security Policy (`script-src 'self'; style-src 'self'`) needs no
@@ -70,8 +70,10 @@ exception: the module is loaded from the same origin and sets styles through the
 
 ## Python / BP-work-server
 
-The progress dashboard serves an export from `bp_work_server/static/b5-ui/` with its
-existing static mount; `pyproject.toml` lists the nested folders in its package data.
+The progress dashboard serves the `dist` submodule at `bp_work_server/static/b5-ui/`
+from its static mount, which asks browsers to revalidate those files
+(`Cache-Control: no-cache`) because the modules import each other without a version
+tag. `pyproject.toml` lists the nested folders in its package data.
 `<html>` carries `.b5-ui` because the progress map reads its colours and fonts from the
 root element. `app.js` is an ES module that imports the library:
 
@@ -84,18 +86,35 @@ root element. `app.js` is an ES module that imports the library:
   keeps its navigation history; the release chooser is the shared download group.
 
 ```sh
-npm run export -- ../BP-work-server/bp_work_server/static/b5-ui
+git submodule update --remote bp_work_server/static/b5-ui   # then commit
 ```
 
 Explorer queries, SSE, Git attribution, download tracking and server state stay out of
 the UI package. Use `paginate()` only for complete client-side collections.
 
-## Exporting a build
+## Releases and the dist branch
+
+The `dist` branch holds only the distribution, exactly what `npm run export` writes,
+`webui.json` included. Each commit is one build, so a site's submodule pointer names
+the files it serves and `webui.json` the library commit they came from. To publish a
+build of the current commit (the working tree must be clean):
+
+```sh
+npm run release
+git push origin dist
+```
+
+A site takes it with `git submodule update --remote <path>` and commits the new
+pointer. Clone the sites with `--recurse-submodules`, run `git submodule update --init`
+after pulling, and check out submodules in their CI and deploy steps.
+
+## Trying unreleased changes
 
 `npm run export -- <folder>` builds the library and replaces `<folder>` with the
-distribution (it refuses a non-empty folder that holds no earlier export). It writes
-`webui.json` there with the version and commit, so a deployed site can be traced to
-the library revision it uses. Commit the exported files in the consuming project.
+distribution, keeping a checkout's `.git` link, so it can target a site's submodule
+directly. It refuses a non-empty folder that holds no earlier export, and `webui.json`
+notes uncommitted changes. Undo it with `git submodule update --force <folder>` and
+`git -C <folder> clean -fd` before committing the site.
 
 ## Adoption sequence
 

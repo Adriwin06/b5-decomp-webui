@@ -33,12 +33,13 @@ and developer explorer with clearly marked sample data. Changes to `src/`,
 npm run build
 ```
 
-Copy the **whole `dist/` directory** into your project's static files, or let
-`npm run export -- <folder>` build and copy it with a `webui.json` naming the commit.
-Keep `assets/` alongside the stylesheet, including its font license and attribution.
-Node.js is not needed by the consuming application. Paradise Online
-(`b5-decomp-server`) and the decomp progress dashboard (`BP-work-server`) both use it
-this way; see the [integration guide](docs/integration.md).
+Copy the **whole `dist/` directory** into your project's static files, or check out
+the `dist` branch as a git submodule: it holds only the built files, with a
+`webui.json` naming the commit they were built from, and `npm run release` adds each
+build to it. Keep `assets/` alongside the stylesheet, including its font license and
+attribution. Node.js is not needed by the consuming application. Paradise Online
+(`b5-decomp-server`) and the decomp progress dashboard (`BP-work-server`) both use the
+submodule; see the [integration guide](docs/integration.md).
 
 ```html
 <link rel="stylesheet" href="/ui/b5-ui.css">
