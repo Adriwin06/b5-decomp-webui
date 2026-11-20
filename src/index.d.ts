@@ -52,6 +52,8 @@ export function notify(message: string, options?: {
   duration?: number;
   root?: Document | HTMLElement;
 }): { element: HTMLDivElement; dismiss(): void };
-/** Keeps aria-current on the site nav link of the section being read. enhance() wires every .b5-site-nav. */
+/** Keeps aria-current on the nav link of the section being read. enhance() wires every .b5-site-nav and .b5-rail. */
 export function createNavSpy(nav: HTMLElement): { update(): void; destroy(): void };
+/** The pause control of a .b5-ticker (its .b5-ticker__toggle). enhance() wires every .b5-ticker. */
+export function createTicker(ticker: HTMLElement): { readonly paused: boolean; pause(): void; play(): void; destroy(): void };
 export function enhance(root?: Document | HTMLElement): { refresh(): void; destroy(): void };

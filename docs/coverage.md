@@ -2,7 +2,7 @@
 
 The library's acceptance target is the visual and interaction vocabulary of
 `BP-work-server` and `b5-decomp-server`, plus the supplied reference screenshots.
-The catalog now contains 37 component families, with live specimens and
+The catalog now contains 40 component families, with live specimens and
 copyable markup. A family can serve several domain views; queues, dependencies
 and blocked work share the menu-row component rather than separate renderers.
 
@@ -40,7 +40,8 @@ control and viewport tests do not establish that visual alignment.
 | Public identity and layout | `#navigation`, `#destination`, `#footers`; `.b5-hero`, `.b5-directory`, `.b5-scenery`, layout utilities |
 | Primary, secondary and textured actions | `#buttons`, `#downloads`, `#tooltips`, `#copy-actions` |
 | Release CTA, package chooser, sizes, asset note, count, preview and six skins | `#downloads`; `createDownloadMenu()`; asphalt, streak, skyline, tireburn, torn, split |
-| Translation-unit, function and executable metrics | `#progress-rings`, `#linear-progress`, `#summary-tiles`, `#statistics` |
+| Translation-unit, function and executable metrics | `#progress-rings`, `#license`, `#linear-progress`, `#summary-tiles`, `#statistics` |
+| Section menu, numbered sections and latest events | `#section-rail`, `#ticker` |
 | Active goals and work-state summaries | `#summary-tiles`, `#panel-treatments`, `#menu-rows` |
 | Explorer modes, filtering, result navigation and rows | `#menu-tabs`, `#dropdowns`, `#search-refresh`, `#data-tables`, `#pagination` |
 | Agent, contributor and player identities | `#people`, `#lobby-cards`, `#roster` |

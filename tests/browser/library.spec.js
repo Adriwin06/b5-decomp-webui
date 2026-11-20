@@ -48,6 +48,63 @@ test('the site nav marks the section being read and releases its listeners', asy
   expect(await current()).toEqual(['location', null, null]);
 });
 
+test('the site nav marks no link while a section it does not list is read', async ({ page }) => {
+  await fixture(page);
+  await page.evaluate(() => {
+    const nav = document.createElement('nav');
+    nav.className = 'b5-site-nav';
+    nav.innerHTML = '<a href="#listed-one" aria-current="location">One</a>';
+    document.body.prepend(nav);
+    for (const id of ['listed-one', 'unlisted-two', 'unlisted-three']) {
+      const section = document.createElement('section');
+      section.id = id; section.style.height = '1600px';
+      document.body.append(section);
+    }
+    window.library.createNavSpy(nav);
+  });
+  const current = () => page.evaluate(() => document.querySelector('.b5-site-nav a').getAttribute('aria-current'));
+  await page.evaluate(() => document.getElementById('unlisted-two').scrollIntoView());
+  await expect.poll(current).toBe(null);
+  await page.evaluate(() => document.getElementById('listed-one').scrollIntoView());
+  await expect.poll(current).toBe('location');
+});
+
+test('setProgress fills a meter like a ring and names its value', async ({ page }) => {
+  await fixture(page);
+  const result = await page.evaluate(() => {
+    const meter = document.createElement('div');
+    meter.className = 'b5-meter';
+    meter.setAttribute('aria-label', 'Units complete');
+    meter.innerHTML = '<span class="b5-meter__label">Units complete</span><span class="b5-meter__value" data-b5-progress-label>—</span><span class="b5-meter__bar"></span>';
+    document.querySelector('#app').append(meter);
+    window.library.setProgress(meter, 42);
+    return [meter.getAttribute('role'), meter.getAttribute('aria-valuenow'), meter.style.getPropertyValue('--b5-meter'), meter.querySelector('[data-b5-progress-label]').textContent];
+  });
+  expect(result).toEqual(['progressbar', '42', '0.42', '42%']);
+});
+
+test('a ticker pauses and plays from its toggle, which keeps its label', async ({ page }) => {
+  // the config asks for reduced motion, which stills the ticker
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await fixture(page);
+  const states = await page.evaluate(() => {
+    const ticker = document.createElement('section');
+    ticker.className = 'b5-ticker';
+    ticker.innerHTML = '<div class="b5-ticker__window"><ul class="b5-ticker__track"><li class="b5-ticker__item"><strong>Merged</strong>One</li></ul></div><button class="b5-button b5-button--ink b5-ticker__toggle" type="button" aria-pressed="false">Pause</button>';
+    document.querySelector('#app').append(ticker);
+    window.ui.refresh();
+    const toggle = ticker.querySelector('button');
+    const read = () => [ticker.hasAttribute('data-b5-paused'), toggle.getAttribute('aria-pressed'), toggle.textContent];
+    const out = [read()];
+    toggle.click();
+    out.push([...read(), getComputedStyle(ticker.querySelector('.b5-ticker__track')).animationPlayState]);
+    toggle.click();
+    out.push(read());
+    return out;
+  });
+  expect(states).toEqual([[false, 'false', 'Pause'], [true, 'true', 'Pause', 'paused'], [false, 'false', 'Pause']]);
+});
+
 test('enhancement is idempotent and can be destroyed and mounted again', async ({ page }) => {
   await fixture(page);
   const result = await page.evaluate(() => {

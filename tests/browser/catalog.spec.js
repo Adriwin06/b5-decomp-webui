@@ -12,8 +12,8 @@ test('catalog covers every reference family, provides source markup and loads th
   const errors = [];
   page.on('pageerror', error => errors.push(error.message));
   await catalog(page);
-  await expect(page.locator('.catalog-card')).toHaveCount(37);
-  await expect(page.locator('#catalog-total')).toHaveText('37 component families');
+  await expect(page.locator('.catalog-card')).toHaveCount(40);
+  await expect(page.locator('#catalog-total')).toHaveText('40 component families');
   await expect(page.locator('#catalog-artwork .catalog-asset')).toHaveCount(28);
   await expect(page.locator('#counters')).toContainText('149 findings');
   await expect(page.locator('#menu-tabs').getByRole('tab', { name: 'Available in build' })).toBeVisible();
@@ -31,6 +31,11 @@ test('catalog covers every reference family, provides source markup and loads th
     const demo = page.locator(`#${id} .catalog-demo`);
     await demo.screenshot({ path: `test-results/reference-${id}.png` });
   }
+  await expect(page.locator('#license').getByRole('progressbar', { name: 'Units complete' })).toHaveAttribute('aria-valuenow', '63.7');
+  const ticker = page.locator('#ticker .b5-ticker');
+  await page.locator('#ticker').getByRole('button', { name: 'Pause' }).click();
+  await expect(ticker).toHaveAttribute('data-b5-paused', '');
+  await expect(page.locator('#ticker').getByRole('button', { name: 'Pause' })).toHaveAttribute('aria-pressed', 'true');
   await page.locator('#drawers .catalog-source summary').click();
   await expect(page.locator('#catalog-source-drawers')).toContainText('<dialog');
   expect(errors).toEqual([]);
@@ -44,7 +49,7 @@ test('catalog search, category filters and reset expose useful complete specimen
   await page.getByRole('group', { name: 'Component category' }).getByRole('button', { name: 'Data', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'No matching components' })).toBeVisible();
   await page.getByRole('button', { name: 'Clear search' }).click();
-  await expect(page.locator('.catalog-card:visible')).toHaveCount(37);
+  await expect(page.locator('.catalog-card:visible')).toHaveCount(40);
   await page.getByRole('group', { name: 'Component category' }).getByRole('button', { name: 'Identity', exact: true }).click();
   await expect(page.locator('#destination')).toBeVisible();
   await expect(page.locator('#dropdowns')).toBeHidden();

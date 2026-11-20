@@ -43,6 +43,10 @@
 .catalog-asset img { width: 100%; height: 80px; object-fit: contain; background: #74685d; }
 .catalog-asset span { font: 9px var(--b5-font-mono); overflow-wrap: anywhere; }
 .catalog-demo .b5-table { min-width: 540px; }
+.catalog-easy-drive { display: grid; grid-template-columns: minmax(0, 250px) minmax(0, 1fr); gap: 36px; align-items: start; }
+.catalog-hud { margin-top: 22px; padding: 34px 24px; border: 1px solid var(--b5-color-line); background: #0c0b0b; }
+.catalog-demo .b5-license { max-width: 380px; }
+.catalog-demo .b5-ticker { --b5-ticker-duration: 32s; }
 @media (max-width: 1300px) {
   .catalog-tools { grid-template-columns: minmax(0, 1fr); align-items: start; }
   .catalog-search { max-width: 560px; }
@@ -51,6 +55,7 @@
 @media (max-width: 1000px) { .catalog-grid { grid-template-columns: minmax(0, 1fr); } .catalog-card--wide { grid-column: auto; } }
 @media (max-width: 850px) { .catalog-intro::after { display: none; } .catalog-intro::before { width: 300px; opacity: .025; } }
 @media (max-width: 580px) {
+  .catalog-easy-drive { grid-template-columns: minmax(0, 1fr); }
   .catalog-intro { padding-top: 30px; }
   .catalog-intro > .b5-eyebrow { font-size: 7px; }
   .catalog-intro h1 { font-size: 54px; }

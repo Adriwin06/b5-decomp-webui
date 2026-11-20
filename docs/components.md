@@ -197,15 +197,16 @@ fades in over the first 72px of scrolling, so the scenery shows through it at th
 of the page; browsers without scroll-driven animations show the backdrop all the time.
 The root gets `scroll-padding-top` so anchored sections land below the header; a page
 stylesheet that sets its own `scroll-padding-top` on `html` overrides it. `enhance()`
-keeps `aria-current` on the `.b5-site-nav` link whose section is being read (links to
-other pages are left alone); `createNavSpy(nav)` does the same for a nav it is given.
+keeps `aria-current` on the `.b5-site-nav` and `.b5-rail` link whose section is being
+read (links to other pages are left alone; while a section the nav does not list is
+read, no link is current); `createNavSpy(nav)` does the same for a nav it is given.
 Put `.b5-ui` on `<html>` instead when page scripts read tokens from the root element.
 `data-b5-density="compact"` on a dense area (a data dashboard's `<main>`) shrinks its
 controls without touching the header, hero or stat strip.
 
 ## Paradise component families
 
-The searchable catalog at `gallery/` includes 37 live families. The
+The searchable catalog at `gallery/` includes 40 live families. The
 [coverage inventory](coverage.md) maps these to the supplied references and the
 two dashboards. Catalog specimens have copyable source before enhancement;
 generated combobox markup is not presented as the authoring interface.
@@ -231,6 +232,11 @@ generated combobox markup is not presented as the authoring interface.
 | Illustrated empty state | `.b5-empty--illustrated`, `.b5-empty__symbol`, `.b5-link` |
 | Release controls | `.b5-download-group`, `.b5-download`, `.b5-download-counter`, `.b5-download-preview`; optional `[data-b5-download-menu]` |
 | Radial metrics | `.b5-metric-card`, `__body`, `.b5-ring`, `__track`, `__fill`, `__label` |
+| Segmented meters | `.b5-meter`, `__label`, `__value`, `__bar`; `setProgress()` (or `data-b5-progress`) fills it like a ring; optional `data-tone="success|info|danger"`, or `--b5-meter-color` |
+| Progress license | `.b5-license`, `__head`, `__kicker`, `__rank`, `__class`, `__next`, `__stats`, `__stamp` |
+| Section menu | `.b5-rail`, `__title`, `__item`, `__index`, `__label`, `__meta`; `aria-current` on the item being read, kept by `enhance()` |
+| Section numbers and frames | `data-b5-index="01"` on a `.b5-section-header` (a hollow number behind it), `.b5-hud` (gold corners round a map or chart) |
+| Live ticker | `.b5-ticker`, `__sign`, `__window`, `__track` (its items twice, the second copy `aria-hidden`; `--b5-ticker-duration`), `__item`, `__toggle`; `createTicker()` or `enhance()` |
 | Work/profile summaries | `.b5-summary-grid`, `.b5-summary`, `data-tone` |
 | Shared menu selection | `.b5-menu-list`, `.b5-menu-item`, `__title`, `__meta`, `__trailing`, `.b5-table--menu` |
 | Events and commits | `.b5-timeline` with native list, time and text elements |

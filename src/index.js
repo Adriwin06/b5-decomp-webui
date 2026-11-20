@@ -104,6 +104,8 @@ export function setProgress(element, value, { max = 100 } = {}) {
     element.dataset.b5Progress = String(current);
     const fill = element.querySelector('.b5-ring__fill');
     if (fill) fill.style.strokeDashoffset = String(100 - percent);
+    // a meter is the ring's linear twin: its bar fills to the same share
+    if (element.classList.contains('b5-meter')) element.style.setProperty('--b5-meter', String(percent / 100));
   }
   const label = element.querySelector('[data-b5-progress-label]');
   if (label) label.textContent = `${Number(percent.toFixed(1))}%`;
@@ -312,7 +314,8 @@ const navSpies = new WeakMap();
 
 /**
  * Keeps aria-current on the in-page link of the section being read, so a header that
- * stays at the top shows where the reader is. Links to other pages are left alone.
+ * stays at the top (or an Easy Drive rail) shows where the reader is. Links to other
+ * pages are left alone.
  */
 export function createNavSpy(nav) {
   if (navSpies.has(nav)) return navSpies.get(nav);
@@ -326,14 +329,18 @@ export function createNavSpy(nav) {
   function update() {
     frame = 0;
     if (!links.length) return;
-    // A section is current once its top passes a third of the way down the window;
-    // at the very bottom the last one is, however short it is.
+    // A section is current once its top passes a third of the way down the window, until
+    // it has all but left the window (its end in the top eighth): a section the nav does
+    // not list is being read then, and no link is current. At the very bottom the last
+    // one is, however short it is, if it is still in view.
     const line = win.innerHeight / 3;
     let current = links[0];
     for (const entry of links) if (entry.target.getBoundingClientRect().top <= line) current = entry;
-    if (win.innerHeight + win.scrollY >= doc.documentElement.scrollHeight - 2) current = links[links.length - 1];
+    if (current.target.getBoundingClientRect().bottom < win.innerHeight / 8) current = null;
+    const last = links[links.length - 1];
+    if (win.innerHeight + win.scrollY >= doc.documentElement.scrollHeight - 2 && last.target.getBoundingClientRect().bottom > line) current = last;
     for (const { link } of links) {
-      if (link === current.link) link.setAttribute('aria-current', value);
+      if (link === current?.link) link.setAttribute('aria-current', value);
       else link.removeAttribute('aria-current');
     }
   }
@@ -354,6 +361,37 @@ export function createNavSpy(nav) {
   return controller;
 }
 
+const tickers = new WeakMap();
+
+/**
+ * The pause control of a .b5-ticker. Moving content needs one (WCAG 2.2.2): its
+ * .b5-ticker__toggle stops and restarts the scroll, a toggle button whose label stays
+ * and whose aria-pressed tells the state; the ticker carries data-b5-paused meanwhile.
+ * Hovering the ticker pauses it too, in CSS.
+ */
+export function createTicker(ticker) {
+  if (tickers.has(ticker)) return tickers.get(ticker);
+  const toggle = ticker.querySelector('.b5-ticker__toggle');
+  function set(paused) {
+    ticker.toggleAttribute('data-b5-paused', paused);
+    toggle?.setAttribute('aria-pressed', String(paused));
+  }
+  const onClick = () => set(!ticker.hasAttribute('data-b5-paused'));
+  toggle?.addEventListener('click', onClick);
+  set(ticker.hasAttribute('data-b5-paused') || toggle?.getAttribute('aria-pressed') === 'true');
+  const controller = {
+    get paused() { return ticker.hasAttribute('data-b5-paused'); },
+    pause() { set(true); },
+    play() { set(false); },
+    destroy() {
+      toggle?.removeEventListener('click', onClick);
+      tickers.delete(ticker);
+    }
+  };
+  tickers.set(ticker, controller);
+  return controller;
+}
+
 /** Idempotent per root. Call refresh() after inserting additional tab groups. */
 export function enhance(root = document) {
   if (enhancements.has(root)) return enhancements.get(root);
@@ -364,6 +402,7 @@ export function enhance(root = document) {
   const ownedPagers = new Map();
   const ownedDownloads = new Map();
   const ownedNavs = new Map();
+  const ownedTickers = new Map();
   let destroyed = false;
   function refresh() {
     if (destroyed) throw new Error('This enhancement has been destroyed');
@@ -405,9 +444,15 @@ export function enhance(root = document) {
     for (const [nav, controller] of ownedNavs) {
       if (!root.contains(nav)) { controller.destroy(); ownedNavs.delete(nav); }
     }
-    const navs = [...root.querySelectorAll('.b5-site-nav')];
-    if (root.matches?.('.b5-site-nav')) navs.unshift(root);
+    const navs = [...root.querySelectorAll('.b5-site-nav, .b5-rail')];
+    if (root.matches?.('.b5-site-nav, .b5-rail')) navs.unshift(root);
     for (const nav of navs) if (!ownedNavs.has(nav) && !navSpies.has(nav)) ownedNavs.set(nav, createNavSpy(nav));
+    for (const [ticker, controller] of ownedTickers) {
+      if (!root.contains(ticker)) { controller.destroy(); ownedTickers.delete(ticker); }
+    }
+    const tickerElements = [...root.querySelectorAll('.b5-ticker')];
+    if (root.matches?.('.b5-ticker')) tickerElements.unshift(root);
+    for (const ticker of tickerElements) if (!ownedTickers.has(ticker) && !tickers.has(ticker)) ownedTickers.set(ticker, createTicker(ticker));
   }
   async function onClick(event) {
     const trigger = event.target.closest?.('[data-b5-dialog-open], [data-b5-dialog-close], [data-b5-copy]');
@@ -464,7 +509,9 @@ export function enhance(root = document) {
       for (const pager of ownedPagers.values()) pager.destroy();
       for (const download of ownedDownloads.values()) download.destroy();
       for (const nav of ownedNavs.values()) nav.destroy();
+      for (const ticker of ownedTickers.values()) ticker.destroy();
       ownedNavs.clear();
+      ownedTickers.clear();
       ownedTabs.clear();
       ownedSelects.clear();
       ownedFilters.clear();

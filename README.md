@@ -17,7 +17,7 @@ npm ci
 npm run dev
 ```
 
-Open **http://127.0.0.1:4175/gallery/** for the searchable catalog of **37 component
+Open **http://127.0.0.1:4175/gallery/** for the searchable catalog of **40 component
 families**, live specimens and copyable markup. The supplied reference patterns
 appear first: slanted counters, brush tabs, themed dropdowns, Paradise artwork,
 painted filters, roster panels, illustrated empty states and quiet search/refresh.
