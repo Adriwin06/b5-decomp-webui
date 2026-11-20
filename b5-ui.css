@@ -322,7 +322,8 @@
   :is(.b5-tabs--paint, .b5-tabs--menu) > .b5-tablist .b5-tab[aria-selected='true']::before,
   .b5-select-trigger[aria-expanded='true']::before,
   .b5-page-button[aria-current='page']::before,
-  .b5-button--ink[aria-pressed='true']::before { content: ''; position: absolute; z-index: -1; inset: -4px -8px; aspect-ratio: auto; background: var(--b5-art-banner) center / 100% 100% no-repeat; filter: brightness(2.8) saturate(1.5); transform: rotate(-6.2deg); pointer-events: none; }
+  .b5-button--ink[aria-pressed='true']::before,
+  .b5-rail__item[aria-current]::before, .b5-ticker__sign::before { content: ''; position: absolute; z-index: -1; inset: -4px -8px; aspect-ratio: auto; background: var(--b5-art-banner) center / 100% 100% no-repeat; filter: brightness(2.8) saturate(1.5); transform: rotate(-6.2deg); pointer-events: none; }
   .b5-button--paint-red:hover::before { filter: brightness(3) saturate(1.5); }
 
   /* ---- Destination artwork and connection block ------------------------- */
@@ -673,6 +674,79 @@
   .b5-skeleton--short { width: 40%; }
   .b5-loading { display: grid; gap: 13px; padding: 24px; }
 
+  /* ---- Game menus: rail, license, meters, ticker, section numbers, HUD -- */
+  /* The Easy Drive rail: a game menu's column of numbered sections. The section being
+     read takes the red paint and the chevron cursor (createNavSpy, wired by enhance()). */
+  .b5-rail { display: grid; gap: 2px; }
+  .b5-rail__title { display: flex; align-items: center; gap: 9px; margin: 0 0 8px; color: var(--b5-color-gold); font: 11px var(--b5-font-mono); letter-spacing: 1.2px; text-transform: uppercase; }
+  .b5-rail__title .b5-dot { width: 5px; height: 5px; }
+  .b5-rail__item { position: relative; isolation: isolate; display: grid; grid-template-columns: 28px minmax(0, 1fr); align-items: baseline; column-gap: 6px; padding: 10px 12px 10px 18px; color: var(--b5-color-soft); text-decoration: none; transition: color var(--b5-motion-fast); }
+  .b5-rail__index { color: var(--b5-color-faint); font: 11px var(--b5-font-mono); }
+  .b5-rail__label { font: italic 19px/1.15 var(--b5-font-display); text-transform: uppercase; }
+  .b5-rail__meta { grid-column: 2; margin-top: 3px; color: var(--b5-color-muted); font: 11px/1.4 var(--b5-font-mono); overflow-wrap: anywhere; }
+  .b5-rail__item:hover { color: #fff; }
+  .b5-rail__item:hover .b5-rail__index { color: var(--b5-color-gold); }
+  .b5-rail__item[aria-current] { color: #fff; }
+  .b5-rail__item[aria-current] :is(.b5-rail__index, .b5-rail__meta) { color: #fde9e0; }
+  .b5-rail__item[aria-current]::before { inset: 3px -2px 3px 10px; transform: rotate(-1.5deg); }
+  .b5-rail__item[aria-current]::after { content: ''; position: absolute; top: 50%; left: -8px; width: 13px; height: 15px; background: url('./assets/chevron-red.png') center / contain no-repeat; filter: brightness(1.7) drop-shadow(0 0 3px #ec1c24cc); transform: translateY(-50%) scaleX(-1); pointer-events: none; }
+
+  /* A license for a project, after the game's driver's licence: a class badge, the rank,
+     how far to the next one, car-stat meters and a stamp. */
+  .b5-license { position: relative; isolation: isolate; overflow: hidden; padding: 20px 18px 14px; border: 1px solid #5a4630; background: linear-gradient(160deg, #2a2116, #16110d 55%, #120e0c); box-shadow: 8px 12px 0 #08070766; }
+  .b5-license::before { content: ''; position: absolute; z-index: -1; right: -46px; bottom: -46px; width: 200px; height: 200px; background: url('./assets/seal-paradise-city.png') center / contain no-repeat; filter: invert(1); opacity: .06; pointer-events: none; }
+  .b5-license::after { content: ''; position: absolute; inset: 0 0 auto; height: 4px; background: var(--b5-art-gold) center / 100% 100% no-repeat, var(--b5-color-gold); }
+  .b5-license__head { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 12px; }
+  .b5-license__kicker { color: var(--b5-color-gold); font: 10px/1.4 var(--b5-font-mono); letter-spacing: 1.4px; text-transform: uppercase; }
+  .b5-license__rank { margin: 4px 0 0; color: var(--b5-color-text); font: italic 25px/1.05 var(--b5-font-display); text-transform: uppercase; }
+  .b5-license__class { display: grid; place-items: center; min-width: 54px; height: 54px; padding: 0 10px; color: #211a13; background: var(--b5-art-gold) center / 100% 100% no-repeat, var(--b5-color-gold); clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%); font: italic 26px/1 var(--b5-font-display); text-transform: uppercase; }
+  .b5-license__next { margin: 10px 0 0; color: var(--b5-color-muted); font: 11px/1.5 var(--b5-font-mono); }
+  .b5-license__stats { display: grid; gap: 10px; margin: 16px 0 0; }
+  .b5-license__stamp { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 10px; margin-top: 16px; padding-top: 10px; border-top: 1px dashed #5a4630; color: #b8a394; font: italic 12px var(--b5-font-display); letter-spacing: .5px; text-transform: uppercase; }
+  .b5-license__stamp > :last-child { font: 11px var(--b5-font-mono); text-transform: none; }
+
+  /* A car-stat bar: ten slanted segments lit up to --b5-meter (0 to 1). */
+  .b5-meter { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; gap: 5px 10px; }
+  .b5-meter__label { color: var(--b5-color-soft); font: italic 14px var(--b5-font-display); letter-spacing: .4px; text-transform: uppercase; }
+  .b5-meter__value { color: var(--b5-color-text); font: 12px var(--b5-font-mono); font-variant-numeric: tabular-nums; }
+  .b5-meter[data-tone='success'] { --b5-meter-color: var(--b5-color-success); }
+  .b5-meter[data-tone='info'] { --b5-meter-color: var(--b5-color-info); }
+  .b5-meter[data-tone='danger'] { --b5-meter-color: var(--b5-color-red); }
+  .b5-meter__bar { grid-column: 1 / -1; height: 9px; background: linear-gradient(90deg, var(--b5-meter-color, var(--b5-color-gold)) calc(var(--b5-meter, 0) * 100%), #ffffff17 0); -webkit-mask: repeating-linear-gradient(90deg, #000 0 calc(10% - 3px), transparent 0 10%); mask: repeating-linear-gradient(90deg, #000 0 calc(10% - 3px), transparent 0 10%); transform: skew(-14deg); }
+
+  /* A radio ticker: a painted call sign, then items running right to left. The track
+     holds the items twice, the copy aria-hidden, so the loop is seamless. Its toggle
+     pauses it (createTicker(), wired by enhance()): moving content needs a pause
+     control. Hovering pauses it too. */
+  .b5-ticker { position: relative; display: flex; align-items: stretch; min-width: 0; overflow: hidden; border-block: 1px solid var(--b5-color-line); background: linear-gradient(90deg, #2c2021aa, #0a0909cc); }
+  .b5-ticker__sign { position: relative; isolation: isolate; flex: 0 0 auto; display: flex; align-items: center; gap: 8px; padding: 10px 30px 10px 16px; color: #fff; font: italic 18px var(--b5-font-display); text-transform: uppercase; white-space: nowrap; }
+  .b5-ticker__sign::before { inset: 0 0 0 -12px; transform: none; clip-path: polygon(0 0, 100% 0, calc(100% - 16px) 100%, 0 100%); }
+  .b5-ticker__sign small { color: #fde9e0; font: 10px var(--b5-font-mono); letter-spacing: 1.2px; }
+  .b5-ticker__window { flex: 1 1 auto; min-width: 0; overflow: hidden; -webkit-mask: linear-gradient(90deg, transparent, #000 36px, #000 calc(100% - 36px), transparent); mask: linear-gradient(90deg, transparent, #000 36px, #000 calc(100% - 36px), transparent); }
+  .b5-ticker__track { display: flex; width: max-content; margin: 0; padding: 0; list-style: none; animation: b5-ticker var(--b5-ticker-duration, 90s) linear infinite; }
+  .b5-ticker:hover .b5-ticker__track, .b5-ticker[data-b5-paused] .b5-ticker__track { animation-play-state: paused; }
+  .b5-ticker__item { display: flex; align-items: center; gap: 10px; padding: 12px 30px 12px 0; color: var(--b5-color-soft); font: 13px var(--b5-font-body); white-space: nowrap; }
+  .b5-ticker__item::before { content: ''; flex: 0 0 auto; width: 6px; height: 6px; background: var(--b5-color-accent); transform: skew(-10deg); }
+  .b5-ticker__item strong { color: var(--b5-color-gold); font: italic 15px var(--b5-font-display); text-transform: uppercase; }
+  .b5-ticker__toggle { flex: 0 0 auto; align-self: center; margin-inline: 8px 12px; }
+  @keyframes b5-ticker { to { transform: translateX(-50%); } }
+
+  /* A section's number, huge and hollow behind its header: data-b5-index="02". */
+  .b5-section-header[data-b5-index] { position: relative; isolation: isolate; }
+  .b5-section-header[data-b5-index]::before { content: attr(data-b5-index); content: attr(data-b5-index) / ''; position: absolute; z-index: -1; top: -.36em; left: -.05em; color: transparent; font: italic 150px/1 var(--b5-font-display); -webkit-text-stroke: 1px #ffffff26; pointer-events: none; }
+
+  /* HUD brackets on a view's corners, the way a game frames its map. They sit just
+     inside the frame, so a view that clips its content (a map canvas) still shows them. */
+  .b5-hud { position: relative; }
+  .b5-hud::after { content: ''; position: absolute; z-index: 1; inset: 0; pointer-events: none; background: linear-gradient(var(--b5-color-gold), var(--b5-color-gold)) left top / 20px 2px, linear-gradient(var(--b5-color-gold), var(--b5-color-gold)) left top / 2px 20px, linear-gradient(var(--b5-color-gold), var(--b5-color-gold)) right top / 20px 2px, linear-gradient(var(--b5-color-gold), var(--b5-color-gold)) right top / 2px 20px, linear-gradient(var(--b5-color-gold), var(--b5-color-gold)) left bottom / 20px 2px, linear-gradient(var(--b5-color-gold), var(--b5-color-gold)) left bottom / 2px 20px, linear-gradient(var(--b5-color-gold), var(--b5-color-gold)) right bottom / 20px 2px, linear-gradient(var(--b5-color-gold), var(--b5-color-gold)) right bottom / 2px 20px; background-repeat: no-repeat; opacity: .75; }
+
+  /* Without motion the ticker stands still on its newest events, the copy that makes
+     the loop seamless left out. */
+  @media (prefers-reduced-motion: reduce) {
+    .b5-ticker__track { animation: none; }
+    .b5-ticker__item[aria-hidden='true'] { display: none; }
+  }
+
   /* ---- Responsive: the online dashboard's breakpoints ------------------- */
   @media (min-width: 1440px) {
     .b5-hero { min-height: 465px; }
@@ -730,6 +804,9 @@
     :is(.b5-tabs--paint, .b5-tabs--menu) > .b5-tablist .b5-tab, .b5-filter-group--menu .b5-filter { padding-inline: 12px; font-size: 15px; }
   }
   @media (max-width: 650px) {
+    .b5-section-header[data-b5-index]::before { font-size: 96px; }
+    .b5-ticker__sign { padding-inline: 12px 24px; font-size: 15px; }
+    .b5-ticker__sign small { display: none; }
     .b5-site-header { flex-wrap: wrap; align-content: center; gap: 7px; min-height: 114px; padding-top: 10px; }
     .b5-brand { gap: 10px; font-size: 19px; }
     .b5-brand__mark { width: 37px; height: 37px; }
