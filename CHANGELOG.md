@@ -20,9 +20,11 @@ progress dashboard (BP-work-server) uses the same chrome and controls.
   configuration panel (`__header`, `__action`), footer (`__brand`, `__meta`) and the
   gold notification slip. Add `.b5-dot`, `.b5-accent` and `.b5-status--caps`.
 - Remove duplicates: one skewed dot for dots, statuses and badges; one red paint rule
-  for paint actions, painted filters and painted tabs; one white strip for actions and
-  the destination label; one brush plate for ink actions, dropdown triggers, menu tabs
-  and the new `.b5-filter-group--menu`. Drop `.b5-pager` (use `.b5-pagination`),
+  for paint actions and every chosen control; one white strip for actions and the
+  destination label; one menu-control family, after the painted filters, for filters,
+  tabs, dropdown triggers, ink actions and page buttons (italic caps, the red paint
+  once chosen, dropdowns underlined like fields). The black brush plates are gone and
+  the `--menu` tab and filter variants render the same. Drop `.b5-pager` (use `.b5-pagination`),
   `.b5-button--paint-white` (the default paint) and the roster's second illustrated
   empty state (the directory already has one); `.b5-roster__list--scroll` bounds a list.
 - `enhance()` only takes control of filter groups that have values, so a group can be
@@ -42,6 +44,8 @@ progress dashboard (BP-work-server) uses the same chrome and controls.
   upright; `.b5-roster__count` sets its label beside the count.
 - Add `.b5-card` (`--compact`, `__header`, `__title`), the lobby card's surface for any
   list or summary, and `.b5-filter-group--compact` for long or many painted choices.
+- Add `.b5-panel--board`, the configuration panel's frame around a large data view, with
+  `.b5-board__label` and `.b5-board__tools` in its header.
 
 ## 0.1.0
 

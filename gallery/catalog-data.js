@@ -12,8 +12,8 @@ export const components = [
     markup: `<div class="b5-ribbons">${ribbon('149 findings', 'danger')}${ribbon('4 no body', 'danger')}${ribbon('3 case IDs', 'warning')}${ribbon('1 event', 'warning')}<span class="b5-ribbon b5-ribbon--muted">95 callees</span><span class="b5-ribbon b5-ribbon--muted">46 asserts</span></div>`
   },
   {
-    id: 'menu-tabs', title: 'Brush menu tabs', category: 'controls', wide: true, flush: true,
-    summary: 'Textured inactive tabs, a red selection sweep, and keyboard navigation.',
+    id: 'menu-tabs', title: 'Menu tabs', category: 'controls', wide: true, flush: true,
+    summary: 'Italic menu caps, the red paint on the chosen tab, and keyboard navigation.',
     keywords: 'translation units functions available in build tabs navigation angled paint',
     markup: `<div class="b5-tabs b5-tabs--menu">
   <div class="b5-tablist" role="tablist" aria-label="Explorer mode">
@@ -27,8 +27,8 @@ export const components = [
 </div>`, api: 'enhance(root); // or createTabs(element)'
   },
   {
-    id: 'dropdowns', title: 'Textured dropdowns', category: 'controls', wide: true,
-    summary: 'Keyboard navigation, type-ahead, grouped options and native form values.',
+    id: 'dropdowns', title: 'Menu dropdowns', category: 'controls', wide: true,
+    summary: 'Underlined like a field and painted while open; type-ahead, groups and native form values.',
     keywords: 'select dropdown listbox combobox filter all statuses all sources all goals brush native form',
     markup: `<div class="b5-row">
   <label class="b5-field"><span class="b5-sr-only">Status filter</span><select class="b5-select" data-b5-select id="catalog-status"><option value="all">All statuses</option><option value="queued">Queued</option><option value="active">In progress</option><option value="done">Completed</option><option value="blocked">Blocked</option></select></label>
@@ -86,11 +86,11 @@ Be the first to hit the road.</div>
   },
   {
     id: 'buttons', title: 'Action styles', category: 'controls',
-    summary: 'Primary, quiet, black brush, gold and paint treatments.',
+    summary: 'Primary, quiet, menu, gold and paint treatments.',
     keywords: 'button action primary secondary ghost ink brush paint gold disabled busy loading',
     markup: `<div class="b5-stack">
   <div class="b5-row"><button class="b5-button b5-button--primary" type="button" data-demo-toast="success">Primary ↗</button><button class="b5-button" type="button" data-demo-toast="info">Secondary</button><button class="b5-button b5-button--ghost" type="button" data-demo-toast="info">Ghost</button></div>
-  <div class="b5-row"><button class="b5-button b5-button--ink" type="button" data-demo-toast="info">Brush action</button><button class="b5-button b5-button--gold" type="button" data-demo-toast="success">Gold</button><button class="b5-button" type="button" disabled>Disabled</button></div>
+  <div class="b5-row"><button class="b5-button b5-button--ink" type="button" data-demo-toast="info">Menu action</button><button class="b5-button b5-button--gold" type="button" data-demo-toast="success">Gold</button><button class="b5-button" type="button" disabled>Disabled</button></div>
   <div class="b5-row"><button class="b5-button b5-button--paint" type="button" data-demo-toast="success"><span class="b5-button__arrow" aria-hidden="true">↘</span> Find a lobby</button><button class="b5-button" type="button" disabled aria-busy="true">Connecting</button></div>
   <div class="b5-row"><button class="b5-button b5-button--paint b5-button--paint-gold" type="button" data-demo-toast="success">Gold paint</button><button class="b5-button b5-button--paint b5-button--paint-red" type="button" data-demo-toast="info">Red paint</button></div>
 </div>`
@@ -150,9 +150,10 @@ Be the first to hit the road.</div>
   },
   {
     id: 'panel-treatments', title: 'Panel treatments', category: 'identity',
-    summary: 'Plain, crimson ink, gold paint and hazard decoration.',
-    keywords: 'panel card header ink red streak hazard diamond decoration gold paint',
-    markup: `<article class="b5-panel b5-panel--ink b5-panel--hazard"><header class="b5-panel__header"><h3 class="b5-section-title">Blocked work</h3><span class="b5-ribbon b5-ribbon--gold">4 units</span></header><div class="b5-panel__body"><p class="b5-muted">Reusable headers, painted dividers and contextual decals.</p></div><footer class="b5-panel__footer">A shared surface for every dashboard.</footer></article>`
+    summary: 'Boards for large data views, crimson ink, gold paint and hazard decoration.',
+    keywords: 'panel card header board frame toolbar ink red streak hazard diamond decoration gold paint',
+    markup: `<section class="b5-panel b5-panel--board" aria-label="Board example"><header class="b5-panel__header"><span class="b5-board__label"><span class="b5-dot"></span>Progress map</span><div class="b5-board__tools"><div class="b5-filter-group b5-filter-group--paint" role="group" aria-label="Map mode"><button class="b5-filter" type="button" aria-pressed="true">Units</button><button class="b5-filter" type="button" aria-pressed="false">Functions</button></div></div></header><div class="b5-panel__body"><p class="b5-muted">A large data view, with its own controls in the header.</p></div></section>
+<article class="b5-panel b5-panel--ink b5-panel--hazard"><header class="b5-panel__header"><h3 class="b5-section-title">Blocked work</h3><span class="b5-ribbon b5-ribbon--gold">4 units</span></header><div class="b5-panel__body"><p class="b5-muted">Reusable headers, painted dividers and contextual decals.</p></div><footer class="b5-panel__footer">A shared surface for every dashboard.</footer></article>`
   },
   {
     id: 'status-labels', title: 'Badges & indicators', category: 'feedback',

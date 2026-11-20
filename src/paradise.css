@@ -61,10 +61,14 @@
   .b5-button--paint::before, .b5-destination__label::before { content: ''; position: absolute; z-index: -1; top: 50%; left: -16px; right: -22px; aspect-ratio: 165 / 45; background: var(--b5-art-white) center / contain no-repeat; transform: translateY(-50%) rotate(6.7deg); pointer-events: none; }
   .b5-button--paint-gold::before { aspect-ratio: auto; inset: 0 -8px; background: var(--b5-art-gold) center / 100% 100% no-repeat, var(--b5-color-gold); transform: none; clip-path: polygon(7px 0, 100% 0, calc(100% - 7px) 100%, 0 100%); }
   .b5-button--paint-red { color: #fff; }
-  /* The red menu paint: red actions, painted filters and painted tabs. */
+  /* The red menu paint: red actions and every chosen menu control (a painted filter
+     or tab, an open dropdown, the current page, a pressed action). */
   .b5-button--paint-red::before,
-  .b5-filter-group--paint .b5-filter[aria-pressed='true']::before,
-  .b5-tabs--paint > .b5-tablist .b5-tab[aria-selected='true']::before { content: ''; position: absolute; z-index: -1; inset: -4px -8px; aspect-ratio: auto; background: var(--b5-art-banner) center / 100% 100% no-repeat; filter: brightness(2.8) saturate(1.5); transform: rotate(-6.2deg); pointer-events: none; }
+  :is(.b5-filter-group--paint, .b5-filter-group--menu) .b5-filter[aria-pressed='true']::before,
+  :is(.b5-tabs--paint, .b5-tabs--menu) > .b5-tablist .b5-tab[aria-selected='true']::before,
+  .b5-select-trigger[aria-expanded='true']::before,
+  .b5-page-button[aria-current='page']::before,
+  .b5-button--ink[aria-pressed='true']::before { content: ''; position: absolute; z-index: -1; inset: -4px -8px; aspect-ratio: auto; background: var(--b5-art-banner) center / 100% 100% no-repeat; filter: brightness(2.8) saturate(1.5); transform: rotate(-6.2deg); pointer-events: none; }
   .b5-button--paint-red:hover::before { filter: brightness(3) saturate(1.5); }
 
   /* ---- Destination artwork and connection block ------------------------- */
@@ -119,11 +123,28 @@
   .b5-filter > span { margin-left: 7px; font: 12px var(--b5-font-mono); }
   .b5-filter[aria-pressed='true'] { color: #fff; border-color: var(--b5-color-accent-fill); background: var(--b5-color-accent-fill); }
   .b5-filter:disabled { opacity: .45; }
-  .b5-filter-group--paint { gap: 6px; }
-  .b5-filter-group--paint .b5-filter { min-height: 0; padding: 11px 16px; border: 0; background: transparent; font: italic 17px var(--b5-font-display); transform: rotate(-1deg); }
-  .b5-filter-group--paint .b5-filter[aria-pressed='true'] { color: var(--b5-color-text); border-color: transparent; background: transparent; }
-  .b5-filter-group--paint .b5-filter:hover { color: #fff; }
-  .b5-filter-group--paint .b5-filter > span { color: #f3e6d9; }
+  /* ---- Menu controls ---------------------------------------------------- */
+  /* One family for every toolbar control, after Paradise Online's painted filters:
+     italic caps at rest and the red menu paint once chosen. Dropdowns are fields, so
+     they keep the quiet search's underline; actions turn gold. The --menu variants
+     are the same look, kept so existing markup keeps working. */
+  :is(.b5-filter-group--paint, .b5-filter-group--menu) .b5-filter,
+  :is(.b5-tabs--paint, .b5-tabs--menu) > .b5-tablist .b5-tab,
+  .b5-select-trigger, .b5-button--ink, .b5-page-button { position: relative; isolation: isolate; border-color: transparent; background: transparent; color: var(--b5-color-soft); font: italic 16px/1.25 var(--b5-font-display); letter-spacing: .3px; text-transform: uppercase; }
+  :is(.b5-filter-group--paint, .b5-filter-group--menu) { gap: 6px; }
+  :is(.b5-filter-group--paint, .b5-filter-group--menu) .b5-filter,
+  :is(.b5-tabs--paint, .b5-tabs--menu) > .b5-tablist .b5-tab { min-height: 0; padding: 11px 16px; border: 0; font-size: 17px; transform: rotate(-1deg); }
+  :is(.b5-filter-group--paint, .b5-filter-group--menu) .b5-filter[aria-pressed='true'],
+  :is(.b5-tabs--paint, .b5-tabs--menu) > .b5-tablist .b5-tab[aria-selected='true'],
+  .b5-select-trigger[aria-expanded='true'], .b5-page-button[aria-current='page'], .b5-button--ink[aria-pressed='true'] { color: #fff; background: transparent; }
+  :is(.b5-filter-group--paint, .b5-filter-group--menu) .b5-filter:hover,
+  :is(.b5-tabs--paint, .b5-tabs--menu) > .b5-tablist .b5-tab:hover { color: #fff; background: transparent; }
+  :is(.b5-filter-group--paint, .b5-filter-group--menu) .b5-filter > span { color: #f3e6d9; }
+  :is(.b5-filter-group--paint, .b5-filter-group--menu) .b5-filter:focus-visible,
+  :is(.b5-tabs--paint, .b5-tabs--menu) > .b5-tablist .b5-tab:focus-visible { outline-offset: 4px; }
+  .b5-button--ink { gap: 8px; min-height: var(--b5-control-height); padding: 8px 4px; }
+  .b5-button--ink:hover:not(:disabled), .b5-page-button:hover:not(:disabled):not([aria-current]) { color: var(--b5-color-gold); background: transparent; }
+  .b5-button--ink:disabled, .b5-page-button:disabled { opacity: .4; }
   /* A smaller painted group for long or many choices, such as state filters. */
   .b5-filter-group--paint.b5-filter-group--compact { gap: 2px; }
   .b5-filter-group--paint.b5-filter-group--compact .b5-filter { padding: 8px 12px; font-size: 14px; }
@@ -202,10 +223,18 @@
   .b5-steps p { max-width: 390px; margin-top: 4px; color: var(--b5-color-muted); font-size: 14px; }
   .b5-steps a { color: var(--b5-color-text); text-decoration: underline; text-underline-offset: 3px; }
   .b5-steps a:hover { color: var(--b5-color-gold); }
-  .b5-config { min-width: 0; border: 1px solid #4d3430; border-top: 3px solid #b5272e; background: #0c0b0b; box-shadow: 8px 12px 0 #08070766; }
-  .b5-config__header { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 18px 22px; border-bottom: 1px solid #302623; font: 13px var(--b5-font-mono); }
-  .b5-config__header > span { display: flex; align-items: center; gap: 9px; }
-  .b5-config__header .b5-dot { --b5-tone: var(--b5-color-accent); width: 5px; height: 5px; transform: skew(-10deg); }
+  /* The configuration panel's frame also makes a board: a panel around a large data
+     view, whose header carries a marked label and the view's own controls. */
+  .b5-config, .b5-panel--board { min-width: 0; border: 1px solid #4d3430; border-top: 3px solid #b5272e; background: #0c0b0b; box-shadow: 8px 12px 0 #08070766; }
+  .b5-config__header, .b5-panel--board > .b5-panel__header { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 18px 22px; border-bottom: 1px solid #302623; }
+  .b5-config__header, .b5-board__label { font: 13px var(--b5-font-mono); }
+  .b5-config__header > span, .b5-board__label { display: flex; align-items: center; gap: 9px; }
+  .b5-config__header .b5-dot, .b5-board__label .b5-dot { --b5-tone: var(--b5-color-accent); width: 5px; height: 5px; transform: skew(-10deg); }
+  .b5-panel--board > .b5-panel__header { flex-wrap: wrap; gap: 10px 24px; min-height: 66px; padding-block: 10px; }
+  .b5-board__label { color: var(--b5-color-text); letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; }
+  .b5-board__tools { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 22px; min-width: 0; }
+  .b5-panel--board > .b5-panel__body { padding: 20px 22px 22px; }
+  .b5-panel--board > .b5-panel__footer { padding-inline: 22px; border-top-color: #302623; }
   .b5-config__action { padding: 5px 0; border: 0; background: transparent; color: var(--b5-color-gold); font: 12px var(--b5-font-body); }
   .b5-config__action:hover { color: #fff; }
   .b5-config__action > span { margin-left: 8px; }
@@ -223,7 +252,7 @@
   .b5-site-footer__brand > span { padding-inline: 6px; color: var(--b5-color-accent); }
   .b5-site-footer__meta { display: flex; flex-wrap: wrap; gap: 12px; }
 
-  /* ---- Developer controls: black brush plates --------------------------- */
+  /* ---- Developer controls ------------------------------------------------ */
   .b5-ribbons { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
   .b5-ribbon { --b5-ribbon-bg: #9d918229; --b5-ribbon-text: var(--b5-color-muted); position: relative; display: inline-flex; align-items: center; gap: 5px; isolation: isolate; padding: 3px 11px; color: var(--b5-ribbon-text); font: 600 11px/1.5 var(--b5-font-head); letter-spacing: .5px; text-transform: uppercase; white-space: nowrap; }
   .b5-ribbon::before { content: ''; position: absolute; inset: 0; z-index: -1; background: var(--b5-ribbon-bg); clip-path: polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%); }
@@ -235,35 +264,20 @@
   .b5-ribbon--gold::before { background: var(--b5-art-gold) center / 100% 100% no-repeat, #d89b1f; }
   .b5-ribbon--muted { --b5-ribbon-text: var(--b5-color-muted); }
 
-  /* One brush plate for ink actions, dropdown triggers, menu tabs and menu filters. */
-  .b5-button--ink, .b5-select-trigger, .b5-tabs--menu > .b5-tablist .b5-tab, .b5-filter-group--menu .b5-filter { position: relative; isolation: isolate; border-color: transparent; background: transparent; font: 500 12.5px/1.5 var(--b5-font-head); letter-spacing: .5px; text-transform: uppercase; }
-  .b5-button--ink::before, .b5-select-trigger::before, .b5-tabs--menu > .b5-tablist .b5-tab::before, .b5-filter-group--menu .b5-filter::before { content: ''; position: absolute; z-index: -1; inset: 0; border: 1px solid var(--b5-color-line); background: var(--b5-art-brush) center / 150% 165% no-repeat, #15110f; clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%); pointer-events: none; }
-  .b5-button--ink:hover, .b5-select-trigger:hover, .b5-tabs--menu > .b5-tablist .b5-tab:hover, .b5-filter-group--menu .b5-filter:hover { border-color: transparent; background: transparent; color: #fff; text-shadow: 0 1px 2px #000b; }
-  .b5-button--ink:hover::before, .b5-select-trigger:hover::before, .b5-select-trigger[aria-expanded='true']::before { border-color: transparent; background: var(--b5-art-banner) center / 120% 130% no-repeat; }
-  .b5-tabs--menu > .b5-tablist .b5-tab:hover::before, .b5-filter-group--menu .b5-filter:hover::before { filter: brightness(1.28); }
-  .b5-tabs--menu > .b5-tablist .b5-tab[aria-selected='true'], .b5-filter-group--menu .b5-filter[aria-pressed='true'] { color: #fff; text-shadow: 0 1px 3px #000b; }
-  .b5-tabs--menu > .b5-tablist .b5-tab[aria-selected='true']::before, .b5-filter-group--menu .b5-filter[aria-pressed='true']::before { border-color: transparent; background: var(--b5-art-banner) center / 100% 100% no-repeat; filter: none; }
-  .b5-tabs--menu > .b5-tablist .b5-tab, .b5-filter-group--menu .b5-filter { min-height: 0; padding: 9px 22px; color: var(--b5-color-soft); font-size: 13px; font-weight: 700; letter-spacing: .6px; }
-  .b5-tabs--menu > .b5-tablist .b5-tab::before, .b5-filter-group--menu .b5-filter::before { background-size: 150% 170%, auto; clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%); }
-  .b5-filter-group--menu { gap: 6px; }
-  .b5-filter-group--menu .b5-filter > span { color: inherit; font-size: 11px; }
-
   .b5-tabs--menu > .b5-tablist, .b5-tabs--paint > .b5-tablist { flex-wrap: wrap; gap: 6px; width: 100%; padding: 8px 14px; overflow: visible; border: 0; background: transparent; }
-  .b5-tabs--menu > .b5-tablist { border-bottom: 1px solid #5e2427; background: linear-gradient(100deg, #491b1b9c, #1a121200 90%); }
-  .b5-tabs--paint > .b5-tablist .b5-tab { position: relative; isolation: isolate; padding: 11px 16px; border-color: transparent; background: transparent; font: italic 17px var(--b5-font-display); transform: rotate(-1deg); }
-  .b5-tabs--paint > .b5-tablist .b5-tab[aria-selected='true'] { color: var(--b5-color-text); background: transparent; }
-  .b5-tabs--menu > .b5-tablist .b5-tab:focus-visible, .b5-tabs--paint > .b5-tablist .b5-tab:focus-visible, .b5-filter-group--menu .b5-filter:focus-visible { outline-offset: 4px; }
 
   .b5-select-wrap { position: relative; display: inline-flex; width: fit-content; min-width: 0; max-width: 100%; vertical-align: middle; }
   .b5-field > .b5-select-wrap { width: 100%; }
   .b5-select-native { position: absolute !important; width: 1px !important; height: 1px !important; min-height: 0 !important; padding: 0 !important; opacity: 0; pointer-events: none; }
-  .b5-select-trigger { display: inline-flex; align-items: center; justify-content: space-between; gap: 14px; width: 100%; min-height: var(--b5-control-height); padding: 9px 15px; border: 1px solid transparent; color: var(--b5-color-text); text-align: left; }
+  .b5-select-trigger { display: inline-flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; min-height: var(--b5-control-height); padding: 8px 2px 7px 0; border: 0; border-bottom: 1px solid #56433f; text-align: left; }
+  .b5-select-trigger:hover:not(:disabled) { color: #fff; border-bottom-color: var(--b5-color-gold); }
+  .b5-select-trigger[aria-expanded='true'] { border-bottom-color: transparent; }
   .b5-select-trigger > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .b5-select-trigger::after { content: ''; flex: 0 0 auto; border: 4px solid transparent; border-top: 5px solid currentColor; translate: 0 3px; }
   .b5-select-trigger[aria-expanded='true']::after { transform: rotate(180deg); translate: 0 -2px; }
-  .b5-select-trigger[aria-invalid='true']::before { border-color: var(--b5-color-danger); }
+  .b5-select-trigger[aria-invalid='true'] { border-bottom-color: var(--b5-color-danger); }
   .b5-select-trigger:disabled { opacity: .45; }
-  .b5-select-menu { position: fixed; z-index: 1001; inset: auto; margin: 0; padding: 4px; overflow-y: auto; overscroll-behavior: contain; border: 1px solid var(--b5-color-line); color: var(--b5-color-text); background: var(--b5-art-brush) center / cover no-repeat, #15110f; box-shadow: 0 14px 34px #0009; font: 500 12.5px/1.5 var(--b5-font-head); letter-spacing: .5px; text-transform: uppercase; }
+  .b5-select-menu { position: fixed; z-index: 1001; inset: auto; margin: 0; padding: 4px; overflow-y: auto; overscroll-behavior: contain; border: 1px solid var(--b5-color-line); color: var(--b5-color-text); background: var(--b5-art-brush) center / cover no-repeat, #15110f; box-shadow: 0 14px 34px #0009; font: italic 15px/1.3 var(--b5-font-display); letter-spacing: .3px; text-transform: uppercase; }
   .b5-select-option { min-height: var(--b5-control-height); padding: 10px 14px; border-left: 2px solid transparent; cursor: pointer; }
   .b5-select-option[aria-selected='true'] { color: var(--b5-color-gold); }
   .b5-select-option--active { color: #fff !important; background: var(--b5-art-banner) center / 120% 130% no-repeat; text-shadow: 0 1px 2px #000b; }
@@ -272,12 +286,9 @@
 
   .b5-pagination { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; padding-block: 14px; color: var(--b5-color-muted); font: 11px var(--b5-font-mono); }
   .b5-pagination__controls { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
-  .b5-page-button { min-width: var(--b5-control-height); min-height: var(--b5-control-height); padding: 7px 11px; border: 1px solid var(--b5-color-line); color: var(--b5-color-text); background: var(--b5-art-brush) center / cover no-repeat, var(--b5-color-background); font: 12px var(--b5-font-display); text-transform: uppercase; }
-  .b5-page-button[aria-current='page'] { color: #fff; border-color: var(--b5-color-accent); background: var(--b5-art-banner) center / 100% 130% no-repeat, #711f29; }
-  .b5-page-button:hover:not(:disabled) { color: var(--b5-color-gold); border-color: var(--b5-color-gold); }
-  .b5-page-button:disabled { opacity: .45; }
+  .b5-page-button { min-width: var(--b5-control-height); min-height: var(--b5-control-height); padding: 7px 10px; border: 0; font-size: 15px; }
   .b5-pagination__jump { display: flex; align-items: center; gap: 7px; }
-  .b5-pagination__jump input { width: 66px; padding-inline: 9px; }
+  .b5-pagination__jump input { width: 60px; min-height: 0; padding: 8px 2px; border: 0; border-bottom: 1px solid #56433f; background: transparent; }
   .b5-pagination__gap { padding-inline: 3px; }
 
   /* ---- Release controls ------------------------------------------------- */
@@ -462,7 +473,7 @@
     .b5-download-counter small { font-size: 8.5px; }
     .b5-download-preview { min-width: max(44px, var(--b5-control-height)); padding-inline: 13px; }
     .b5-tabs--menu > .b5-tablist, .b5-tabs--paint > .b5-tablist { gap: 8px; padding-inline: 10px; }
-    .b5-tabs--menu > .b5-tablist .b5-tab, .b5-tabs--paint > .b5-tablist .b5-tab, .b5-filter-group--menu .b5-filter { padding-inline: 12px; font-size: 13px; }
+    :is(.b5-tabs--paint, .b5-tabs--menu) > .b5-tablist .b5-tab, .b5-filter-group--menu .b5-filter { padding-inline: 12px; font-size: 15px; }
   }
   @media (max-width: 650px) {
     .b5-site-header { flex-wrap: wrap; align-content: center; gap: 7px; min-height: 114px; padding-top: 10px; }

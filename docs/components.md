@@ -214,7 +214,7 @@ generated combobox markup is not presented as the authoring interface.
 | --- | --- |
 | Textured action strips | `.b5-button--paint` (original white), `--paint-gold`, `--paint-red`, `.b5-button__arrow` |
 | Angled count / finding labels | `.b5-ribbons`, `.b5-ribbon`, `--gold`, `--muted`, `data-tone` |
-| Black-brush or paint tab skins | `.b5-tabs--menu`, `.b5-tabs--paint` on a normal tabs container; `.b5-filter-group--menu` gives pressed buttons the same brush plates |
+| Menu controls | `.b5-tabs--paint`, `.b5-filter-group--paint`, `.b5-select-trigger`, `.b5-button--ink`, `.b5-page-button`: italic menu caps at rest, the red paint once chosen; `--menu` variants render the same |
 | Single-choice painted filters | `.b5-filter-group`, `--paint`, `--compact` (smaller, for long or many choices), `.b5-filter` and `data-b5-value` |
 | Framed or quiet live status | `.b5-badge`, `.b5-status`, `.b5-status--caps`, `.b5-dot`, `data-tone` |
 | Quiet directory tools | `.b5-search`, `.b5-refresh`, `.b5-directory-tools`, `.b5-section-header` |
@@ -223,7 +223,7 @@ generated combobox markup is not presented as the authoring interface.
 | Paradise artwork composition | `.b5-destination`, `__art`, `__logo`, `__label` |
 | Copyable server connection | `.b5-connection`, `__top`, `__kicker`, `__address` |
 | Public directory layout | `.b5-directory`, `.b5-directory-note`, `__aside`, `.b5-stat-strip` |
-| Painted surfaces | `.b5-panel--ink`, `.b5-panel--paint`, `.b5-panel--hazard`, `.b5-count-tile` |
+| Painted surfaces | `.b5-panel--board` (`.b5-board__label`, `__tools`), `.b5-panel--ink`, `.b5-panel--paint`, `.b5-panel--hazard`, `.b5-count-tile` |
 | Roster states | `.b5-roster`, `__count`, `__empty`, `__list`, `__list--scroll`, existing panel sections |
 | People and membership | `.b5-person`, `__body`, `__name`, `__meta`, `__role`, `.b5-avatar`, `.b5-member`, `__host` |
 | Lobby presentation | `.b5-lobby`, `__header`, `__title`, `__meta`, `__mode`, `__capacity`, `__seats`, `__members` |
@@ -368,6 +368,9 @@ instead of the empty-state line while waiting for the first snapshot.
   </select>
 </label>
 ```
+
+The trigger belongs to the menu controls: italic caps over the quiet search's
+underline, gold under the pointer and painted red while its list is open.
 
 `enhance()` discovers `select[data-b5-select]`. For direct control,
 `createSelect(select)` returns `{ element, open(), close({ commit? }), refresh(),

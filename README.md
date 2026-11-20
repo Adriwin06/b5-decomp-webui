@@ -74,7 +74,7 @@ or a specific Git commit rather than following a moving branch.
 ## Included in 0.2.0
 
 - DTCG-format theme tokens, generated CSS variables, and self-hosted typography.
-- Brush tabs, painted filters, slanted ribbons, textured dropdowns, gold-header
+- Painted menu tabs, filters and dropdowns, slanted ribbons, boards, gold-header
   panels, illustrated empty states and the shared Paradise artwork kit.
 - Site headers, hero/destination compositions, server connection blocks, lobbies,
   player rows, rosters, configuration panels and numbered setup steps.
