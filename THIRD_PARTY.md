@@ -19,6 +19,12 @@ self-hosts it as `B5 Oswald`. Its SIL Open Font License is included verbatim as
 `assets/Oswald-OFL.txt`. The source URLs and SHA-256 hashes of both files are in
 `assets/provenance.json`.
 
+## B5 LED
+
+`assets/b5-led.woff2` is a pixel font drawn for this library, after the amber type
+of the game's news ticker; no game files were used. `tools/led-font.py` holds its
+glyphs and generates the font. It is framework code, covered by MIT.
+
 ## Burnout Paradise artwork
 
 All PNG files in `assets/`, along with `paradise-city.webp`, are original

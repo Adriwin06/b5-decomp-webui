@@ -90,7 +90,7 @@ test('a ticker pauses and plays from its toggle, which keeps its label', async (
   const states = await page.evaluate(() => {
     const ticker = document.createElement('section');
     ticker.className = 'b5-ticker';
-    ticker.innerHTML = '<div class="b5-ticker__window"><ul class="b5-ticker__track"><li class="b5-ticker__item"><strong>Merged</strong>One</li></ul></div><button class="b5-button b5-button--ink b5-ticker__toggle" type="button" aria-pressed="false">Pause</button>';
+    ticker.innerHTML = '<div class="b5-ticker__window"><ul class="b5-ticker__track"><li class="b5-ticker__item"><strong>Merged</strong>One</li></ul></div><button class="b5-ticker__toggle" type="button" aria-pressed="false"><span class="b5-sr-only">Pause</span></button>';
     document.querySelector('#app').append(ticker);
     window.ui.refresh();
     const toggle = ticker.querySelector('button');

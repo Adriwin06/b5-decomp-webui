@@ -27,7 +27,8 @@
     "display": { "$value": ["B5 Anton", "Impact", "Arial Narrow", "sans-serif"] },
     "head": { "$value": ["B5 Oswald", "Arial Narrow", "sans-serif"] },
     "body": { "$value": ["Segoe UI", "Arial", "sans-serif"] },
-    "mono": { "$value": ["Cascadia Code", "Consolas", "monospace"] }
+    "mono": { "$value": ["Cascadia Code", "Consolas", "monospace"] },
+    "led": { "$value": ["B5 LED", "Cascadia Code", "Consolas", "monospace"] }
   },
   "space": {
     "$type": "dimension",

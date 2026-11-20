@@ -41,7 +41,7 @@ control and viewport tests do not establish that visual alignment.
 | Primary, secondary and textured actions | `#buttons`, `#downloads`, `#tooltips`, `#copy-actions` |
 | Release CTA, package chooser, sizes, asset note, count, preview and six skins | `#downloads`; `createDownloadMenu()`; asphalt, streak, skyline, tireburn, torn, split |
 | Translation-unit, function and executable metrics | `#progress-rings`, `#license`, `#linear-progress`, `#summary-tiles`, `#statistics` |
-| Section menu, numbered sections and latest events | `#section-rail`, `#ticker` |
+| Numbered sections and latest events | `#section-numbers`, `#ticker` |
 | Active goals and work-state summaries | `#summary-tiles`, `#panel-treatments`, `#menu-rows` |
 | Explorer modes, filtering, result navigation and rows | `#menu-tabs`, `#dropdowns`, `#search-refresh`, `#data-tables`, `#pagination` |
 | Agent, contributor and player identities | `#people`, `#lobby-cards`, `#roster` |

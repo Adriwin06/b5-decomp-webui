@@ -314,8 +314,7 @@ const navSpies = new WeakMap();
 
 /**
  * Keeps aria-current on the in-page link of the section being read, so a header that
- * stays at the top (or an Easy Drive rail) shows where the reader is. Links to other
- * pages are left alone.
+ * stays at the top shows where the reader is. Links to other pages are left alone.
  */
 export function createNavSpy(nav) {
   if (navSpies.has(nav)) return navSpies.get(nav);
@@ -444,8 +443,8 @@ export function enhance(root = document) {
     for (const [nav, controller] of ownedNavs) {
       if (!root.contains(nav)) { controller.destroy(); ownedNavs.delete(nav); }
     }
-    const navs = [...root.querySelectorAll('.b5-site-nav, .b5-rail')];
-    if (root.matches?.('.b5-site-nav, .b5-rail')) navs.unshift(root);
+    const navs = [...root.querySelectorAll('.b5-site-nav')];
+    if (root.matches?.('.b5-site-nav')) navs.unshift(root);
     for (const nav of navs) if (!ownedNavs.has(nav) && !navSpies.has(nav)) ownedNavs.set(nav, createNavSpy(nav));
     for (const [ticker, controller] of ownedTickers) {
       if (!root.contains(ticker)) { controller.destroy(); ownedTickers.delete(ticker); }

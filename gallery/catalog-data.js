@@ -96,22 +96,11 @@ Be the first to hit the road.</div>
 </div>`
   },
   {
-    id: 'section-rail', title: 'Easy Drive menu & section numbers', category: 'patterns', wide: true,
-    summary: 'A numbered section menu beside the page, its cursor on the section being read; hollow section numbers and HUD corners.',
-    keywords: 'rail sidebar menu sections easy drive table of contents numbered cursor chevron sticky hud frame corners index',
-    markup: `<div class="catalog-easy-drive">
-  <nav class="b5-rail" aria-label="Catalog sections">
-    <p class="b5-rail__title"><span class="b5-dot"></span>Easy Drive</p>
-    <a class="b5-rail__item" href="#section-rail" aria-current="location"><span class="b5-rail__index">01</span><span class="b5-rail__label">Easy Drive menu</span><span class="b5-rail__meta">This card</span></a>
-    <a class="b5-rail__item" href="#license"><span class="b5-rail__index">02</span><span class="b5-rail__label">License &amp; meters</span><span class="b5-rail__meta">Rank, meters and stamp</span></a>
-    <a class="b5-rail__item" href="#ticker"><span class="b5-rail__index">03</span><span class="b5-rail__label">Live ticker</span><span class="b5-rail__meta">Pauses on hover or its button</span></a>
-  </nav>
-  <div>
-    <div class="b5-section-header" data-b5-index="01"><div><div class="b5-eyebrow">THE WORK LEDGER / EVERY UNIT</div><h3 class="b5-heading">Progress map<span class="b5-accent">.</span></h3></div></div>
-    <div class="b5-hud catalog-hud"><p class="b5-muted">A map or chart in the HUD's gold corners.</p></div>
-  </div>
-</div>`,
-    api: 'enhance(root); // or createNavSpy(railElement)'
+    id: 'section-numbers', title: 'Section numbers & HUD corners', category: 'patterns',
+    summary: 'A section\'s number, huge and hollow behind its header, and gold HUD corners round a map or chart.',
+    keywords: 'section number index numbered header hollow outline hud frame corners brackets map chart',
+    markup: `<div class="b5-section-header" data-b5-index="01"><div><div class="b5-eyebrow">THE WORK LEDGER / EVERY UNIT</div><h3 class="b5-heading">Progress map<span class="b5-accent">.</span></h3></div></div>
+<div class="b5-hud catalog-hud"><p class="b5-muted">A map or chart in the HUD's gold corners.</p></div>`
   },
   {
     id: 'lobby-cards', title: 'Lobby cards', category: 'patterns',
@@ -161,20 +150,18 @@ Be the first to hit the road.</div>
     api: 'setProgress(ringElement, 72.4);'
   },
   {
-    id: 'license', title: 'License card & meters', category: 'data',
-    summary: 'A progress rank on a gold license card, with segmented meters that setProgress fills like the rings.',
-    keywords: 'license rank class card meters segmented bars progress percent stamp completion units functions build',
+    id: 'license', title: 'License strip & meters', category: 'data', wide: true,
+    summary: 'A progress rank on a gold license strip: the class badge, how far the next class is, a segmented meter that setProgress fills like the rings, and the stamp.',
+    keywords: 'license rank class strip badge meters segmented bars progress percent stamp completion byte match',
     markup: `<article class="b5-license" aria-labelledby="catalog-license-rank">
-  <div class="b5-license__head"><div><div class="b5-license__kicker">Paradise City · Decomp license</div><h3 class="b5-license__rank" id="catalog-license-rank">B-class license</h3></div><span class="b5-license__class" aria-hidden="true">B</span></div>
-  <p class="b5-license__next">Next: A-class license at 80% · 214 units to go</p>
+  <span class="b5-license__class" aria-hidden="true">B</span>
+  <div class="b5-license__id"><div class="b5-license__kicker">Paradise City · Decomp license</div><h3 class="b5-license__rank" id="catalog-license-rank">B-class license</h3><p class="b5-license__next">Next: A-class license at 80% · 214 units to go</p></div>
   <div class="b5-license__stats">
-    <div class="b5-meter" data-tone="success" data-b5-progress="63.7" aria-label="Units complete"><span class="b5-meter__label">Units complete</span><span class="b5-meter__value" data-b5-progress-label>63.7%</span><span class="b5-meter__bar"></span></div>
-    <div class="b5-meter" data-b5-progress="41.2" aria-label="Functions covered"><span class="b5-meter__label">Functions covered</span><span class="b5-meter__value" data-b5-progress-label>41.2%</span><span class="b5-meter__bar"></span></div>
-    <div class="b5-meter" data-tone="info" data-b5-progress="28.6" aria-label="In the build"><span class="b5-meter__label">In the build</span><span class="b5-meter__value" data-b5-progress-label>28.6%</span><span class="b5-meter__bar"></span></div>
+    <div class="b5-meter" data-tone="success" data-b5-progress="41.2" aria-label="X360 byte match"><span class="b5-meter__label">X360 byte match</span><span class="b5-meter__value" data-b5-progress-label>41.2%</span><span class="b5-meter__bar"></span></div>
   </div>
   <div class="b5-license__stamp"><span>Valid in Paradise City</span><span>No. 4fdad70c1e</span></div>
 </article>`,
-    api: 'setProgress(meterElement, 63.7); // or data-b5-progress and enhance(root)'
+    api: 'setProgress(meterElement, 41.2); // or data-b5-progress and enhance(root)'
   },
   {
     id: 'summary-tiles', title: 'Goal & status tiles', category: 'data',
@@ -260,13 +247,12 @@ Be the first to hit the road.</div>
     api: 'notify("Directory refreshed.", { tone: "success" });'
   },
   {
-    id: 'ticker', title: 'Live ticker', category: 'feedback', wide: true,
-    summary: 'The newest events crawl past like the in-game radio; hover or the Pause button stops them.',
-    keywords: 'ticker crawl radio crash fm news events live feed marquee pause reduced motion',
+    id: 'ticker', title: 'News ticker', category: 'feedback', wide: true,
+    summary: 'The newest events crawl past in amber LED type, like the game\'s news ticker; hover or the pause toggle stops them.',
+    keywords: 'ticker crawl news radio crash fm led dot matrix pixel amber events live feed marquee pause reduced motion',
     markup: `<section class="b5-ticker" aria-label="Latest events (example)">
-  <span class="b5-ticker__sign">Crash FM <small>Live</small></span>
-  <div class="b5-ticker__window"><ul class="b5-ticker__track"><li class="b5-ticker__item"><strong>Merged</strong>Driver 01 · BrnCamera.cpp · 2 min ago</li><li class="b5-ticker__item"><strong>Claimed</strong>Driver 02 · BrnWorld.cpp · 9 min ago</li><li class="b5-ticker__item"><strong>Compiled</strong>Driver 03 · BrnTraffic.cpp · 1 h ago</li><li class="b5-ticker__item"><strong>Blocked</strong>Driver 04 · BrnAudio.cpp · 3 h ago</li><li class="b5-ticker__item" aria-hidden="true"><strong>Merged</strong>Driver 01 · BrnCamera.cpp · 2 min ago</li><li class="b5-ticker__item" aria-hidden="true"><strong>Claimed</strong>Driver 02 · BrnWorld.cpp · 9 min ago</li><li class="b5-ticker__item" aria-hidden="true"><strong>Compiled</strong>Driver 03 · BrnTraffic.cpp · 1 h ago</li><li class="b5-ticker__item" aria-hidden="true"><strong>Blocked</strong>Driver 04 · BrnAudio.cpp · 3 h ago</li></ul></div>
-  <button class="b5-button b5-button--ink b5-ticker__toggle" type="button" aria-pressed="false">Pause</button>
+  <div class="b5-ticker__window"><ul class="b5-ticker__track"><li class="b5-ticker__item"><strong>Merged</strong> Driver 01 · BrnCamera.cpp · 2 min ago</li><li class="b5-ticker__item"><strong>Claimed</strong> Driver 02 · BrnWorld.cpp · 9 min ago</li><li class="b5-ticker__item"><strong>Compiled</strong> Driver 03 · BrnTraffic.cpp · 1 h ago</li><li class="b5-ticker__item"><strong>Blocked</strong> Driver 04 · BrnAudio.cpp · 3 h ago</li><li class="b5-ticker__item" aria-hidden="true"><strong>Merged</strong> Driver 01 · BrnCamera.cpp · 2 min ago</li><li class="b5-ticker__item" aria-hidden="true"><strong>Claimed</strong> Driver 02 · BrnWorld.cpp · 9 min ago</li><li class="b5-ticker__item" aria-hidden="true"><strong>Compiled</strong> Driver 03 · BrnTraffic.cpp · 1 h ago</li><li class="b5-ticker__item" aria-hidden="true"><strong>Blocked</strong> Driver 04 · BrnAudio.cpp · 3 h ago</li></ul></div>
+  <button class="b5-ticker__toggle" type="button" aria-pressed="false"><span class="b5-sr-only">Pause</span></button>
 </section>`,
     api: 'enhance(root); // or createTicker(tickerElement).pause()'
   },
