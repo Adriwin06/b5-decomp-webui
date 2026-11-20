@@ -682,20 +682,34 @@
   .b5-loading { display: grid; gap: 13px; padding: 24px; }
 
   /* ---- Game menus: license, meters, ticker, section numbers, HUD ------- */
-  /* A project's license, after the game's driver's licence, as a strip: the class badge,
-     the rank and how far the next class is, a meter for what the page shows nowhere
-     else, and the stamp. It wraps on a narrow screen. */
-  .b5-license { position: relative; isolation: isolate; overflow: hidden; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px 30px; padding: 20px 28px 18px 22px; border: 1px solid #5a4630; background: linear-gradient(100deg, #2a2116, #16110d 50%, #120e0c); box-shadow: 8px 12px 0 #08070766; }
-  .b5-license::before { content: ''; position: absolute; z-index: -1; top: 50%; right: 36px; width: 180px; height: 180px; background: url('./assets/seal-paradise-city.png') center / contain no-repeat; filter: invert(1); opacity: .06; transform: translateY(-50%); pointer-events: none; }
+  /* A license for a project, after the game's driver's licence: a class badge, the rank,
+     how far to the next one, car-stat meters and a stamp. */
+  .b5-license { position: relative; isolation: isolate; overflow: hidden; padding: 20px 18px 14px; border: 1px solid #5a4630; background: linear-gradient(160deg, #2a2116, #16110d 55%, #120e0c); box-shadow: 8px 12px 0 #08070766; }
+  .b5-license::before { content: ''; position: absolute; z-index: -1; right: -46px; bottom: -46px; width: 200px; height: 200px; background: url('./assets/seal-paradise-city.png') center / contain no-repeat; filter: invert(1); opacity: .06; pointer-events: none; }
   .b5-license::after { content: ''; position: absolute; inset: 0 0 auto; height: 4px; background: var(--b5-art-gold) center / 100% 100% no-repeat, var(--b5-color-gold); }
-  .b5-license__class { flex: 0 0 auto; display: grid; place-items: center; min-width: 64px; height: 64px; padding: 0 12px; color: #211a13; background: var(--b5-art-gold) center / 100% 100% no-repeat, var(--b5-color-gold); clip-path: polygon(9px 0, 100% 0, calc(100% - 9px) 100%, 0 100%); font: italic 30px/1 var(--b5-font-display); text-transform: uppercase; }
-  .b5-license__id { flex: 0 1 auto; min-width: 0; }
+  .b5-license__head { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 12px; }
   .b5-license__kicker { color: var(--b5-color-gold); font: 10px/1.4 var(--b5-font-mono); letter-spacing: 1.4px; text-transform: uppercase; }
-  .b5-license__rank { margin: 3px 0 0; color: var(--b5-color-text); font: italic 28px/1.05 var(--b5-font-display); text-transform: uppercase; }
-  .b5-license__next { margin: 6px 0 0; color: var(--b5-color-muted); font: 11px/1.5 var(--b5-font-mono); }
-  .b5-license__stats { flex: 1 1 260px; display: grid; gap: 10px; max-width: 520px; }
-  .b5-license__stamp { flex: 0 0 auto; display: grid; gap: 4px; padding-left: 24px; border-left: 1px dashed #5a4630; color: #b8a394; font: italic 12px var(--b5-font-display); letter-spacing: .5px; text-transform: uppercase; }
+  .b5-license__rank { margin: 4px 0 0; color: var(--b5-color-text); font: italic 25px/1.05 var(--b5-font-display); text-transform: uppercase; }
+  .b5-license__class { display: grid; place-items: center; min-width: 54px; height: 54px; padding: 0 10px; color: #211a13; background: var(--b5-art-gold) center / 100% 100% no-repeat, var(--b5-color-gold); clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%); font: italic 26px/1 var(--b5-font-display); text-transform: uppercase; }
+  .b5-license__next { margin: 10px 0 0; color: var(--b5-color-muted); font: 11px/1.5 var(--b5-font-mono); }
+  .b5-license__stats { display: grid; gap: 10px; margin: 16px 0 0; }
+  .b5-license__stamp { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 10px; margin-top: 16px; padding-top: 10px; border-top: 1px dashed #5a4630; color: #b8a394; font: italic 12px var(--b5-font-display); letter-spacing: .5px; text-transform: uppercase; }
   .b5-license__stamp > :last-child { font: 11px var(--b5-font-mono); text-transform: none; }
+
+  /* The license folded into a header: its class badge, rank and figure on a button that
+     opens the whole card (a popover). With data-b5-reveal it waits, hidden but holding
+     its place, until the page sets data-b5-shown (once its own summary has scrolled
+     away), then arrives with a glint. */
+  .b5-license-chip { position: relative; isolation: isolate; overflow: hidden; display: inline-flex; align-items: center; gap: 10px; min-height: 40px; padding: 4px 14px 4px 4px; border: 1px solid #5a4630; background: linear-gradient(100deg, #2a2116, #16110d 70%); color: var(--b5-color-text); cursor: pointer; transition: border-color var(--b5-motion-fast); }
+  .b5-license-chip__class { display: grid; place-items: center; min-width: 40px; height: 30px; padding: 0 8px; color: #211a13; background: var(--b5-art-gold) center / 100% 100% no-repeat, var(--b5-color-gold); clip-path: polygon(5px 0, 100% 0, calc(100% - 5px) 100%, 0 100%); font: italic 17px/1 var(--b5-font-display); text-transform: uppercase; }
+  .b5-license-chip__rank { font: italic 16px/1.1 var(--b5-font-display); letter-spacing: .3px; text-transform: uppercase; white-space: nowrap; }
+  .b5-license-chip__value { color: var(--b5-color-gold); font: 12px var(--b5-font-mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .b5-license-chip:hover, .b5-license-chip[aria-expanded='true'] { border-color: var(--b5-color-gold); }
+  .b5-license-chip::after { content: ''; position: absolute; z-index: 1; inset: 0; background: linear-gradient(100deg, transparent 35%, #ffffff47 50%, transparent 65%); transform: translateX(-110%); pointer-events: none; }
+  .b5-license-chip[data-b5-shown]::after { animation: b5-glint .9s ease .2s both; }
+  .b5-license-chip[data-b5-reveal] { opacity: 0; visibility: hidden; transform: translateY(-6px); transition: opacity .25s ease, transform .25s ease, visibility 0s linear .25s, border-color var(--b5-motion-fast); }
+  .b5-license-chip[data-b5-reveal][data-b5-shown] { opacity: 1; visibility: visible; transform: none; transition: opacity .25s ease, transform .25s ease, border-color var(--b5-motion-fast); }
+  @keyframes b5-glint { to { transform: translateX(110%); } }
 
   /* A car-stat bar: ten slanted segments lit up to --b5-meter (0 to 1). */
   .b5-meter { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; gap: 5px 10px; }
@@ -736,6 +750,8 @@
   /* Without motion the ticker stands still on its newest events, the copy that makes
      the loop seamless left out. */
   @media (prefers-reduced-motion: reduce) {
+    .b5-license-chip::after { display: none; }
+    .b5-license-chip[data-b5-reveal], .b5-license-chip[data-b5-reveal][data-b5-shown] { transform: none; transition: none; }
     .b5-ticker__track { animation: none; }
     .b5-ticker__item[aria-hidden='true'] { display: none; }
   }
@@ -760,7 +776,6 @@
     .b5-stat__context { display: block; width: 100%; }
   }
   @media (max-width: 850px) {
-    .b5-license__stamp { flex-basis: 100%; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 12px; padding: 10px 0 0; border-left: 0; border-top: 1px dashed #5a4630; }
     .b5-brand { font-size: 18px; }
     .b5-brand__mark { width: 43px; height: 43px; }
     .b5-brand__subtitle { font-size: 10px; letter-spacing: 1.2px; }
@@ -798,13 +813,9 @@
     :is(.b5-tabs--paint, .b5-tabs--menu) > .b5-tablist .b5-tab, .b5-filter-group--menu .b5-filter { padding-inline: 12px; font-size: 15px; }
   }
   @media (max-width: 650px) {
+    @supports (overflow-clip-margin: 20px) { .b5-hero { overflow-x: clip; overflow-clip-margin: 20px; } }
     .b5-section-header[data-b5-index]::before { font-size: 96px; }
     .b5-ticker { --b5-ticker-pitch: 2px; }
-    .b5-license { gap: 14px 18px; padding: 18px 18px 16px; }
-    .b5-license__id { flex: 1 1 180px; }
-    .b5-license__stats { flex-basis: 100%; max-width: none; }
-    .b5-license__class { min-width: 54px; height: 54px; font-size: 26px; }
-    .b5-license__rank { font-size: 24px; }
     .b5-site-header { flex-wrap: wrap; align-content: center; gap: 7px; min-height: 114px; padding-top: 10px; }
     .b5-brand { gap: 10px; font-size: 19px; }
     .b5-brand__mark { width: 37px; height: 37px; }
@@ -814,7 +825,7 @@
     .b5-hero { position: relative; grid-template-columns: 1fr; gap: 10px; padding-top: 29px; }
     .b5-hero__copy > p { font-size: 15px; }
     .b5-hero__title { margin-top: 18px; font-size: clamp(47px, 12.5vw, 76px); }
-    .b5-hero__mark { padding-right: 44px; font-size: 98px; }
+    .b5-hero__mark { padding-right: 44px; font-size: clamp(64px, 25vw, 98px); }
     .b5-hero__copy > .b5-button--paint { margin-top: 23px; font-size: 22px; }
     .b5-destination__art { width: min(330px, 90%); height: 164px; margin: 4px 0 0 auto; }
     .b5-destination__logo { max-height: 185px; }
