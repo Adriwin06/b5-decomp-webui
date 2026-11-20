@@ -32,8 +32,10 @@ is the existing `b5-decomp-server` WebP; no new raster edits were made here.
 `assets/provenance.json` records the source path and SHA-256 of every imported
 file, including the fonts and their licenses.
 
+Both dashboards now load these files from this library instead of keeping copies.
+
 The Paradise preset uses these textures. Applications can override
-`--b5-art-banner`, `--b5-art-banner-level` and `--b5-art-white`, replace the font-family
+`--b5-art-banner`, `--b5-art-banner-level` and `--b5-art-white` (with absolute URLs), replace the font-family
 tokens, and use their own artwork. No game artwork is required by the JavaScript
 module. The gallery includes an asset browser for the shared paint, brush,
 splatter, skyline, seal, sign, chevron and scribble images.
@@ -44,4 +46,5 @@ artwork under the same ownership as its source, outside the framework's MIT
 license. The source SHA-256 is recorded in the SVG metadata. Regenerate this
 wrapper with `npm run assets:paint` after changing its source or geometry.
 
-`assets/icons.svg` is framework-authored vector code and is covered by MIT.
+`assets/icons.svg` and `assets/favicon.svg` (the B5 mark, first drawn for
+`b5-decomp-server`) are framework-authored vector code and are covered by MIT.

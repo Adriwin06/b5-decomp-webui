@@ -1,6 +1,38 @@
 # Changelog
 
-## 0.1.0 — Unreleased
+## 0.2.0 — Unreleased
+
+The first version adopted by both dashboards. Paradise Online (b5-decomp-server) is
+the reference look: its page now renders from this library unchanged, and the decomp
+progress dashboard (BP-work-server) uses the same chrome and controls.
+
+- Calibrate the tokens to the online dashboard: red `#e72530`, muted `#c6b9ab`,
+  line `#39302e`, success `#a5d379`, its panel and card surfaces, and square corners.
+  Add `soft`, `faint`, `edge` and `red-deep`. Solid red fills that carry white text
+  use the derived `--b5-color-accent-fill` to keep AA contrast.
+- Reproduce the online dashboard's page exactly: `.b5-page` backdrop, `.b5-scenery`
+  band, shell widths and breakpoints, site header, brand, numbered navigation with a
+  `.b5-site-nav__external` link to the sibling site, hero (`__line`, `__mark`), paint
+  action arrow, destination art, connection block, stat strip (`__label`, `__value`,
+  `__context`), directory tools, quiet underlined search, refresh, painted filters,
+  lobby cards (`__mode`, `__seats`, `.b5-member__host`), roster panel with its tilted
+  gold masthead, person rows, illustrated empty state, directory note, numbered steps,
+  configuration panel (`__header`, `__action`), footer (`__brand`, `__meta`) and the
+  gold notification slip. Add `.b5-dot`, `.b5-accent` and `.b5-status--caps`.
+- Remove duplicates: one skewed dot for dots, statuses and badges; one red paint rule
+  for paint actions, painted filters and painted tabs; one white strip for actions and
+  the destination label; one brush plate for ink actions, dropdown triggers, menu tabs
+  and the new `.b5-filter-group--menu`. Drop `.b5-pager` (use `.b5-pagination`),
+  `.b5-button--paint-white` (the default paint) and the roster's second illustrated
+  empty state (the directory already has one); `.b5-roster__list--scroll` bounds a list.
+- `enhance()` only takes control of filter groups that have values, so a group can be
+  used for its look alone. The pager formats numbers for the page language and accepts
+  a `unit` ("of 4,413 results"). Ink drawer titles keep the case of an identifier.
+- Add `npm run export -- <folder>`: builds and copies the distribution into a
+  consuming project with a `webui.json` naming the version and commit.
+- Ship the B5 mark as `assets/favicon.svg` for both sites.
+
+## 0.1.0
 
 - Redesign the build download control with one clipped asphalt surface, red
   title paint, tire marks, an inline counter, integrated preview and package chooser. Add

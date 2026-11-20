@@ -2,8 +2,9 @@
 
 Shared UI framework and design system for web projects around the Burnout Paradise decompilation.
 
-The initial Paradise preset brings shared typography, colors, components and
-interaction patterns to public dashboards and development tools. It is plain
+The Paradise preset brings shared typography, colors, components and interaction
+patterns to public dashboards and development tools. Its look is the online
+dashboard's (b5-decomp-server): that page renders from this library unchanged. It is plain
 CSS and browser-native JavaScript, with no runtime dependencies. Projects keep
 their own backend, data fetching and application state.
 
@@ -32,9 +33,12 @@ and developer explorer with clearly marked sample data. Changes to `src/`,
 npm run build
 ```
 
-Copy the **whole `dist/` directory** into your project's static files. Keep
-`assets/` alongside the stylesheet, including its font license and attribution.
-Node.js is not needed by the consuming application.
+Copy the **whole `dist/` directory** into your project's static files, or let
+`npm run export -- <folder>` build and copy it with a `webui.json` naming the commit.
+Keep `assets/` alongside the stylesheet, including its font license and attribution.
+Node.js is not needed by the consuming application. Paradise Online
+(`b5-decomp-server`) and the decomp progress dashboard (`BP-work-server`) both use it
+this way; see the [integration guide](docs/integration.md).
 
 ```html
 <link rel="stylesheet" href="/ui/b5-ui.css">
@@ -66,7 +70,7 @@ Bundlers can import `b5-decomp-webui/style.css` and named exports from
 distributable package with `npm pack`; applications should pin a release version
 or a specific Git commit rather than following a moving branch.
 
-## Included in 0.1.0
+## Included in 0.2.0
 
 - DTCG-format theme tokens, generated CSS variables, and self-hosted typography.
 - Brush tabs, painted filters, slanted ribbons, textured dropdowns, gold-header

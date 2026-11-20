@@ -73,3 +73,20 @@ for (const width of [1440, 390]) {
     }
   });
 }
+
+// The hero keeps the online dashboard's own stroke. Both dashboards' words must stay
+// on the paint, at the desktop and phone sizes the online dashboard uses.
+for (const width of [1440, 390]) {
+  test(`hero mark paint stays beneath both dashboards' words at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 1000 });
+    await page.goto('/gallery/examples.html');
+    await prepareCapture(page);
+    const mark = page.locator('#online-example-title .b5-hero__mark');
+    for (const label of ['LIVE!', 'REBUILT.']) {
+      await mark.evaluate((node, text) => { node.textContent = text; }, label);
+      const result = await glyphCoverage(page, mark);
+      expect(result.total, label).toBeGreaterThan(100);
+      expect(result.covered, `${label}: ${JSON.stringify(result)}`).toBeGreaterThanOrEqual(.99);
+    }
+  });
+}

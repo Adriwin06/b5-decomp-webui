@@ -1,6 +1,6 @@
 {
   "name": "b5-decomp-webui",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Shared web UI framework for the Burnout Paradise decompilation ecosystem.",
   "type": "module",
   "license": "MIT",
@@ -29,6 +29,7 @@
   "scripts": {
     "assets:paint": "node tools/prepare-paint.mjs",
     "build": "node tools/build.mjs",
+    "export": "node tools/export.mjs",
     "dev": "node tools/serve.mjs --watch",
     "preview": "node tools/serve.mjs",
     "test": "npm run build && node --test tests/unit/*.test.mjs && playwright test",

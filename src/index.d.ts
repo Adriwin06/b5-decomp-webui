@@ -39,7 +39,7 @@ export function createFilterGroup(container: HTMLElement): {
 export function setProgress(element: HTMLElement, value: number, options?: { max?: number }): number;
 export function renderSparkline(element: HTMLElement, values: number[], options?: { label?: string }): void;
 export interface PagerState { page: number; pageCount: number; pageSize: number; total: number; from: number; to: number; }
-export function createPager(container: HTMLElement, options?: { page?: number; pageSize?: number; total?: number }): {
+export function createPager(container: HTMLElement, options?: { page?: number; pageSize?: number; total?: number; unit?: string; locale?: string }): {
   readonly state: Readonly<PagerState>;
   set(options: { page?: number; pageSize?: number; total?: number }, behavior?: { emit?: boolean }): Readonly<PagerState>;
   destroy(): void;

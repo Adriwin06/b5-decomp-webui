@@ -8,6 +8,9 @@ export function createPager(container, initial = {}) {
   const original = [...container.childNodes];
   let state;
   let destroyed = false;
+  // Optional noun after the total ("of 4,413 results") and the number locale.
+  const unit = initial.unit ?? container.dataset.b5Unit ?? '';
+  const locale = initial.locale || doc.documentElement.lang || undefined;
   function normalize({ page = 1, pageSize = 10, total = 0 }) {
     if (!Number.isInteger(total) || total < 0 || !Number.isInteger(pageSize) || pageSize < 1 || !Number.isInteger(page)) throw new RangeError('Pager needs integer page, positive pageSize, and nonnegative total');
     const pageCount = Math.max(1, Math.ceil(total / pageSize));
@@ -32,7 +35,8 @@ export function createPager(container, initial = {}) {
     const range = doc.createElement('span');
     range.className = 'b5-pagination__range';
     range.setAttribute('role', 'status');
-    range.textContent = `${state.from}–${state.to} of ${state.total}`;
+    const number = value => value.toLocaleString(locale);
+    range.textContent = `${number(state.from)}–${number(state.to)} of ${number(state.total)}${unit ? ` ${unit}` : ''}`;
     const navigation = doc.createElement('div');
     navigation.className = 'b5-pagination__controls';
     navigation.append(button('Previous', state.page - 1, 'previous', state.page === 1));
@@ -79,7 +83,8 @@ export function createPager(container, initial = {}) {
     }
   };
   const onKeydown = event => { if (event.key === 'Enter' && event.target.matches('input[data-b5-page-key="jump"]')) { event.preventDefault(); onChange(event); } };
-  set({ page: Number(container.dataset.b5Page ?? 1), total: Number(container.dataset.b5Total ?? 0), pageSize: Number(container.dataset.b5PageSize ?? 10), ...initial });
+  const { unit: _unit, locale: _locale, ...start } = initial;
+  set({ page: Number(container.dataset.b5Page ?? 1), total: Number(container.dataset.b5Total ?? 0), pageSize: Number(container.dataset.b5PageSize ?? 10), ...start });
   container.addEventListener('click', onClick);
   container.addEventListener('change', onChange);
   container.addEventListener('keydown', onKeydown);

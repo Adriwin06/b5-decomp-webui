@@ -1,29 +1,29 @@
 # Component reference
 
 Load `b5-ui.css` and place components inside `.b5-ui`. All names below are public
-in the 0.1 series. Gallery-specific `garage-*` classes are examples, not part of
+in the 0.2 series. Gallery-specific `garage-*` classes are examples, not part of
 the library API. `.b5-ui` is a theme boundary; avoid nesting different themes.
 
 ## CSS components
 
 | Component | Classes / native markup |
 | --- | --- |
-| Actions | `.b5-button`; modifiers `--primary`, `--gold`, `--ghost`, `--ink`, `--paint`; add `--paint-white` or `--paint-red` to a paint action |
+| Actions | `.b5-button`; modifiers `--primary`, `--gold`, `--ghost`, `--ink`, `--paint`; add `--paint-gold` or `--paint-red` to a paint action; `.b5-button__arrow` for its arrow |
 | Icon action | `.b5-icon-button` on a button with an accessible label |
 | Forms | `.b5-field`, `.b5-label`, `.b5-hint`, `.b5-input`, `.b5-select`, `.b5-textarea`, `.b5-check` |
 | Invalid field | `aria-invalid="true"`, `.b5-field-error`, and `aria-describedby` pointing to the error |
 | Panel | `.b5-panel`, `__header`, `__body`, `__footer`; optional `.b5-panel--accent` |
-| Metric | `.b5-stat`, `__value`, `__label` |
-| Badge | `.b5-badge` with optional `data-tone="success|warning|danger|info"` |
+| Metric | `.b5-stat`, `__label`, `__value` (a number in `<strong>` and an optional `__context`) |
+| Status | `.b5-status` (dot and mono label, `--caps` for uppercase), `.b5-badge` (the same, framed), `.b5-dot` alone; optional `data-tone="success|warning|danger|info"` |
 | Alert | `.b5-alert` with optional `data-tone`; add `role="status"` only for dynamic status messages |
 | Empty state | `.b5-empty` containing a heading, description and next action |
 | Table | `.b5-table-wrap` containing a native `.b5-table`; `.b5-table__action` for row action buttons |
-| Toolbar / pager | `.b5-toolbar`, `.b5-pager`; data fetching stays in the application |
+| Toolbar | `.b5-toolbar`; data fetching stays in the application. Pages: `.b5-pagination` below |
 | Progress | `<progress class="b5-progress" max="100" value="42">`; optional `--gold`; provide a label |
 | Expandable content | `.b5-tree` containing native `<details><summary>` and lists |
 | Code / keyboard | `.b5-code`, `.b5-kbd` |
-| Layout | `.b5-shell`, `.b5-grid`, `.b5-stack`, `.b5-row` |
-| Typography | `.b5-heading`, `.b5-section-title`, `.b5-eyebrow`, `.b5-title-mark` |
+| Layout | `.b5-page` (on `<body>`: the fixed grunge backdrop), `.b5-shell`, `.b5-grid`, `.b5-stack`, `.b5-row` |
+| Typography | `.b5-heading`, `.b5-section-title`, `.b5-eyebrow`, `.b5-title-mark`, `.b5-accent` (red text, such as a heading's final dot) |
 | Utilities | `.b5-muted`, `.b5-mono`, `.b5-sr-only`, `.b5-skip-link` |
 
 Use native `disabled` on buttons. `aria-disabled` alone does not suppress an
@@ -155,6 +155,45 @@ available range; an empty list has one page. Options must be integers with a
 positive page size. The input collection is never mutated. Server-backed
 pagination should use the application's response metadata instead.
 
+## Page composition
+
+Both dashboards share one page skeleton. Paradise Online is the reference; the decomp
+progress dashboard uses the same pieces with its own content:
+
+```html
+<body class="b5-ui b5-page">
+  <a class="b5-skip-link" href="#main-section">Skip to content</a>
+  <div class="b5-scenery" aria-hidden="true"></div>
+  <header class="b5-site-header b5-shell">
+    <a class="b5-brand" href="/"><img class="b5-brand__mark" src="/ui/assets/seal-paradise-city.png"
+      width="54" height="54" alt=""><span>BURNOUT PARADISE<span class="b5-brand__subtitle">DECOMP /
+      COMMUNITY ONLINE</span></span></a>
+    <nav class="b5-site-nav" aria-label="Main navigation">
+      <a href="#lobbies" aria-current="location"><span>01</span> Live lobbies</a>
+      <a class="b5-site-nav__external" href="https://decomp.example/">Decomp progress ↗</a>
+    </nav>
+  </header>
+  <main class="b5-shell">
+    <section class="b5-hero">…eyebrow, title with __line and __mark, copy, paint action…
+      <div class="b5-destination">…art, then a .b5-connection block…</div></section>
+    <section class="b5-stat-strip">…one .b5-stat per figure…</section>
+    <section>
+      <div class="b5-section-header"><div><div class="b5-eyebrow">EASY DRIVE / THE LIVE
+        DIRECTORY</div><h2 class="b5-heading">Find your crew<span class="b5-accent">.</span></h2></div></div>
+      …panels, lists, rosters…
+    </section>
+  </main>
+  <footer class="b5-site-footer b5-shell"><a class="b5-site-footer__brand" href="/">PARADISE
+    ONLINE <span>/</span> BUILT FOR THE COMMUNITY</a><div class="b5-site-footer__meta">…</div></footer>
+</body>
+```
+
+Each site links to the other with `.b5-site-nav__external` and in its footer. The hero
+title's `__mark` keeps the online dashboard's original stroke; it suits one short word.
+Put `.b5-ui` on `<html>` instead when page scripts read tokens from the root element.
+`data-b5-density="compact"` on a dense area (a data dashboard's `<main>`) shrinks its
+controls without touching the header, hero or stat strip.
+
 ## Paradise component families
 
 The searchable catalog at `gallery/` includes 37 live families. The
@@ -164,21 +203,21 @@ generated combobox markup is not presented as the authoring interface.
 
 | Presentation | Shared public classes |
 | --- | --- |
-| Textured action strips | `.b5-button--paint` (original white), `--paint-white`, `--paint-gold`, `--paint-red` |
+| Textured action strips | `.b5-button--paint` (original white), `--paint-gold`, `--paint-red`, `.b5-button__arrow` |
 | Angled count / finding labels | `.b5-ribbons`, `.b5-ribbon`, `--gold`, `--muted`, `data-tone` |
-| Black-brush or paint tab skins | `.b5-tabs--menu`, `.b5-tabs--paint` on a normal tabs container |
+| Black-brush or paint tab skins | `.b5-tabs--menu`, `.b5-tabs--paint` on a normal tabs container; `.b5-filter-group--menu` gives pressed buttons the same brush plates |
 | Single-choice painted filters | `.b5-filter-group`, `--paint`, `.b5-filter` and `data-b5-value` |
-| Framed or quiet live status | `.b5-badge`, `.b5-status`, `data-tone` |
+| Framed or quiet live status | `.b5-badge`, `.b5-status`, `.b5-status--caps`, `.b5-dot`, `data-tone` |
 | Quiet directory tools | `.b5-search`, `.b5-refresh`, `.b5-directory-tools`, `.b5-section-header` |
-| Shared identity | `.b5-brand`, `__mark`, `__subtitle`, `.b5-site-header`, `.b5-site-nav` |
-| Hero and scenery | `.b5-hero`, `__copy`, `__title`, `.b5-scenery` |
+| Shared identity | `.b5-brand`, `__mark`, `__subtitle`, `.b5-site-header`, `.b5-site-nav`, `.b5-site-nav__external` |
+| Hero and scenery | `.b5-hero`, `__copy`, `__title`, `__line`, `__mark`, `.b5-scenery` (a decorative band, first in `<body>`) |
 | Paradise artwork composition | `.b5-destination`, `__art`, `__logo`, `__label` |
 | Copyable server connection | `.b5-connection`, `__top`, `__kicker`, `__address` |
-| Public directory layout | `.b5-directory`, `.b5-directory-note`, `.b5-stat-strip` |
+| Public directory layout | `.b5-directory`, `.b5-directory-note`, `__aside`, `.b5-stat-strip` |
 | Painted surfaces | `.b5-panel--ink`, `.b5-panel--paint`, `.b5-panel--hazard`, `.b5-count-tile` |
-| Roster states | `.b5-roster`, `__count`, `__empty`, `__symbol`, `__empty-title`, `__list`, existing panel sections |
-| People and membership | `.b5-person`, `__body`, `__name`, `__meta`, `__role`, `.b5-avatar`, `.b5-member` |
-| Lobby presentation | `.b5-lobby`, `__header`, `__title`, `__meta`, `__capacity`, `__members` |
+| Roster states | `.b5-roster`, `__count`, `__empty`, `__list`, `__list--scroll`, existing panel sections |
+| People and membership | `.b5-person`, `__body`, `__name`, `__meta`, `__role`, `.b5-avatar`, `.b5-member`, `__host` |
+| Lobby presentation | `.b5-lobby`, `__header`, `__title`, `__meta`, `__mode`, `__capacity`, `__seats`, `__members` |
 | Illustrated empty state | `.b5-empty--illustrated`, `.b5-empty__symbol`, `.b5-link` |
 | Release controls | `.b5-download-group`, `.b5-download`, `.b5-download-counter`, `.b5-download-preview`; optional `[data-b5-download-menu]` |
 | Radial metrics | `.b5-metric-card`, `__body`, `.b5-ring`, `__track`, `__fill`, `__label` |
@@ -187,8 +226,8 @@ generated combobox markup is not presented as the authoring interface.
 | Events and commits | `.b5-timeline` with native list, time and text elements |
 | Detail presentation | `.b5-kv`, `.b5-detail-section`, `.b5-dialog--ink`, `.b5-back`, `.b5-close--game` |
 | Activity and comparisons | `.b5-sparkline`, `.b5-bar-row`, `__label`, native progress bars |
-| Configuration | `.b5-config`, `__note`, `__stamp`, `.b5-code__comment`, `__section`, `__value` |
-| Instructions and footer | `.b5-steps`, `.b5-site-footer` |
+| Configuration | `.b5-config`, `__header`, `__action`, `__note`, `__stamp`, `.b5-code__comment`, `__section`, `__value` |
+| Instructions and footer | `.b5-steps`, `.b5-site-footer`, `__brand`, `__meta` |
 | Loading states | `.b5-loading`, `.b5-skeleton`, `--title`, `--short`; provide a live text label |
 | Files and hints | `.b5-tree--menu`, `.b5-tooltip`, `.b5-icon` |
 
@@ -299,12 +338,11 @@ The gold panel header keeps its text level over the angled paint. An optional
 its count "Last seen", and a loading count should use a dash rather than zero.
 Connection state and live data stay with the consuming application.
 
-For an illustrated roster empty state, put an `aria-hidden="true"`
-`.b5-roster__symbol`, a heading with `.b5-roster__empty-title`, a short description
-and an optional `.b5-link` inside `.b5-roster__empty`. The symbol reuses the
-bundled Downtown sign; the skyline is decorative CSS. Point the link to the
-application's connection instructions. Use a loading status instead of the
-empty-state invitation while waiting for the first snapshot.
+An empty roster is one quiet line, `.b5-roster__empty`, which keeps line breaks
+(`white-space: pre-line`): the illustrated empty state belongs to the main list
+beside it, so the two never repeat the same sign and skyline. Use a loading status
+instead of the empty-state line while waiting for the first snapshot.
+`.b5-roster__list` spaces the rows; add `--scroll` to bound a long list.
 
 ## Themed selects
 
@@ -375,7 +413,10 @@ application-owned.
      data-b5-page-size="50" aria-label="Explorer pages"></nav>
 ```
 
-`createPager(container, { total?, pageSize?, page? })` returns a controller with
+Add `data-b5-unit="results"` (or the `unit` option) to name what is counted. Numbers
+are formatted for the document language.
+
+`createPager(container, { total?, pageSize?, page?, unit?, locale? })` returns a controller with
 read-only `state`, `set(options, { emit? })` and `destroy()`. State contains
 `page`, `pageCount`, `pageSize`, `total`, `from` and `to`. Totals must be
 nonnegative integers, page size a positive integer and page an integer. Pages
@@ -422,6 +463,12 @@ and SVG `<use>` references should use your application's static prefix:
   <use href="./ui/assets/icons.svg#search"></use>
 </svg>
 ```
+
+The texture custom properties (`--b5-art-banner`, `--b5-art-brush` and the rest)
+hold URLs relative to `b5-ui.css`. Browsers resolve such a URL where the variable is
+used, so they only work inside the library's own rules. In an application stylesheet,
+reference the file by its served path, such as `url('/ui/assets/brush-black.png')`;
+override a variable only with an absolute URL.
 
 The sprite includes search, refresh, copy, download, eye, arrow, back, close,
 check, chevron, folder and file symbols. Decorative symbols use `aria-hidden`;

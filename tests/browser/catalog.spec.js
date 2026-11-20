@@ -25,8 +25,7 @@ test('catalog covers every reference family, provides source markup and loads th
   await expect(page.locator('#catalog-roster-content')).toContainText('Driver 01');
   await page.locator('#roster').getByRole('button', { name: 'Show empty state' }).click();
   await expect(page.locator('#catalog-roster-count')).toHaveText('0');
-  await expect(page.locator('#roster').getByRole('heading', { name: 'A quiet moment in Paradise.' })).toBeVisible();
-  await expect(page.locator('#roster').getByRole('link', { name: 'Get connected' })).toHaveAttribute('href', './examples.html#connect-example');
+  await expect(page.locator('#catalog-roster-content')).toContainText('A quiet moment in Paradise.');
   await expect(page.locator('#catalog-roster-content')).not.toHaveAttribute('tabindex');
   for (const id of ['counters', 'menu-tabs', 'dropdowns', 'destination', 'filters', 'roster', 'empty-state', 'search-refresh']) {
     const demo = page.locator(`#${id} .catalog-demo`);

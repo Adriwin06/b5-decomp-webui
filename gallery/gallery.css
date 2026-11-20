@@ -82,7 +82,7 @@ body { margin: 0; }
 .garage-progress-label { display: flex; align-items: center; justify-content: space-between; font-size: 12px; }
 .garage-progress-label strong { font: 11px var(--b5-font-mono); color: var(--b5-color-gold); }
 .garage-component-grid .b5-progress { margin-top: -10px; }
-.garage-pattern-shell { padding: 26px; border: 1px solid var(--b5-color-line); background: var(--b5-color-background); box-shadow: 0 12px 36px #0003; }
+.garage-pattern-shell { position: relative; isolation: isolate; overflow: hidden; padding: 26px; border: 1px solid var(--b5-color-line); background: var(--b5-color-background); box-shadow: 0 12px 36px #0003; }
 .garage-pattern-heading { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-bottom: 23px; }
 .garage-pattern-heading .b5-eyebrow { font-size: 8px; }
 .garage-pattern-heading h3 { font: italic 36px/1.2 var(--b5-font-display); margin-top: 6px; text-transform: uppercase; }
@@ -169,8 +169,8 @@ body { margin: 0; }
   .garage-pattern-shell { padding: 17px 12px; }
   .garage-pattern-heading { flex-wrap: wrap; }
   .garage-pattern-heading h3 { font-size: 29px; }
-  .garage-pattern-shell .b5-pager .b5-row { gap: 8px; }
-  .garage-pattern-shell .b5-pager .b5-button { font-size: 11px; padding-inline: 12px; }
+  .garage-work-pager .b5-row { gap: 8px; }
+  .garage-work-pager .b5-button { font-size: 11px; padding-inline: 12px; }
   .garage-integration .b5-code { font-size: 9px; padding: 16px; }
   .garage-footer { margin-top: 40px; }
 }

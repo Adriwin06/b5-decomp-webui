@@ -8,7 +8,9 @@ import path from 'node:path';
 test('theme emits interoperable semantic values and resolves inherited types', async () => {
   const tokens = JSON.parse(await readFile(path.join(root, 'tokens/paradise.tokens.json'), 'utf8'));
   const css = compileTokens(tokens);
-  assert.match(css, /--b5-color-accent: #d52630;/);
+  assert.match(css, /--b5-color-accent: #e72530;/);
+  assert.match(css, /--b5-color-muted: #c6b9ab;/);
+  assert.match(css, /--b5-control-radius: 0px;/);
   assert.match(css, /--b5-color-focus: #edbd54;/);
   assert.match(css, /--b5-control-height: 44px;/);
   assert.match(css, /--b5-font-display: "B5 Anton", "Impact", "Arial Narrow", sans-serif;/);

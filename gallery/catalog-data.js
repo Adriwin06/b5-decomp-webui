@@ -55,7 +55,7 @@ export const components = [
   },
   {
     id: 'roster', title: 'Live roster panel', category: 'patterns',
-    summary: 'A gold masthead, labelled count, illustrated empty state and compact driver rows.',
+    summary: 'The tilted gold masthead, a count tile, a quiet empty state and compact driver rows.',
     keywords: 'who driving players roster side panel gold header count empty populated',
     action: { id: 'catalog-roster-toggle', label: 'Show populated state ↗' },
     markup: `<aside class="b5-panel b5-panel--paint b5-roster" aria-labelledby="catalog-roster-title">
@@ -65,27 +65,23 @@ export const components = [
   </header>
   <div class="b5-panel__body">
     <p>Live from the streets of Paradise.</p>
-    <div id="catalog-roster-content" class="b5-roster__empty">
-      <span class="b5-roster__symbol" aria-hidden="true"></span>
-      <h4 class="b5-roster__empty-title">A quiet moment in Paradise.</h4>
-      <p>Be the first to hit the road.</p>
-      <a class="b5-link" href="./examples.html#connect-example">Get connected ${icon('arrow')}</a>
-    </div>
+    <div id="catalog-roster-content" class="b5-roster__empty">A quiet moment in Paradise.
+Be the first to hit the road.</div>
   </div>
-  <footer class="b5-panel__footer"><span class="b5-status" data-tone="warning">Community server</span><span>Live roster</span></footer>
+  <footer class="b5-panel__footer"><span class="b5-dot"></span>Community server / live roster</footer>
 </aside>`
   },
   {
     id: 'empty-state', title: 'Illustrated empty states', category: 'feedback', wide: true,
     summary: 'A directional sign, skyline decoration and a clear next action.',
     keywords: 'empty state downtown sign open roads skyline get connected no lobbies updated refresh note',
-    markup: `<div class="b5-empty b5-empty--illustrated"><span class="b5-empty__symbol" aria-hidden="true"></span><h3>Open roads. Your move.</h3><p>No lobbies right now. Host a Freeburn session in-game and it will appear here.</p><a class="b5-link" href="./examples.html#connect-example">Get connected ↗</a></div><div class="b5-directory-note"><span class="b5-status" data-tone="success">Updated 23:36:32</span><span>Refreshes every 5 seconds</span></div>`
+    markup: `<div class="b5-empty b5-empty--illustrated"><span class="b5-empty__symbol" aria-hidden="true"></span><h3>Open roads. Your move.</h3><p>No lobbies right now. Host a Freeburn session in-game and it will appear here.</p><a class="b5-link" href="./examples.html#connect-example">Get connected ↗</a></div><div class="b5-directory-note"><span class="b5-dot" data-tone="success"></span><span>Updated 23:36:32</span><span class="b5-directory-note__aside">Refreshes every 5 seconds</span></div>`
   },
   {
     id: 'search-refresh', title: 'Search & refresh', category: 'controls',
     summary: 'Quiet controls for a live directory or a dense developer view.',
     keywords: 'refresh busy loading icon search lobbies players field minimal toolbar',
-    markup: `<div class="b5-section-header"><span class="b5-eyebrow">LIVE DIRECTORY</span><button id="catalog-refresh" class="b5-refresh" type="button">${icon('refresh')} Refresh</button></div><label class="b5-search">${icon('search')}<input class="b5-input" id="catalog-demo-search" type="search" aria-label="Search example lobbies or players" placeholder="Search lobbies or players"></label><p id="catalog-refresh-result" class="b5-hint catalog-demo-note" role="status">Ready to refresh the example.</p>`
+    markup: `<div class="b5-section-header"><div class="b5-eyebrow">LIVE DIRECTORY</div><button id="catalog-refresh" class="b5-refresh" type="button">${icon('refresh')} Refresh</button></div><label class="b5-search">${icon('search')}<input class="b5-input" id="catalog-demo-search" type="search" aria-label="Search example lobbies or players" placeholder="Search lobbies or players"></label><p id="catalog-refresh-result" class="b5-hint catalog-demo-note" role="status">Ready to refresh the example.</p>`
   },
   {
     id: 'buttons', title: 'Action styles', category: 'controls',
@@ -94,7 +90,7 @@ export const components = [
     markup: `<div class="b5-stack">
   <div class="b5-row"><button class="b5-button b5-button--primary" type="button" data-demo-toast="success">Primary ↗</button><button class="b5-button" type="button" data-demo-toast="info">Secondary</button><button class="b5-button b5-button--ghost" type="button" data-demo-toast="info">Ghost</button></div>
   <div class="b5-row"><button class="b5-button b5-button--ink" type="button" data-demo-toast="info">Brush action</button><button class="b5-button b5-button--gold" type="button" data-demo-toast="success">Gold</button><button class="b5-button" type="button" disabled>Disabled</button></div>
-  <div class="b5-row"><button class="b5-button b5-button--paint" type="button" data-demo-toast="success">Find a lobby ↘</button><button class="b5-button" type="button" disabled aria-busy="true">Connecting</button></div>
+  <div class="b5-row"><button class="b5-button b5-button--paint" type="button" data-demo-toast="success"><span class="b5-button__arrow" aria-hidden="true">↘</span> Find a lobby</button><button class="b5-button" type="button" disabled aria-busy="true">Connecting</button></div>
   <div class="b5-row"><button class="b5-button b5-button--paint b5-button--paint-gold" type="button" data-demo-toast="success">Gold paint</button><button class="b5-button b5-button--paint b5-button--paint-red" type="button" data-demo-toast="info">Red paint</button></div>
 </div>`
   },
@@ -102,13 +98,13 @@ export const components = [
     id: 'lobby-cards', title: 'Lobby cards', category: 'patterns',
     summary: 'Room identity, availability, capacity and member chips.',
     keywords: 'lobby session host capacity full open freeburn card members',
-    markup: `<article class="b5-lobby"><header class="b5-lobby__header"><div><h3 class="b5-lobby__title">Westside Freeburn</h3><div class="b5-lobby__meta"><span>FREEBURN</span><span>· Hosted by Driver 01</span></div></div><div><span class="b5-status" data-tone="success">Open slots</span><div class="b5-lobby__capacity">3 <small>/ 8 players</small></div></div></header><div class="b5-lobby__members"><span class="b5-member"><span class="b5-avatar" aria-hidden="true">D1</span><span>Driver 01 ★</span></span><span class="b5-member"><span class="b5-avatar" data-color="gold" aria-hidden="true">D2</span><span>Driver 02</span></span><span class="b5-member"><span class="b5-avatar" data-color="blue" aria-hidden="true">D3</span><span>Driver 03</span></span></div></article>`
+    markup: `<article class="b5-lobby"><div class="b5-lobby__header"><div><h3 class="b5-lobby__title">Westside Freeburn</h3><div class="b5-lobby__meta"><span class="b5-lobby__mode">Freeburn</span><span>·</span><span>Hosted by Driver 01</span></div></div><div class="b5-lobby__capacity"><span class="b5-status b5-status--caps" data-tone="success">Open slots</span><div class="b5-lobby__seats">3 <small>/ 8 players</small></div></div></div><div class="b5-lobby__members"><span class="b5-member"><span class="b5-avatar" aria-hidden="true">D1</span><span>Driver 01</span><span class="b5-member__host" title="Lobby host">★</span></span><span class="b5-member"><span class="b5-avatar" data-color="gold" aria-hidden="true">D2</span><span>Driver 02</span></span><span class="b5-member"><span class="b5-avatar" data-color="blue" aria-hidden="true">D3</span><span>Driver 03</span></span></div></article>`
   },
   {
     id: 'navigation', title: 'Brand & navigation', category: 'identity',
     summary: 'The city seal, numbered navigation and red selection marker.',
     keywords: 'site header brand seal navigation active numbered links red streak',
-    markup: `<header class="b5-site-header"><a class="b5-brand" href="./examples.html"><img class="b5-brand__mark" src="../dist/assets/seal-paradise-city.png" width="48" height="48" alt=""><span>Paradise Online<span class="b5-brand__subtitle">DECOMP / COMMUNITY ONLINE</span></span></a><nav class="b5-site-nav" aria-label="Sample site"><a href="./examples.html#patterns" aria-current="page"><span>01</span> Live lobbies</a><a href="./examples.html#connect-example"><span>02</span> Get connected</a></nav></header>`
+    markup: `<header class="b5-site-header"><a class="b5-brand" href="./examples.html"><img class="b5-brand__mark" src="../dist/assets/seal-paradise-city.png" width="54" height="54" alt=""><span>Burnout Paradise<span class="b5-brand__subtitle">DECOMP / COMMUNITY ONLINE</span></span></a><nav class="b5-site-nav" aria-label="Sample site"><a href="./examples.html#patterns" aria-current="page"><span>01</span> Live lobbies</a><a href="./examples.html#connect-example"><span>02</span> Get connected</a><a class="b5-site-nav__external" href="./examples.html#work-pattern">Decomp progress ↗</a></nav></header>`
   },
   {
     id: 'downloads', title: 'Download controls', category: 'controls', wide: true,
@@ -116,12 +112,12 @@ export const components = [
     keywords: 'download build full game update only package menu popover counter preview eye asphalt streak skyline tire burn torn split livery',
     markup: `<div class="b5-download-group" data-b5-download-menu id="catalog-download-group">
   <button class="b5-download" id="catalog-download" data-skin="tireburn" type="button" popovertarget="catalog-download-menu" aria-controls="catalog-download-menu">
-    ${icon('download')}<span><strong>Download build</strong><small>v0.1.0 · PC</small></span>
+    ${icon('download')}<span><strong>Download build</strong><small>v0.2.0 · PC</small></span>
   </button>
   <span class="b5-download-counter"><strong>128</strong><small>Downloads</small></span>
   <span class="b5-tooltip"><button class="b5-download-preview" type="button" data-b5-dialog-open="catalog-build-dialog" aria-label="Preview sample contents" aria-describedby="catalog-download-tooltip">${icon('eye')}</button><span id="catalog-download-tooltip" role="tooltip">Preview the sample contents</span></span>
   <div class="b5-download-menu" id="catalog-download-menu" popover="auto" role="region" aria-labelledby="catalog-download-menu-title">
-    <header class="b5-download-menu__header"><span class="b5-eyebrow" id="catalog-download-menu-title">Choose your download</span><span class="b5-muted">v0.1.0</span></header>
+    <header class="b5-download-menu__header"><span class="b5-eyebrow" id="catalog-download-menu-title">Choose your download</span><span class="b5-muted">v0.2.0</span></header>
     <a class="b5-download-option" href="../docs/integration.md" download="sample-full-game-guide.md">
       <span class="b5-download-option__icon" aria-hidden="true">${icon('folder')}</span>
       <span class="b5-download-option__title">Full game</span><span class="b5-download-option__size">4.69 GB</span>
@@ -242,7 +238,7 @@ export const components = [
     id: 'configuration', title: 'Configuration panels', category: 'patterns',
     summary: 'Copyable configuration, syntax colors, a supporting note and a footer stamp.',
     keywords: 'config ini code panel copy syntax note stamp server key',
-    markup: `<section class="b5-panel b5-config" aria-label="Example configuration"><header class="b5-panel__header"><span class="b5-mono">config.ini</span><button class="b5-link" type="button" data-b5-copy="catalog-config">Copy ↗</button></header><pre class="b5-code"><code id="catalog-config"><span class="b5-code__comment">; Example connection details</span>
+    markup: `<section class="b5-config" aria-label="Example configuration"><div class="b5-config__header"><span><span class="b5-dot"></span> config.ini</span><button class="b5-config__action" type="button" data-b5-copy="catalog-config">Copy configuration <span aria-hidden="true">⧉</span></button></div><pre class="b5-code"><code id="catalog-config"><span class="b5-code__comment">; Example connection details</span>
 <span class="b5-code__section">[Online]</span>
 Server=<span class="b5-code__value">example.invalid:27900</span>
 Key=<span class="b5-code__value">YOUR_SERVER_KEY</span></code></pre><div class="b5-config__note"><span aria-hidden="true">↗</span><p>Use the same server and key as your friends. This is an example configuration.</p></div><div class="b5-config__stamp">See you at the next junction.</div></section>`
@@ -257,7 +253,7 @@ Key=<span class="b5-code__value">YOUR_SERVER_KEY</span></code></pre><div class="
     id: 'statistics', title: 'Statistics strips', category: 'data', wide: true,
     summary: 'Shared rules, condensed values and flexible supporting labels.',
     keywords: 'statistics stats strip players lobbies capacity uptime values metrics',
-    markup: `<div class="b5-stat-strip"><div class="b5-stat"><strong class="b5-stat__value">12</strong><span class="b5-stat__label">Players online</span></div><div class="b5-stat"><strong class="b5-stat__value">03</strong><span class="b5-stat__label">Active lobbies</span></div><div class="b5-stat"><strong class="b5-stat__value">08</strong><span class="b5-stat__label">Players per lobby</span></div><div class="b5-stat"><strong class="b5-stat__value">2d 4h</strong><span class="b5-stat__label">Server uptime</span></div></div>`
+    markup: `<div class="b5-stat-strip"><div class="b5-stat"><div class="b5-stat__label">Players online</div><div class="b5-stat__value"><strong>12</strong><span class="b5-stat__context">of 128 server slots</span></div></div><div class="b5-stat"><div class="b5-stat__label">Active lobbies</div><div class="b5-stat__value"><strong>03</strong><span class="b5-stat__context">across Paradise City</span></div></div><div class="b5-stat"><div class="b5-stat__label">Lobby capacity</div><div class="b5-stat__value"><strong>08</strong><span class="b5-stat__context">players per lobby</span></div></div><div class="b5-stat"><div class="b5-stat__label">Server uptime</div><div class="b5-stat__value"><strong>2d 4h</strong><span class="b5-stat__context">and counting</span></div></div></div>`
   },
   {
     id: 'trees', title: 'Expandable trees', category: 'data',
@@ -288,7 +284,7 @@ Key=<span class="b5-code__value">YOUR_SERVER_KEY</span></code></pre><div class="
     id: 'footers', title: 'Footers & project links', category: 'identity',
     summary: 'A shared finish for the public site and its supporting tools.',
     keywords: 'footer version branding project links community legal attribution',
-    markup: `<footer class="b5-site-footer"><span>PARADISE ONLINE / BUILT FOR THE COMMUNITY</span><div class="b5-row"><span>v0.1.0</span><a href="../THIRD_PARTY.md">Attribution ↗</a></div></footer>`
+    markup: `<footer class="b5-site-footer"><a class="b5-site-footer__brand" href="./examples.html">PARADISE ONLINE <span>/</span> BUILT FOR THE COMMUNITY</a><div class="b5-site-footer__meta"><span>v0.2.0</span><span>·</span><a href="../THIRD_PARTY.md">Attribution ↗</a></div></footer>`
   },
   {
     id: 'artwork', title: 'Shared artwork & decals', category: 'identity', wide: true,

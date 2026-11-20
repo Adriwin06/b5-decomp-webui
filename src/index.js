@@ -337,9 +337,13 @@ export function enhance(root = document) {
     for (const [group, controller] of ownedFilters) {
       if (!root.contains(group)) { controller.destroy(); ownedFilters.delete(group); }
     }
+    // Only groups with values are controlled; a group can also be used purely for its look.
     const filters = [...root.querySelectorAll('.b5-filter-group')];
     if (root.matches?.('.b5-filter-group')) filters.unshift(root);
-    for (const group of filters) if (!ownedFilters.has(group) && !filterControllers.has(group)) ownedFilters.set(group, createFilterGroup(group));
+    for (const group of filters) {
+      if (ownedFilters.has(group) || filterControllers.has(group) || !group.querySelector('button[data-b5-value]')) continue;
+      ownedFilters.set(group, createFilterGroup(group));
+    }
     for (const element of root.querySelectorAll('[data-b5-progress]')) setProgress(element, Number(element.dataset.b5Progress), { max: Number(element.getAttribute('aria-valuemax') ?? 100) });
     for (const [pager, controller] of ownedPagers) {
       if (!root.contains(pager)) { controller.destroy(); ownedPagers.delete(pager); }

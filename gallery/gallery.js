@@ -55,33 +55,25 @@ $('example-roster').setAttribute('role', 'region');
 $('example-roster').setAttribute('aria-label', 'Sample player roster');
 function lobbyCard(lobby) {
   const card = node('article', 'b5-lobby');
-  const header = node('header', 'b5-lobby__header');
+  const header = node('div', 'b5-lobby__header');
   const identity = node('div');
-  identity.append(node('h4', 'b5-lobby__title', lobby.name), node('p', 'b5-lobby__meta', `Freeburn · Hosted by ${lobby.host}`));
-  const availability = node('div');
-  const status = node('span', 'b5-status', lobby.players < 8 ? 'Open slots' : 'Full');
+  const meta = node('div', 'b5-lobby__meta');
+  meta.append(node('span', 'b5-lobby__mode', 'Freeburn'), node('span', '', '·'), node('span', '', `Hosted by ${lobby.host}`));
+  identity.append(node('h4', 'b5-lobby__title', lobby.name), meta);
+  const capacity = node('div', 'b5-lobby__capacity');
+  const status = node('span', 'b5-status b5-status--caps', lobby.players < 8 ? 'Open slots' : 'Full');
   if (lobby.players < 8) status.dataset.tone = 'success';
-  const capacity = node('div', 'b5-lobby__capacity', String(lobby.players));
-  capacity.append(node('small', '', ' / 8 players'));
-  availability.append(status, capacity);
-  header.append(identity, availability);
+  const seats = node('div', 'b5-lobby__seats', `${lobby.players} `);
+  seats.append(node('small', '', '/ 8 players'));
+  capacity.append(status, seats);
+  header.append(identity, capacity);
   const members = node('div', 'b5-lobby__members');
   const member = node('span', 'b5-member');
   const avatar = node('span', 'b5-avatar', lobby.host.slice(-2)); avatar.setAttribute('aria-hidden', 'true');
-  member.append(avatar, node('span', '', `${lobby.host} ★`)); members.append(member, node('span', 'b5-hint', `+ ${lobby.players - 1} example crew members`));
-  const action = node('button', 'b5-button', 'View session ↗');
-  action.type = 'button';
-  action.setAttribute('aria-label', `View ${lobby.name}`);
-  action.addEventListener('click', () => {
-    const description = node('p', 'b5-muted', 'This sample session shows how a shared drawer can present details from a directory.');
-    showDetails(lobby.name, [
-      badge('Example session · open slots', 'success'),
-      description,
-      metadata([['Host', lobby.host], ['Players', `${lobby.players} / 8`], ['Mode', 'Freeburn'], ['Location', lobby.location]]),
-      node('div', 'b5-alert', 'This is example data. Join real Freeburn sessions from inside the game.')
-    ], action);
-  });
-  card.append(header, members, action);
+  const host = node('span', 'b5-member__host', '★'); host.title = 'Lobby host';
+  member.append(avatar, node('span', '', lobby.host), host);
+  members.append(member, node('span', 'b5-hint', `+ ${lobby.players - 1} example crew members`));
+  card.append(header, members);
   return card;
 }
 function directoryEmpty(title, description, reset = false) {
@@ -127,6 +119,7 @@ function renderDirectory() {
   else $('lobby-examples').replaceChildren(...matching.map(lobbyCard));
   const people = available.flatMap(lobby => Array.from({ length: lobby.players }, (_, index) => ({ name: index ? `${lobby.host} crew ${index}` : lobby.host, host: index === 0 })));
   $('example-roster').classList.toggle('b5-roster__list', people.length > 0);
+  $('example-roster').classList.toggle('b5-roster__list--scroll', people.length > 0);
   if (people.length) $('example-roster').tabIndex = 0;
   else $('example-roster').removeAttribute('tabindex');
   if (loading) {
@@ -137,11 +130,7 @@ function renderDirectory() {
     skeleton.append(node('p', 'b5-hint', 'Waiting for the directory…'));
     $('example-roster').replaceChildren(skeleton);
   } else if (!people.length) {
-    const message = node('div', 'b5-roster__empty');
-    const symbol = node('span', 'b5-roster__symbol'); symbol.setAttribute('aria-hidden', 'true');
-    const action = node('a', 'b5-link', 'Get connected ↗'); action.href = '#connect-example';
-    message.append(symbol, node('h4', 'b5-roster__empty-title', 'A quiet moment in Paradise.'), node('p', '', 'Be the first to hit the road.'), action);
-    $('example-roster').replaceChildren(message);
+    $('example-roster').replaceChildren(node('div', 'b5-roster__empty', 'A quiet moment in Paradise.\nBe the first to hit the road.'));
   } else $('example-roster').replaceChildren(...people.map((player, index) => {
     const row = node('div', 'b5-person');
     const avatar = node('span', 'b5-avatar', String(index + 1).padStart(2, '0')); avatar.setAttribute('aria-hidden', 'true'); avatar.dataset.color = ['red', 'gold', 'green', 'blue'][index % 4];

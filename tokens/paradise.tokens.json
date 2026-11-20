@@ -1,17 +1,21 @@
 {
-  "$description": "Paradise theme. Public token names become --b5-{group}-{name} CSS properties.",
+  "$description": "Paradise theme, calibrated to the online dashboard (b5-decomp-server/web). Public token names become --b5-{group}-{name} CSS properties.",
   "color": {
     "$type": "color",
-    "background": { "$value": { "colorSpace": "srgb", "components": [0.062745, 0.054902, 0.054902] } },
-    "surface": { "$value": { "colorSpace": "srgb", "components": [0.105882, 0.094118, 0.086275] } },
-    "raised": { "$value": { "colorSpace": "srgb", "components": [0.149020, 0.125490, 0.109804] } },
-    "hover": { "$value": { "colorSpace": "srgb", "components": [0.188235, 0.141176, 0.121569] } },
-    "text": { "$value": { "colorSpace": "srgb", "components": [0.945098, 0.933333, 0.898039] } },
-    "muted": { "$value": { "colorSpace": "srgb", "components": [0.713725, 0.678431, 0.631373] } },
-    "line": { "$value": { "colorSpace": "srgb", "components": [0.239216, 0.207843, 0.188235] } },
-    "red": { "$value": { "colorSpace": "srgb", "components": [0.835294, 0.14902, 0.188235] } },
+    "background": { "$description": "Asphalt page background.", "$value": { "colorSpace": "srgb", "components": [0.062745, 0.054902, 0.054902] } },
+    "surface": { "$description": "Panels, roster and empty states.", "$value": { "colorSpace": "srgb", "components": [0.082353, 0.070588, 0.070588] } },
+    "raised": { "$description": "Card highlight: the lighter end of a lobby card.", "$value": { "colorSpace": "srgb", "components": [0.145098, 0.109804, 0.109804] } },
+    "hover": { "$value": { "colorSpace": "srgb", "components": [0.180392, 0.125490, 0.125490] } },
+    "text": { "$description": "Bone white.", "$value": { "colorSpace": "srgb", "components": [0.945098, 0.933333, 0.898039] } },
+    "soft": { "$description": "Secondary copy and inactive labels: between text and muted.", "$value": { "colorSpace": "srgb", "components": [0.831373, 0.780392, 0.725490] } },
+    "muted": { "$value": { "colorSpace": "srgb", "components": [0.776471, 0.725490, 0.670588] } },
+    "faint": { "$description": "Decorative numbering and icons; not for body copy.", "$value": { "colorSpace": "srgb", "components": [0.545098, 0.505882, 0.458824] } },
+    "line": { "$description": "Dividers.", "$value": { "colorSpace": "srgb", "components": [0.223529, 0.188235, 0.180392] } },
+    "edge": { "$description": "Card and panel outlines.", "$value": { "colorSpace": "srgb", "components": [0.286275, 0.188235, 0.184314] } },
+    "red": { "$value": { "colorSpace": "srgb", "components": [0.905882, 0.145098, 0.188235] } },
+    "red-deep": { "$description": "Dark brush red for outlines and gradient ends.", "$value": { "colorSpace": "srgb", "components": [0.478431, 0.078431, 0.094118] } },
     "gold": { "$value": { "colorSpace": "srgb", "components": [0.929412, 0.741176, 0.329412] } },
-    "success": { "$value": { "colorSpace": "srgb", "components": [0.65098, 0.811765, 0.513725] } },
+    "success": { "$value": { "colorSpace": "srgb", "components": [0.647059, 0.827451, 0.474510] } },
     "danger": { "$value": { "colorSpace": "srgb", "components": [1, 0.572549, 0.537255] } },
     "info": { "$value": { "colorSpace": "srgb", "components": [0.576471, 0.741176, 0.901961] } },
     "accent": { "$value": "{color.red}" },
@@ -39,7 +43,7 @@
   "control": {
     "$type": "dimension",
     "height": { "$value": { "value": 44, "unit": "px" } },
-    "radius": { "$value": { "value": 2, "unit": "px" } }
+    "radius": { "$description": "Paradise surfaces are square; shape comes from clipped paint.", "$value": { "value": 0, "unit": "px" } }
   },
   "motion": {
     "$type": "duration",

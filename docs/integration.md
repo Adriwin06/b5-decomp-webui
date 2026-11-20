@@ -24,7 +24,7 @@ import { enhance } from 'b5-decomp-webui';
 
 The package build also runs during `npm install` from a Git checkout and
 `npm pack`. Pin an existing release tag or commit. The repository starts at
-0.1.0 in development; no registry publication or release tag is implied.
+0.2.0 in development; no registry publication or release tag is implied.
 
 ## Theme and density
 
@@ -55,44 +55,47 @@ general implementation of the complete DTCG specification.
 
 ## Rust / b5-decomp-server
 
-Keep the existing dashboard HTTP and JSON routes. Embed the built CSS, ESM and
-its fixed asset list using the server's existing `include_bytes!` approach.
-Preserve the relative directory structure when exposing the files:
+Paradise Online uses the library as-is: `web/ui/` is an export (see below), embedded
+by `src/web.rs` from a fixed file list and served under `/ui/`. A test checks that the
+list matches the folder. The page's own `web/` files hold only its markup, layout and
+directory logic: lobby polling, the five-second refresh, stale data and copy text stay
+in the app, and the UI package knows nothing about `/v1/dashboard`.
 
-```text
-/ui/b5-ui.css
-/ui/b5-ui.js
-/ui/select.js
-/ui/pager.js
-/ui/download.js
-/ui/assets/anton-latin.ttf
-/ui/assets/banner-red.png
-... the remaining distribution files
+```sh
+npm run export -- ../b5-decomp-server/web/ui
 ```
 
-Map the existing paint action to `.b5-button--paint`, live indicators to
-`.b5-badge`, cards to `.b5-panel`, and notices to `.b5-alert`. Keep lobby
-rendering, the five-second refresh, stale data and connection logic in the app.
-The UI package does not know about `/v1/dashboard` or any server address.
+The server's Content Security Policy (`script-src 'self'; style-src 'self'`) needs no
+exception: the module is loaded from the same origin and sets styles through the CSSOM.
 
 ## Python / BP-work-server
 
-Place the distribution under `bp_work_server/static/b5-ui/` and serve it with the
-existing static mount. Include nested files in Python package-data rules; a
-top-level `static/*` glob alone is not enough for the asset subdirectory.
+The progress dashboard serves an export from `bp_work_server/static/b5-ui/` with its
+existing static mount; `pyproject.toml` lists the nested folders in its package data.
+`<html>` carries `.b5-ui` because the progress map reads its colours and fonts from the
+root element. `app.js` is an ES module that imports the library:
 
-Migrate shared tokens and native controls first. Replace panel and status
-classes, then move tabs and the detail overlay to the shared markup. Preserve
-the existing drawer's TU/profile/goal navigation history in the application;
-the shared drawer owns presentation and opening/closing behavior.
+- Native selects marked `data-b5-select` replace the dashboard's former hand-built
+  dropdown; menu filter groups replace its tabs and segmented toggles, with
+  `b5:filterchange` events.
+- The explorer and console-gap lists page with `createPager()`; the small panels keep
+  their own previous/next buttons in `.b5-page-button`.
+- The TU/profile/goal drawer is the shared native drawer (`openDialog`), while the app
+  keeps its navigation history; the release chooser is the shared download group.
 
-Replace the old hand-built dropdown with `<select class="b5-select" data-b5-select>`
-and the shared `enhance()` initializer. The native select remains the form value
-source; the shared combobox supplies the textured popup and keyboard behavior.
-Omit `data-b5-select` when a plain native popup is preferred. Keep
-explorer queries, SSE/polling, Git attribution, download tracking and server
-state out of the UI package. Use `paginate()` only for complete client-side
-collections; the server's explorer pagination already supplies its own metadata.
+```sh
+npm run export -- ../BP-work-server/bp_work_server/static/b5-ui
+```
+
+Explorer queries, SSE, Git attribution, download tracking and server state stay out of
+the UI package. Use `paginate()` only for complete client-side collections.
+
+## Exporting a build
+
+`npm run export -- <folder>` builds the library and replaces `<folder>` with the
+distribution (it refuses a non-empty folder that holds no earlier export). It writes
+`webui.json` there with the version and commit, so a deployed site can be traced to
+the library revision it uses. Commit the exported files in the consuming project.
 
 ## Adoption sequence
 
@@ -104,8 +107,7 @@ collections; the server's explorer pagination already supplies its own metadata.
 5. Remove superseded styles and behavior once the consumer has been verified.
 
 See [coverage.md](coverage.md) for the reference screenshots, component inventory
-and all major dashboard areas. Both existing dashboards remain separate consumers. Their examples in this
-repository use sample data, and do not constitute a migration of either app.
+and all major dashboard areas. Both dashboards consume the library; the examples in this repository use sample data.
 
 Native editors and in-game menus can consume token values and design guidance;
 they need renderers appropriate to their own UI technology. This package's

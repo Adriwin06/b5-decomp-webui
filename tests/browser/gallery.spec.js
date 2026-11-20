@@ -67,7 +67,6 @@ test('directory example combines painted filters, search, empty, stale and loadi
   await page.locator('#directory-example-state').selectOption('empty');
   await expect(page.locator('#example-lobby-count')).toHaveText('0');
   await expect(page.locator('#example-roster')).toContainText('A quiet moment in Paradise.');
-  await expect(page.locator('#example-roster').getByRole('link', { name: 'Get connected' })).toHaveAttribute('href', '#connect-example');
   await expect(page.locator('#example-roster')).not.toHaveAttribute('tabindex');
   await expect(page.locator('#lobby-examples')).toContainText('Open roads. Your move.');
   await page.locator('#directory-example-state').selectOption('stale');
