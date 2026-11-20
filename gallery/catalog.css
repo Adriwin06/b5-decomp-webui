@@ -44,6 +44,8 @@
 .catalog-asset span { font: 9px var(--b5-font-mono); overflow-wrap: anywhere; }
 .catalog-demo .b5-table { min-width: 540px; }
 .catalog-hud { margin-top: 22px; padding: 34px 24px; border: 1px solid var(--b5-color-line); background: #0c0b0b; }
+.catalog-license { display: grid; justify-items: start; gap: 22px; }
+.catalog-license .b5-license { width: min(100%, 360px); }
 .catalog-demo .b5-ticker { --b5-ticker-duration: 32s; }
 @media (max-width: 1300px) {
   .catalog-tools { grid-template-columns: minmax(0, 1fr); align-items: start; }

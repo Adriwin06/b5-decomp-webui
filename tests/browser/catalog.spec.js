@@ -31,7 +31,7 @@ test('catalog covers every reference family, provides source markup and loads th
     const demo = page.locator(`#${id} .catalog-demo`);
     await demo.screenshot({ path: `test-results/reference-${id}.png` });
   }
-  await expect(page.locator('#license').getByRole('progressbar', { name: 'X360 byte match' })).toHaveAttribute('aria-valuenow', '41.2');
+  await expect(page.locator('#license').getByRole('progressbar', { name: 'Units complete' })).toHaveAttribute('aria-valuenow', '63.7');
   const ticker = page.locator('#ticker .b5-ticker');
   await page.locator('#ticker').getByRole('button', { name: 'Pause' }).click();
   await expect(ticker).toHaveAttribute('data-b5-paused', '');

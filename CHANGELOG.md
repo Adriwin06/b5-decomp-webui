@@ -46,8 +46,9 @@ progress dashboard (BP-work-server) uses the same chrome and controls.
   list or summary, and `.b5-filter-group--compact` for long or many painted choices.
 - Add `.b5-panel--board`, the configuration panel's frame around a large data view, with
   `.b5-board__label` and `.b5-board__tools` in its header.
-- Add game-menu pieces for a dashboard: the `.b5-license` strip, a progress rank with
-  segmented `.b5-meter` bars that `setProgress()` fills like the rings; the `.b5-ticker`
+- Add game-menu pieces for a dashboard: the `.b5-license` card, a progress rank with
+  segmented `.b5-meter` bars that `setProgress()` fills like the rings, and
+  `.b5-license-chip`, the same license folded into a header button; the `.b5-ticker`
   news crawl in amber LED type after the game's own, paused on hover or by its toggle
   (`createTicker()`) and still under reduced motion; hollow section numbers
   (`data-b5-index` on a section header) and `.b5-hud` gold corners.

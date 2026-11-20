@@ -150,18 +150,24 @@ Be the first to hit the road.</div>
     api: 'setProgress(ringElement, 72.4);'
   },
   {
-    id: 'license', title: 'License strip & meters', category: 'data', wide: true,
-    summary: 'A progress rank on a gold license strip: the class badge, how far the next class is, a segmented meter that setProgress fills like the rings, and the stamp.',
-    keywords: 'license rank class strip badge meters segmented bars progress percent stamp completion byte match',
-    markup: `<article class="b5-license" aria-labelledby="catalog-license-rank">
-  <span class="b5-license__class" aria-hidden="true">B</span>
-  <div class="b5-license__id"><div class="b5-license__kicker">Paradise City · Decomp license</div><h3 class="b5-license__rank" id="catalog-license-rank">B-class license</h3><p class="b5-license__next">Next: A-class license at 80% · 214 units to go</p></div>
-  <div class="b5-license__stats">
-    <div class="b5-meter" data-tone="success" data-b5-progress="41.2" aria-label="X360 byte match"><span class="b5-meter__label">X360 byte match</span><span class="b5-meter__value" data-b5-progress-label>41.2%</span><span class="b5-meter__bar"></span></div>
-  </div>
-  <div class="b5-license__stamp"><span>Valid in Paradise City</span><span>No. 4fdad70c1e</span></div>
-</article>`,
-    api: 'setProgress(meterElement, 41.2); // or data-b5-progress and enhance(root)'
+    id: 'license', title: 'License card, chip & meters', category: 'data',
+    summary: 'A progress rank on a gold license card, with segmented meters that setProgress fills like the rings; the chip folds it into a header and opens it.',
+    keywords: 'license rank class card chip header badge meters segmented bars progress percent stamp completion units functions build byte match popover',
+    markup: `<div class="catalog-license">
+  <button class="b5-license-chip" type="button" aria-label="B-class license: 63.7% of units complete"><span class="b5-license-chip__class" aria-hidden="true">B</span><span class="b5-license-chip__rank">B-class license</span><span class="b5-license-chip__value">63.7%</span></button>
+  <article class="b5-license" aria-labelledby="catalog-license-rank">
+    <div class="b5-license__head"><div><div class="b5-license__kicker">Paradise City · Decomp license</div><h3 class="b5-license__rank" id="catalog-license-rank">B-class license</h3></div><span class="b5-license__class" aria-hidden="true">B</span></div>
+    <p class="b5-license__next">Next: A-class license at 80% · 214 units to go</p>
+    <div class="b5-license__stats">
+      <div class="b5-meter" data-tone="success" data-b5-progress="63.7" aria-label="Units complete"><span class="b5-meter__label">Units complete</span><span class="b5-meter__value" data-b5-progress-label>63.7%</span><span class="b5-meter__bar"></span></div>
+      <div class="b5-meter" data-b5-progress="41.2" aria-label="Functions covered"><span class="b5-meter__label">Functions covered</span><span class="b5-meter__value" data-b5-progress-label>41.2%</span><span class="b5-meter__bar"></span></div>
+      <div class="b5-meter" data-tone="info" data-b5-progress="28.6" aria-label="In the build"><span class="b5-meter__label">In the build</span><span class="b5-meter__value" data-b5-progress-label>28.6%</span><span class="b5-meter__bar"></span></div>
+      <div class="b5-meter" data-tone="success" data-b5-progress="12.4" aria-label="X360 byte match"><span class="b5-meter__label">X360 byte match</span><span class="b5-meter__value" data-b5-progress-label>12.4%</span><span class="b5-meter__bar"></span></div>
+    </div>
+    <div class="b5-license__stamp"><span>Valid in Paradise City</span><span>No. 4fdad70c1e</span></div>
+  </article>
+</div>`,
+    api: 'setProgress(meterElement, 63.7); // chip: popovertarget="licenseCard" data-b5-reveal, then toggle data-b5-shown'
   },
   {
     id: 'summary-tiles', title: 'Goal & status tiles', category: 'data',
