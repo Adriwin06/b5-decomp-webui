@@ -10,7 +10,18 @@
   .b5-scenery::before { content: ''; position: absolute; top: 20px; left: -90px; width: 850px; height: 400px; background: var(--b5-art-tire) center / contain no-repeat; transform: rotate(-18deg); opacity: .3; }
   .b5-scenery::after { content: ''; position: absolute; top: 150px; right: -50px; width: 620px; height: 350px; background: var(--b5-art-skyline) bottom right / contain no-repeat; opacity: .45; }
 
-  .b5-site-header { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 25px; min-height: 106px; border-bottom: 1px solid var(--b5-color-line); }
+  /* The header stays at the top of the window. Its backdrop fades in as the page
+     scrolls, so the scenery still shows through it at the top of the page; the
+     border image paints it, and its rule, across the whole window without widening
+     the page. */
+  .b5-site-header { position: sticky; top: 0; z-index: 30; display: flex; align-items: center; justify-content: space-between; gap: 25px; min-height: 106px; border-bottom: 1px solid var(--b5-color-line); }
+  .b5-site-header::before { content: ''; position: absolute; z-index: -1; inset: 0 0 -1px; border-image: linear-gradient(0deg, var(--b5-color-line) 1px, var(--b5-color-background) 1px) fill 0 / 0 / 0 100vmax; opacity: 1; pointer-events: none; }
+  @supports (animation-timeline: scroll()) {
+    .b5-site-header::before { opacity: 0; animation: b5-header-backdrop linear both; animation-timeline: scroll(root); animation-range: 0 72px; }
+  }
+  @keyframes b5-header-backdrop { to { opacity: 1; } }
+  /* Anchored sections land below the header. */
+  html:has(.b5-site-header) { scroll-padding-top: 126px; }
   .b5-site-header::after { content: ''; position: absolute; left: -20px; bottom: -8px; width: 65%; height: 12px; background: var(--b5-art-streak) left / 100% 100% no-repeat; pointer-events: none; }
   .b5-brand { display: flex; align-items: center; gap: 13px; color: var(--b5-color-text); font: italic 22px/1.2 var(--b5-font-display); letter-spacing: .3px; text-transform: uppercase; text-decoration: none; }
   .b5-brand__mark { flex: 0 0 auto; width: 54px; height: 54px; object-fit: contain; filter: invert(1); opacity: .9; }
@@ -35,10 +46,8 @@
   .b5-hero__copy > .b5-eyebrow { color: var(--b5-color-gold); }
   .b5-hero__title { margin: 14px 0 19px; font: italic 76px/.98 var(--b5-font-display); letter-spacing: -.8px; text-transform: uppercase; }
   .b5-hero__line { display: block; white-space: nowrap; }
+  /* The title mark's own paint, which reaches well past both ends of the word. */
   .b5-hero__mark { display: table; margin: 8px 0 0 -12px; padding: 8px 55px 14px 19px; font-size: 110px; }
-  /* The hero keeps the online dashboard's original stroke: the stretched banner turned
-     past the word. Tuned for one short word; use a plain .b5-title-mark elsewhere. */
-  .b5-hero__mark::before { inset: -7px -18px; background-image: var(--b5-art-banner); transform: rotate(-7.5deg); }
   .b5-hero__copy > p { color: var(--b5-color-soft); font-size: 16px; line-height: 1.65; }
   .b5-hero__copy > .b5-button--paint { margin: 28px 0 10px; }
 
@@ -114,11 +123,21 @@
   .b5-filter-group--paint .b5-filter[aria-pressed='true'] { color: var(--b5-color-text); border-color: transparent; background: transparent; }
   .b5-filter-group--paint .b5-filter:hover { color: #fff; }
   .b5-filter-group--paint .b5-filter > span { color: #f3e6d9; }
+  /* A smaller painted group for long or many choices, such as state filters. */
+  .b5-filter-group--paint.b5-filter-group--compact { gap: 2px; }
+  .b5-filter-group--paint.b5-filter-group--compact .b5-filter { padding: 8px 12px; font-size: 14px; }
+  .b5-filter-group--paint.b5-filter-group--compact .b5-filter > span { margin-left: 5px; font-size: 11px; }
 
-  .b5-lobby { position: relative; padding: 23px 23px 18px; background: linear-gradient(115deg, var(--b5-color-raised), #161414); border: 1px solid var(--b5-color-edge); border-left: 3px solid var(--b5-color-accent); }
-  .b5-lobby::after { content: ''; position: absolute; top: 0; right: 0; width: 150px; height: 45px; opacity: .18; background: var(--b5-art-brush) center / 100% 100% no-repeat; pointer-events: none; }
+  /* ---- Cards ------------------------------------------------------------ */
+  /* The lobby card's surface for any list or summary: raised, edged, the red rule
+     down its left side and a brush mark in the corner. */
+  .b5-lobby, .b5-card { position: relative; padding: 23px 23px 18px; background: linear-gradient(115deg, var(--b5-color-raised), #161414); border: 1px solid var(--b5-color-edge); border-left: 3px solid var(--b5-color-accent); }
+  .b5-lobby::after, .b5-card::after { content: ''; position: absolute; top: 0; right: 0; width: 150px; height: 45px; opacity: .18; background: var(--b5-art-brush) center / 100% 100% no-repeat; pointer-events: none; }
+  .b5-card--compact { padding: 15px 17px 16px; }
+  .b5-card__header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 14px; margin-bottom: 12px; }
+  .b5-lobby__title, .b5-card__title { margin: 0; font: italic 23px/1.3 var(--b5-font-display); text-transform: uppercase; overflow-wrap: anywhere; }
+  .b5-card--compact .b5-card__title { font-size: 17px; }
   .b5-lobby__header { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 18px; }
-  .b5-lobby__title { font: italic 23px/1.3 var(--b5-font-display); text-transform: uppercase; overflow-wrap: anywhere; }
   .b5-lobby__meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 8px; color: var(--b5-color-muted); font-size: 13px; overflow-wrap: anywhere; }
   .b5-lobby__mode { color: var(--b5-color-gold); font-size: 12px; letter-spacing: .6px; text-transform: uppercase; }
   .b5-lobby__capacity { text-align: right; }
@@ -142,12 +161,11 @@
   .b5-person__role { margin-left: auto; padding-left: 5px; color: var(--b5-color-gold); font: 11px var(--b5-font-mono); }
 
   /* ---- Painted panels --------------------------------------------------- */
-  /* Gold masthead tilted with its title: the roster ("Who's driving") panel. */
-  .b5-panel--paint { position: relative; margin-top: 9px; padding: 15px 20px 0; }
-  .b5-panel--paint > .b5-panel__header { position: relative; isolation: isolate; flex-wrap: nowrap; gap: 12px; margin: -24px -26px 10px; padding: 10px 22px 12px; border: 0; color: #211a13; transform: rotate(-2deg); }
-  /* A solid paint core under the type; the grunge texture only roughens the edges. */
-  .b5-panel--paint > .b5-panel__header::before { content: ''; position: absolute; z-index: -1; inset: 0; background: var(--b5-color-gold); clip-path: polygon(2% 8%, 100% 0, 97% 90%, 0 100%); }
-  .b5-panel--paint > .b5-panel__header::after { content: ''; position: absolute; z-index: -1; inset: -3px -5px; background: var(--b5-art-gold) center / 100% 100% no-repeat; opacity: .3; pointer-events: none; }
+  /* Gold masthead: the gold paint skin across the top of the panel, covering its top
+     border, with a bottom edge that climbs to the right. The title stays upright. */
+  .b5-panel--paint { --b5-paint-inset: 20px; position: relative; margin-top: 9px; padding: 0 var(--b5-paint-inset); }
+  .b5-panel--paint > .b5-panel__header { position: relative; isolation: isolate; flex-wrap: nowrap; gap: 12px; margin: -1px calc(-1px - var(--b5-paint-inset)) 16px; padding: 15px calc(1px + var(--b5-paint-inset)) 21px; border: 0; color: #211a13; }
+  .b5-panel--paint > .b5-panel__header::before { content: ''; position: absolute; z-index: -1; inset: 0; background: var(--b5-art-gold) center / 100% 100% no-repeat, var(--b5-color-gold); clip-path: polygon(0 0, 100% 0, 100% calc(100% - 13px), 0 100%); }
   .b5-panel--paint > .b5-panel__header :is(h2, h3) { min-width: 0; font: italic 23px/1.2 var(--b5-font-display); text-transform: uppercase; }
   .b5-panel--paint > .b5-panel__body { padding: 0; }
   .b5-panel--paint > .b5-panel__footer { padding: 13px 0; }
@@ -157,7 +175,8 @@
   .b5-panel--ink > .b5-panel__header::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 14px; background: var(--b5-art-streak) left center / 70% 100% no-repeat; opacity: .7; pointer-events: none; }
   .b5-panel--hazard { position: relative; isolation: isolate; }
   .b5-panel--hazard::after { content: ''; position: absolute; right: 10px; bottom: 10px; z-index: -1; width: 100px; height: 100px; background: url('./assets/sign-diamond.png') center / contain no-repeat; opacity: .12; pointer-events: none; }
-  .b5-roster__count { display: grid; justify-items: center; flex: 0 0 auto; gap: 4px; font: 600 9px/1 var(--b5-font-mono); letter-spacing: .06em; text-transform: uppercase; }
+  /* The count and its label side by side, inside the masthead. */
+  .b5-roster__count { display: flex; flex-direction: row-reverse; align-items: center; flex: 0 0 auto; gap: 8px; font: 600 10px/1 var(--b5-font-mono); letter-spacing: .06em; text-transform: uppercase; }
   .b5-roster > .b5-panel__body > p { margin-top: 12px; color: var(--b5-color-muted); font-size: 13px; }
   .b5-roster__list { margin-top: 12px; }
   .b5-roster__list--scroll { max-height: 340px; overflow-y: auto; overscroll-behavior: contain; padding-right: 6px; scrollbar-width: thin; scrollbar-color: var(--b5-color-line) transparent; }
@@ -422,8 +441,7 @@
     .b5-connection { margin-left: 0; padding-left: 12px; }
     .b5-connection__address { gap: 5px; }
     .b5-directory { grid-template-columns: minmax(0, 1fr) 240px; gap: 22px; }
-    .b5-panel--paint { padding-inline: 16px; }
-    .b5-panel--paint > .b5-panel__header { margin-inline: -22px; }
+    .b5-panel--paint { --b5-paint-inset: 16px; }
     .b5-panel--paint > .b5-panel__header :is(h2, h3) { font-size: 21px; }
     .b5-directory-note__aside { display: none; }
     .b5-lobby { padding: 18px 15px; }
@@ -481,8 +499,7 @@
     .b5-filter-group--paint .b5-filter { padding-inline: 14px; font-size: 16px; }
     .b5-empty--illustrated { min-height: 216px; padding-block: 31px; }
     .b5-directory-note__aside { display: inline; }
-    .b5-panel--paint { margin-top: 0; padding-inline: 20px; }
-    .b5-panel--paint > .b5-panel__header { margin-inline: -26px; }
+    .b5-panel--paint { --b5-paint-inset: 20px; margin-top: 0; }
     .b5-panel--paint > .b5-panel__header :is(h2, h3) { font-size: 23px; }
     .b5-roster__empty { padding-block: 22px 28px; }
     .b5-steps { gap: 22px; }

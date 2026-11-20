@@ -52,4 +52,6 @@ export function notify(message: string, options?: {
   duration?: number;
   root?: Document | HTMLElement;
 }): { element: HTMLDivElement; dismiss(): void };
+/** Keeps aria-current on the site nav link of the section being read. enhance() wires every .b5-site-nav. */
+export function createNavSpy(nav: HTMLElement): { update(): void; destroy(): void };
 export function enhance(root?: Document | HTMLElement): { refresh(): void; destroy(): void };

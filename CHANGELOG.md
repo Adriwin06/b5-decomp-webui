@@ -34,6 +34,14 @@ progress dashboard (BP-work-server) uses the same chrome and controls.
   naming it. `npm run export -- <folder>` writes the same files into any folder,
   keeping a checkout's `.git` link, to try unreleased changes in a site.
 - Ship the B5 mark as `assets/favicon.svg` for both sites.
+- The site header stays at the top of the window, its backdrop fading in once the
+  page scrolls, and anchored sections land below it. `enhance()` marks the nav link
+  of the section being read (`createNavSpy()`).
+- The hero mark uses the title mark's paint, which now covers both ends of the word.
+- The gold masthead spans its panel, covers the top border and keeps the title
+  upright; `.b5-roster__count` sets its label beside the count.
+- Add `.b5-card` (`--compact`, `__header`, `__title`), the lobby card's surface for any
+  list or summary, and `.b5-filter-group--compact` for long or many painted choices.
 
 ## 0.1.0
 

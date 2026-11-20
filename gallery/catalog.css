@@ -12,6 +12,8 @@
 .catalog-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; gap: 24px; }
 .catalog-card { min-width: 0; background: var(--b5-color-background); border: 1px solid var(--b5-color-line); box-shadow: 0 6px 24px #0002; scroll-margin-top: 24px; }
 .catalog-card--wide { grid-column: 1 / -1; }
+/* A second specimen in one entry sits apart from the first. */
+#catalog-state-filters, #lobby-cards .b5-card { margin-top: 16px; }
 .catalog-card__header { padding: 22px 24px 20px; border-bottom: 1px solid var(--b5-color-line); background: var(--b5-color-surface); }
 .catalog-card__header .b5-eyebrow { color: var(--b5-color-muted); font-size: 9px; }
 .catalog-card__header h2 { font: italic 25px/1.3 var(--b5-font-display); text-transform: uppercase; margin-block: 7px; }

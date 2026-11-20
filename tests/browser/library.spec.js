@@ -24,6 +24,30 @@ test('tabs support arrow navigation, disabled skipping and boundary keys', async
   await expect(page.locator('#last')).toBeFocused();
 });
 
+test('the site nav marks the section being read and releases its listeners', async ({ page }) => {
+  await fixture(page);
+  await page.evaluate(() => {
+    const nav = document.createElement('nav');
+    nav.className = 'b5-site-nav';
+    nav.innerHTML = '<a href="#spy-one" aria-current="location">One</a><a href="#spy-two">Two</a><a href="https://example.org/">Away</a>';
+    document.body.prepend(nav);
+    for (const id of ['spy-one', 'spy-two']) {
+      const section = document.createElement('section');
+      section.id = id; section.style.height = '1600px';
+      document.body.append(section);
+    }
+    window.spy = window.library.createNavSpy(nav);
+  });
+  const current = () => page.evaluate(() => [...document.querySelectorAll('.b5-site-nav a')].map(link => link.getAttribute('aria-current')));
+  await page.evaluate(() => document.getElementById('spy-two').scrollIntoView());
+  await expect.poll(current).toEqual([null, 'location', null]);
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await expect.poll(current).toEqual(['location', null, null]);
+  await page.evaluate(() => { window.spy.destroy(); document.getElementById('spy-two').scrollIntoView(); });
+  await page.waitForTimeout(100);
+  expect(await current()).toEqual(['location', null, null]);
+});
+
 test('enhancement is idempotent and can be destroyed and mounted again', async ({ page }) => {
   await fixture(page);
   const result = await page.evaluate(() => {

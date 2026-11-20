@@ -189,7 +189,16 @@ progress dashboard uses the same pieces with its own content:
 ```
 
 Each site links to the other with `.b5-site-nav__external` and in its footer. The hero
-title's `__mark` keeps the online dashboard's original stroke; it suits one short word.
+title's `__mark` uses the title mark's paint, which reaches well past both ends of the
+word.
+
+The site header stays at the top of the window (`position: sticky`). Its backdrop
+fades in over the first 72px of scrolling, so the scenery shows through it at the top
+of the page; browsers without scroll-driven animations show the backdrop all the time.
+The root gets `scroll-padding-top` so anchored sections land below the header; a page
+stylesheet that sets its own `scroll-padding-top` on `html` overrides it. `enhance()`
+keeps `aria-current` on the `.b5-site-nav` link whose section is being read (links to
+other pages are left alone); `createNavSpy(nav)` does the same for a nav it is given.
 Put `.b5-ui` on `<html>` instead when page scripts read tokens from the root element.
 `data-b5-density="compact"` on a dense area (a data dashboard's `<main>`) shrinks its
 controls without touching the header, hero or stat strip.
@@ -206,7 +215,7 @@ generated combobox markup is not presented as the authoring interface.
 | Textured action strips | `.b5-button--paint` (original white), `--paint-gold`, `--paint-red`, `.b5-button__arrow` |
 | Angled count / finding labels | `.b5-ribbons`, `.b5-ribbon`, `--gold`, `--muted`, `data-tone` |
 | Black-brush or paint tab skins | `.b5-tabs--menu`, `.b5-tabs--paint` on a normal tabs container; `.b5-filter-group--menu` gives pressed buttons the same brush plates |
-| Single-choice painted filters | `.b5-filter-group`, `--paint`, `.b5-filter` and `data-b5-value` |
+| Single-choice painted filters | `.b5-filter-group`, `--paint`, `--compact` (smaller, for long or many choices), `.b5-filter` and `data-b5-value` |
 | Framed or quiet live status | `.b5-badge`, `.b5-status`, `.b5-status--caps`, `.b5-dot`, `data-tone` |
 | Quiet directory tools | `.b5-search`, `.b5-refresh`, `.b5-directory-tools`, `.b5-section-header` |
 | Shared identity | `.b5-brand`, `__mark`, `__subtitle`, `.b5-site-header`, `.b5-site-nav`, `.b5-site-nav__external` |
@@ -218,6 +227,7 @@ generated combobox markup is not presented as the authoring interface.
 | Roster states | `.b5-roster`, `__count`, `__empty`, `__list`, `__list--scroll`, existing panel sections |
 | People and membership | `.b5-person`, `__body`, `__name`, `__meta`, `__role`, `.b5-avatar`, `.b5-member`, `__host` |
 | Lobby presentation | `.b5-lobby`, `__header`, `__title`, `__meta`, `__mode`, `__capacity`, `__seats`, `__members` |
+| Cards | `.b5-card`, `--compact`, `__header`, `__title`: the lobby card's surface for any list or summary block |
 | Illustrated empty state | `.b5-empty--illustrated`, `.b5-empty__symbol`, `.b5-link` |
 | Release controls | `.b5-download-group`, `.b5-download`, `.b5-download-counter`, `.b5-download-preview`; optional `[data-b5-download-menu]` |
 | Radial metrics | `.b5-metric-card`, `__body`, `.b5-ring`, `__track`, `__fill`, `__label` |
@@ -332,9 +342,11 @@ Use `.b5-roster__list` for a bounded scroll region and give a keyboard-scrollabl
 region a `tabindex="0"` and accessible name. Remove that tab stop when replacing
 the list with an empty or loading state; links in an empty state remain focusable.
 
-The gold panel header keeps its text level over the angled paint. An optional
-`.b5-roster__count` groups the existing count tile with a visible label such as
-"Online"; `role="status"` announces count updates. A stale snapshot should label
+The gold masthead (`.b5-panel--paint`) spans the top of the panel and covers its top
+border; its bottom edge climbs to the right and the title stays upright. Set
+`--b5-paint-inset` on the panel to change its side padding; the masthead follows. An
+optional `.b5-roster__count` puts a visible label such as "Online" beside the count
+tile; `role="status"` announces count updates. A stale snapshot should label
 its count "Last seen", and a loading count should use a dash rather than zero.
 Connection state and live data stay with the consuming application.
 
@@ -398,6 +410,10 @@ technology combinations before deployment.
   </button>
 </div>
 ```
+
+Add `.b5-filter-group--compact` for long labels or many choices, such as state
+filters with counts. A group whose buttons have no `data-b5-value` is left to the
+application, which then sets `aria-pressed` itself.
 
 Each group has unique values and one enabled selection. Native button activation
 and Left/Right/Home/End update it. The bubbling `b5:filterchange` event provides

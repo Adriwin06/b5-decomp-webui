@@ -308,6 +308,52 @@ export function notify(message, { tone = 'info', duration = 5000, root = documen
   return { element, dismiss };
 }
 
+const navSpies = new WeakMap();
+
+/**
+ * Keeps aria-current on the in-page link of the section being read, so a header that
+ * stays at the top shows where the reader is. Links to other pages are left alone.
+ */
+export function createNavSpy(nav) {
+  if (navSpies.has(nav)) return navSpies.get(nav);
+  const doc = nav.ownerDocument;
+  const win = doc.defaultView;
+  const links = [...nav.querySelectorAll('a[href^="#"]')]
+    .map(link => ({ link, target: doc.getElementById(decodeURIComponent(link.hash.slice(1))) }))
+    .filter(entry => entry.target);
+  const value = nav.querySelector('a[aria-current]')?.getAttribute('aria-current') || 'location';
+  let frame = 0;
+  function update() {
+    frame = 0;
+    if (!links.length) return;
+    // A section is current once its top passes a third of the way down the window;
+    // at the very bottom the last one is, however short it is.
+    const line = win.innerHeight / 3;
+    let current = links[0];
+    for (const entry of links) if (entry.target.getBoundingClientRect().top <= line) current = entry;
+    if (win.innerHeight + win.scrollY >= doc.documentElement.scrollHeight - 2) current = links[links.length - 1];
+    for (const { link } of links) {
+      if (link === current.link) link.setAttribute('aria-current', value);
+      else link.removeAttribute('aria-current');
+    }
+  }
+  const schedule = () => { if (!frame) frame = win.requestAnimationFrame(update); };
+  win.addEventListener('scroll', schedule, { passive: true });
+  win.addEventListener('resize', schedule);
+  update();
+  const controller = {
+    update,
+    destroy() {
+      win.removeEventListener('scroll', schedule);
+      win.removeEventListener('resize', schedule);
+      if (frame) win.cancelAnimationFrame(frame);
+      navSpies.delete(nav);
+    }
+  };
+  navSpies.set(nav, controller);
+  return controller;
+}
+
 /** Idempotent per root. Call refresh() after inserting additional tab groups. */
 export function enhance(root = document) {
   if (enhancements.has(root)) return enhancements.get(root);
@@ -317,6 +363,7 @@ export function enhance(root = document) {
   const ownedFilters = new Map();
   const ownedPagers = new Map();
   const ownedDownloads = new Map();
+  const ownedNavs = new Map();
   let destroyed = false;
   function refresh() {
     if (destroyed) throw new Error('This enhancement has been destroyed');
@@ -355,6 +402,12 @@ export function enhance(root = document) {
     const downloads = [...root.querySelectorAll('[data-b5-download-menu]')];
     if (root.matches?.('[data-b5-download-menu]')) downloads.unshift(root);
     for (const group of downloads) if (!ownedDownloads.has(group)) ownedDownloads.set(group, createDownloadMenu(group));
+    for (const [nav, controller] of ownedNavs) {
+      if (!root.contains(nav)) { controller.destroy(); ownedNavs.delete(nav); }
+    }
+    const navs = [...root.querySelectorAll('.b5-site-nav')];
+    if (root.matches?.('.b5-site-nav')) navs.unshift(root);
+    for (const nav of navs) if (!ownedNavs.has(nav) && !navSpies.has(nav)) ownedNavs.set(nav, createNavSpy(nav));
   }
   async function onClick(event) {
     const trigger = event.target.closest?.('[data-b5-dialog-open], [data-b5-dialog-close], [data-b5-copy]');
@@ -410,6 +463,8 @@ export function enhance(root = document) {
       for (const filter of ownedFilters.values()) filter.destroy();
       for (const pager of ownedPagers.values()) pager.destroy();
       for (const download of ownedDownloads.values()) download.destroy();
+      for (const nav of ownedNavs.values()) nav.destroy();
+      ownedNavs.clear();
       ownedTabs.clear();
       ownedSelects.clear();
       ownedFilters.clear();

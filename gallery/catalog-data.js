@@ -48,9 +48,10 @@ export const components = [
   },
   {
     id: 'filters', title: 'Painted filter groups', category: 'controls',
-    summary: 'Single selection, visible counts and a shared change event.',
-    keywords: 'all lobbies with space filter group segmented paint counts toggle',
-    markup: `<div class="b5-filter-group b5-filter-group--paint" id="catalog-lobby-filters" role="group" aria-label="Filter lobbies"><button class="b5-filter" type="button" data-b5-value="all" aria-pressed="true">All lobbies <span>0</span></button><button class="b5-filter" type="button" data-b5-value="space">With space <span>0</span></button></div><p id="catalog-filter-state" class="b5-hint catalog-demo-note">Selected: all</p>`,
+    summary: 'Single selection, visible counts and a shared change event; a compact size for state filters.',
+    keywords: 'all lobbies with space filter group segmented paint counts toggle compact states exact',
+    markup: `<div class="b5-filter-group b5-filter-group--paint" id="catalog-lobby-filters" role="group" aria-label="Filter lobbies"><button class="b5-filter" type="button" data-b5-value="all" aria-pressed="true">All lobbies <span>0</span></button><button class="b5-filter" type="button" data-b5-value="space">With space <span>0</span></button></div><p id="catalog-filter-state" class="b5-hint catalog-demo-note">Selected: all</p>
+<div class="b5-filter-group b5-filter-group--paint b5-filter-group--compact" id="catalog-state-filters" role="group" aria-label="Filter by state"><button class="b5-filter" type="button" data-b5-value="exact" aria-pressed="true">Exact match <span>1,284</span></button><button class="b5-filter" type="button" data-b5-value="fuzzy">Compiled, not matching <span>312</span></button><button class="b5-filter" type="button" data-b5-value="none">No compiled body <span>57</span></button></div>`,
     api: 'group.addEventListener("b5:filterchange", ({ detail }) => applyFilter(detail.value));'
   },
   {
@@ -96,9 +97,10 @@ Be the first to hit the road.</div>
   },
   {
     id: 'lobby-cards', title: 'Lobby cards', category: 'patterns',
-    summary: 'Room identity, availability, capacity and member chips.',
-    keywords: 'lobby session host capacity full open freeburn card members',
-    markup: `<article class="b5-lobby"><div class="b5-lobby__header"><div><h3 class="b5-lobby__title">Westside Freeburn</h3><div class="b5-lobby__meta"><span class="b5-lobby__mode">Freeburn</span><span>·</span><span>Hosted by Driver 01</span></div></div><div class="b5-lobby__capacity"><span class="b5-status b5-status--caps" data-tone="success">Open slots</span><div class="b5-lobby__seats">3 <small>/ 8 players</small></div></div></div><div class="b5-lobby__members"><span class="b5-member"><span class="b5-avatar" aria-hidden="true">D1</span><span>Driver 01</span><span class="b5-member__host" title="Lobby host">★</span></span><span class="b5-member"><span class="b5-avatar" data-color="gold" aria-hidden="true">D2</span><span>Driver 02</span></span><span class="b5-member"><span class="b5-avatar" data-color="blue" aria-hidden="true">D3</span><span>Driver 03</span></span></div></article>`
+    summary: 'Room identity, availability, capacity and member chips; the same surface as a plain card.',
+    keywords: 'lobby session host capacity full open freeburn card members list queue summary',
+    markup: `<article class="b5-lobby"><div class="b5-lobby__header"><div><h3 class="b5-lobby__title">Westside Freeburn</h3><div class="b5-lobby__meta"><span class="b5-lobby__mode">Freeburn</span><span>·</span><span>Hosted by Driver 01</span></div></div><div class="b5-lobby__capacity"><span class="b5-status b5-status--caps" data-tone="success">Open slots</span><div class="b5-lobby__seats">3 <small>/ 8 players</small></div></div></div><div class="b5-lobby__members"><span class="b5-member"><span class="b5-avatar" aria-hidden="true">D1</span><span>Driver 01</span><span class="b5-member__host" title="Lobby host">★</span></span><span class="b5-member"><span class="b5-avatar" data-color="gold" aria-hidden="true">D2</span><span>Driver 02</span></span><span class="b5-member"><span class="b5-avatar" data-color="blue" aria-hidden="true">D3</span><span>Driver 03</span></span></div></article>
+<article class="b5-card b5-card--compact"><div class="b5-card__header"><h3 class="b5-card__title">Next queue</h3><span class="b5-ribbon b5-ribbon--gold">246 ready</span></div><p class="b5-muted">Any list or summary block, on the lobby card's surface.</p></article>`
   },
   {
     id: 'navigation', title: 'Brand & navigation', category: 'identity',

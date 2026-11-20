@@ -51,7 +51,7 @@ for (const width of [1440, 390]) {
     const selectors = [
       '.catalog-intro .b5-title-mark',
       '.catalog-tools .b5-filter[aria-pressed=true]',
-      '#filters .b5-filter[aria-pressed=true]',
+      '#catalog-lobby-filters .b5-filter[aria-pressed=true]', '#catalog-state-filters .b5-filter[aria-pressed=true]',
       '#buttons .b5-button--paint:not(.b5-button--paint-gold):not(.b5-button--paint-red)',
       '#buttons .b5-button--paint-gold', '#buttons .b5-button--paint-red',
       '#destination .b5-destination__label', '#roster .b5-panel__header',
@@ -60,7 +60,9 @@ for (const width of [1440, 390]) {
     ];
     for (const selector of selectors) {
       const result = await glyphCoverage(page, page.locator(selector));
-      expect(result.total, selector).toBeGreaterThan(100);
+      // Enough ink to measure. A short label such as "All" leaves fewer than 100
+      // fully white pixels under Linux's greyscale antialiasing.
+      expect(result.total, selector).toBeGreaterThan(60);
       expect(result.covered, `${selector}: ${JSON.stringify(result)}`).toBeGreaterThanOrEqual(.99);
     }
     // The same title skin must handle a short mark and a wider label without
