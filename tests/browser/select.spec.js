@@ -116,6 +116,10 @@ test('pager supports numbers, jump, collection shrink and lifecycle restoration'
   await expect(pager.getByRole('button', { name: 'Next', exact: true })).toBeDisabled();
   await page.evaluate(() => window.library.createPager(document.querySelector('#fixture-pager')).set({ total: 12 }));
   await expect(pager.getByRole('status')).toHaveText('11–12 of 12');
+  await page.evaluate(() => window.library.createPager(document.querySelector('#fixture-pager')).set({ total: 0 }));
+  await expect(pager.getByRole('status')).toHaveText('No results');
+  await expect(pager.getByRole('button', { name: 'Previous', exact: true })).toBeDisabled();
+  await expect(pager.getByRole('button', { name: 'Next', exact: true })).toBeDisabled();
   await page.evaluate(() => window.ui.destroy());
   await expect(pager).toBeEmpty();
 });

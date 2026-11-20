@@ -36,7 +36,9 @@ export function createPager(container, initial = {}) {
     range.className = 'b5-pagination__range';
     range.setAttribute('role', 'status');
     const number = value => value.toLocaleString(locale);
-    range.textContent = `${number(state.from)}–${number(state.to)} of ${number(state.total)}${unit ? ` ${unit}` : ''}`;
+    range.textContent = state.total
+      ? `${number(state.from)}–${number(state.to)} of ${number(state.total)}${unit ? ` ${unit}` : ''}`
+      : `No ${unit || 'results'}`;
     const navigation = doc.createElement('div');
     navigation.className = 'b5-pagination__controls';
     navigation.append(button('Previous', state.page - 1, 'previous', state.page === 1));

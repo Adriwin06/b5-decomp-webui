@@ -27,7 +27,8 @@ progress dashboard (BP-work-server) uses the same chrome and controls.
   empty state (the directory already has one); `.b5-roster__list--scroll` bounds a list.
 - `enhance()` only takes control of filter groups that have values, so a group can be
   used for its look alone. The pager formats numbers for the page language and accepts
-  a `unit` ("of 4,413 results"). Ink drawer titles keep the case of an identifier.
+  a `unit` ("of 4,413 results"); an empty list reads "No results" (or "No files").
+  Ink drawer titles keep the case of an identifier.
 - Add `npm run export -- <folder>`: builds and copies the distribution into a
   consuming project with a `webui.json` naming the version and commit.
 - Ship the B5 mark as `assets/favicon.svg` for both sites.

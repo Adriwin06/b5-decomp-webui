@@ -420,7 +420,8 @@ are formatted for the document language.
 read-only `state`, `set(options, { emit? })` and `destroy()`. State contains
 `page`, `pageCount`, `pageSize`, `total`, `from` and `to`. Totals must be
 nonnegative integers, page size a positive integer and page an integer. Pages
-clamp when the total shrinks. Empty results expose `0–0` on one empty page.
+clamp when the total shrinks. Empty results expose `0–0` on one empty page, and the
+range reads "No results" (or "No files" with that unit) instead of `0–0 of 0`.
 
 The widget renders Previous/Next, page numbers with elisions, an announced range
 and a labeled jump field. User navigation emits bubbling `b5:pagechange` with
