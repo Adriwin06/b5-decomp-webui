@@ -154,7 +154,7 @@ Be the first to hit the road.</div>
     summary: 'A progress rank on a gold license card, with segmented meters that setProgress fills like the rings; the chip folds it into a header and opens it.',
     keywords: 'license rank class card chip header badge meters segmented bars progress percent stamp completion units functions build byte match popover',
     markup: `<div class="catalog-license">
-  <button class="b5-license-chip" type="button" aria-label="B-class license: 63.7% of units complete"><span class="b5-license-chip__class" aria-hidden="true">B</span><span class="b5-license-chip__rank">B-class license</span><span class="b5-license-chip__value">63.7%</span></button>
+  <button class="b5-license-chip" type="button"><span class="b5-license-chip__class">B</span><span class="b5-license-chip__rank">B-class license</span><span class="b5-license-chip__value">63.7%</span><span class="b5-sr-only"> of units complete</span></button>
   <article class="b5-license" aria-labelledby="catalog-license-rank">
     <div class="b5-license__head"><div><div class="b5-license__kicker">Paradise City · Decomp license</div><h3 class="b5-license__rank" id="catalog-license-rank">B-class license</h3></div><span class="b5-license__class" aria-hidden="true">B</span></div>
     <p class="b5-license__next">Next: A-class license at 80% · 214 units to go</p>
