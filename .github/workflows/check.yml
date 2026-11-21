@@ -15,3 +15,57 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - run: npm test
       - run: npm pack --dry-run
+
+  # Once the tests pass, a push to main or dashboard-parity redeploys the gallery behind
+  # https://decomp.adriwin.fr/webui. The deploy key (secret WEBUI_DEPLOY_KEY) can do one thing
+  # on the server: hand tools/server/b5-webui-deploy.sh a bundle, which it unpacks as a new
+  # release and switches to. A push older than the live gallery leaves it alone.
+  deploy-gallery:
+    needs: test
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dashboard-parity')
+    runs-on: ubuntu-latest
+    concurrency:
+      group: webui-gallery
+      cancel-in-progress: true
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+      - name: Skip if the live gallery is newer
+        id: fresh
+        run: |
+          live=$(curl -fsS https://decomp.adriwin.fr/webui/DEPLOYED.txt | awk '{ print $2 }' | tr -d ',') || live=
+          if [ -n "$live" ] && git rev-parse -q --verify "$live^{commit}" > /dev/null \
+            && git merge-base --is-ancestor "$GITHUB_SHA" "$live" && ! git merge-base --is-ancestor "$live" "$GITHUB_SHA"; then
+            echo "::notice::The live gallery ($live) is newer than $GITHUB_SHA; leaving it."
+            echo deploy=false >> "$GITHUB_OUTPUT"
+          else
+            echo deploy=true >> "$GITHUB_OUTPUT"
+          fi
+      - name: Build the gallery bundle
+        if: steps.fresh.outputs.deploy == 'true'
+        run: |
+          node tools/build.mjs
+          tar -czf "$RUNNER_TEMP/b5-webui.tgz" gallery dist docs CHANGELOG.md THIRD_PARTY.md
+      - name: Deploy to decomp.adriwin.fr/webui
+        if: steps.fresh.outputs.deploy == 'true'
+        env:
+          DEPLOY_KEY: ${{ secrets.WEBUI_DEPLOY_KEY }}
+        run: |
+          if [ -z "$DEPLOY_KEY" ]; then
+            echo '::warning::The WEBUI_DEPLOY_KEY secret is not set, so the gallery was not deployed.'
+            exit 0
+          fi
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$DEPLOY_KEY" > ~/.ssh/webui_deploy
+          chmod 600 ~/.ssh/webui_deploy
+          # the server's own host key, pinned
+          echo 'adriwin.fr ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM7hFvpOFfOkggoVi5YhAgzR2ADH+5eWE8p36OZHDTwG' > ~/.ssh/known_hosts
+          ssh -i ~/.ssh/webui_deploy -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes -o BatchMode=yes \
+            b5webui@adriwin.fr "deploy $GITHUB_SHA" < "$RUNNER_TEMP/b5-webui.tgz"
+          rm -f ~/.ssh/webui_deploy
+          curl -fsS https://decomp.adriwin.fr/webui/DEPLOYED.txt
+          curl -fsS -o /dev/null https://decomp.adriwin.fr/webui/gallery/

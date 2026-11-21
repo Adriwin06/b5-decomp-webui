@@ -27,6 +27,13 @@ and developer explorer with clearly marked sample data. Changes to `src/`,
 `tokens/` and `assets/` rebuild the library; reload the browser to see them. Use
 `PORT` to select another local port.
 
+The gallery is also live at **https://decomp.adriwin.fr/webui**. Once the tests pass,
+the Check workflow redeploys it on every push to `main` or `dashboard-parity` (a push
+older than the live gallery leaves it alone). The `WEBUI_DEPLOY_KEY` secret holds a
+deploy key that can only hand the server a bundle: `tools/server/b5-webui-deploy.sh`,
+installed there as the key's forced command, unpacks it as a new release and switches
+to it, keeping the last five.
+
 ## Use the library
 
 ```sh
