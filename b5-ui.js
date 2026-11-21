@@ -148,6 +148,43 @@ export function setOdometer(element, value, { digits = 3 } = {}) {
   return number;
 }
 
+let gaugeCount = 0;
+
+/**
+ * Draw a tachometer face into a .b5-gauge, once: ticks to `max` thousand, a redline from
+ * `redline`, numbers, a needle and its hub, under the element's own overlays (a badge, an
+ * odometer). CSS turns the needle; it sweeps once the first time the gauge is shown.
+ */
+export function renderGauge(element, { max = 8, redline = 6.5 } = {}) {
+  if (element.querySelector(':scope > .b5-gauge__face')) return element;
+  const id = `b5-gauge-${++gaugeCount}`;
+  const angle = value => (135 + 270 * value / max) * Math.PI / 180;
+  const at = (radius, value) => [60 + radius * Math.cos(angle(value)), 60 + radius * Math.sin(angle(value))].map(n => Number(n.toFixed(2)));
+  const ticks = [];
+  for (let step = 0; step <= max * 2; step += 1) {
+    const value = step / 2;
+    const major = step % 2 === 0;
+    const [x1, y1] = at(major ? 38.5 : 42, value);
+    const [x2, y2] = at(47, value);
+    ticks.push(`<line class="b5-gauge__tick${major ? ' b5-gauge__tick--major' : ''}${value >= redline ? ' b5-gauge__tick--red' : ''}" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}"/>`);
+  }
+  const numbers = [];
+  for (let value = 0; value <= max; value += 2) {
+    const [x, y] = at(30.5, value);
+    numbers.push(`<text x="${x}" y="${Number((y + 3.4).toFixed(2))}">${value}</text>`);
+  }
+  const [rx1, ry1] = at(45, redline);
+  const [rx2, ry2] = at(45, max);
+  const large = 270 * (max - redline) / max > 180 ? 1 : 0;
+  element.insertAdjacentHTML('afterbegin', `<svg class="b5-gauge__face" viewBox="0 0 120 120" aria-hidden="true" focusable="false"><defs><radialGradient id="${id}-face" cx=".5" cy=".4" r=".62"><stop offset="0" stop-color="#2b211d"/><stop offset=".75" stop-color="#0d0a09"/><stop offset="1" stop-color="#050404"/></radialGradient><linearGradient id="${id}-bezel" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f7dc9a"/><stop offset=".38" stop-color="#8a6526"/><stop offset=".62" stop-color="#edc775"/><stop offset="1" stop-color="#4f3611"/></linearGradient></defs><circle class="b5-gauge__dial" cx="60" cy="60" r="57" fill="url(#${id}-face)" stroke="url(#${id}-bezel)"/><path class="b5-gauge__redline" d="M ${rx1} ${ry1} A 45 45 0 ${large} 1 ${rx2} ${ry2}"/><g class="b5-gauge__ticks">${ticks.join('')}</g><g class="b5-gauge__numbers">${numbers.join('')}</g><g class="b5-gauge__needle"><path d="M58.4 67 L60 16.5 L61.6 67 Z"/></g><circle class="b5-gauge__hub" cx="60" cy="60" r="5.5"/></svg>`);
+  element.classList.add('b5-gauge');
+  element.setAttribute('aria-hidden', 'true');
+  // the ignition sweep plays when the gauge is first rendered (a hidden one waits)
+  element.setAttribute('data-b5-sweep', '');
+  element.addEventListener('animationend', event => { if (event.animationName === 'b5-gauge-sweep') element.removeAttribute('data-b5-sweep'); });
+  return element;
+}
+
 /** Small activity histogram. The accessible label includes the numeric series. */
 export function renderSparkline(element, values, { label = 'Activity' } = {}) {
   if (!Array.isArray(values) || values.some(value => !Number.isFinite(value) || value < 0)) throw new RangeError('Activity values must be nonnegative finite numbers');
@@ -466,6 +503,7 @@ export function enhance(root = document) {
       ownedFilters.set(group, createFilterGroup(group));
     }
     for (const element of root.querySelectorAll('[data-b5-progress]')) setProgress(element, Number(element.dataset.b5Progress), { max: Number(element.getAttribute('aria-valuemax') ?? 100) });
+    for (const element of root.querySelectorAll('[data-b5-gauge]')) renderGauge(element);
     for (const element of root.querySelectorAll('[data-b5-odometer]')) {
       if (!element.querySelector('.b5-odometer__drum')) setOdometer(element, Number(element.dataset.b5Odometer), { digits: Number(element.dataset.b5Digits) || 3 });
     }

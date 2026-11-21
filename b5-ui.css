@@ -627,6 +627,50 @@
   .b5-odometer__strip > span { display: grid; place-items: center; height: 1.3em; }
   .b5-download-counter > .b5-odometer { margin-top: 2px; }
 
+  /* A tachometer (renderGauge draws the face): ticks to 8, a redline, a needle that sweeps
+     once when shown and rests at idle. In a download button it revs to the redline and
+     flutters on the limiter while pointed at or focused, and cruises while the chooser is
+     open. Overlays: __badge on the face, an odometer and its __unit in the opening below. */
+  .b5-gauge { position: relative; display: block; flex: none; width: var(--b5-gauge-size, 128px); height: var(--b5-gauge-size, 128px); border-radius: 50%; box-shadow: 0 7px 18px #000000c2, 0 0 0 1px #000; font-style: normal; letter-spacing: 0; text-transform: none; }
+  .b5-download > .b5-gauge { display: block; }
+  .b5-gauge__face { display: block; width: 100%; height: 100%; overflow: visible; }
+  .b5-gauge__dial { stroke-width: 3; }
+  .b5-gauge__redline { fill: none; stroke: #c4161f; stroke-width: 5; opacity: .7; transition: opacity .3s, filter .3s; }
+  .b5-gauge__tick { stroke: #bfae92; stroke-width: 1; }
+  .b5-gauge__tick--major { stroke: #f4e7c8; stroke-width: 2; }
+  .b5-gauge__tick--red { stroke: #ff6a6e; }
+  .b5-gauge__numbers { fill: #f1eee5; font: italic 700 10px var(--b5-font-head); text-anchor: middle; }
+  .b5-gauge__needle { fill: #ff2a32; filter: drop-shadow(0 0 2px #ff2a32cc); transform-box: view-box; transform-origin: 60px 60px; transform: rotate(var(--b5-needle, -108deg)); transition: transform .8s cubic-bezier(.34, 1.3, .5, 1); }
+  .b5-gauge__hub { fill: #17110f; stroke: var(--b5-color-gold); stroke-width: 1.5; }
+  .b5-gauge__badge { position: absolute; top: 30%; left: 50%; transform: translateX(-50%); color: var(--b5-color-gold); font: italic 700 calc(var(--b5-gauge-size, 128px) * .08)/1 var(--b5-font-head); letter-spacing: .05em; white-space: nowrap; pointer-events: none; }
+  .b5-gauge > .b5-odometer { position: absolute; top: 69%; left: 50%; gap: 1px; padding: 2px; transform: translateX(-50%); font-size: calc(var(--b5-gauge-size, 128px) * .094); }
+  .b5-gauge__unit { position: absolute; top: 87%; left: 50%; transform: translateX(-50%); color: var(--b5-color-muted); font: 700 calc(var(--b5-gauge-size, 128px) * .06)/1 var(--b5-font-head); letter-spacing: .14em; text-transform: uppercase; white-space: nowrap; pointer-events: none; }
+  .b5-gauge[data-b5-sweep] .b5-gauge__needle { animation: b5-gauge-sweep 1.4s .3s cubic-bezier(.45, 0, .3, 1) both; }
+  .b5-download:is(:hover, :focus-visible) .b5-gauge__needle { --b5-needle: 111deg; animation: b5-gauge-limiter .1s .6s ease-in-out infinite alternate; }
+  .b5-download:is(:hover, :focus-visible) .b5-gauge__redline { opacity: 1; filter: drop-shadow(0 0 3px #ff2a32); }
+  .b5-download[aria-expanded='true']:not(:hover, :focus-visible) .b5-gauge__needle { --b5-needle: 34deg; }
+  @keyframes b5-gauge-sweep { 0% { transform: rotate(-135deg); } 45% { transform: rotate(135deg); } 100% { transform: rotate(var(--b5-needle, -108deg)); } }
+  @keyframes b5-gauge-limiter { from { transform: rotate(107deg); } to { transform: rotate(114deg); } }
+
+  /* ---- Download cluster: the bar runs out of a tachometer pod ----------- */
+  /* .b5-download-group--cluster: the .b5-gauge in the button hangs off the bar's leading
+     end, centred on it, so the bar grows with its content; the group's padding holds the
+     dial's overhang (so its box contains the whole pod and margins behave), and the
+     preview button becomes a knob on the pod's rim. */
+  .b5-download-group--cluster { --b5-gauge-size: 128px; --b5-cluster-bar: 76px; --b5-cluster-knob: 38px; --b5-cluster-room: calc((var(--b5-gauge-size) - var(--b5-cluster-bar)) / 2); padding: var(--b5-cluster-room) 0 var(--b5-cluster-room) calc(var(--b5-gauge-size) / 2); }
+  .b5-download-group--cluster::before { inset: var(--b5-cluster-room) 0 var(--b5-cluster-room) calc(var(--b5-gauge-size) / 2); }
+  .b5-download-group--cluster::after { inset: calc(var(--b5-cluster-room) + 1px) 1px calc(var(--b5-cluster-room) + 2px) calc(var(--b5-gauge-size) / 2 + 1px); }
+  .b5-download-group--cluster > .b5-download { min-height: var(--b5-cluster-bar); padding-left: calc(var(--b5-gauge-size) / 2 + 14px); }
+  .b5-download-group--cluster > .b5-download > .b5-gauge { position: absolute; z-index: 1; top: 50%; left: calc(var(--b5-gauge-size) / -2); translate: 0 -50%; }
+  /* the bar's paint and boost end on the frame's slant (the left end sits under the dial) */
+  .b5-download-group--cluster > .b5-download::before, .b5-download-group--cluster > .b5-download > .b5-download__boost { clip-path: polygon(0 0, 100% 0, calc(100% - 11px) 100%, 0 100%); }
+  .b5-download-group--cluster > :is(.b5-download-preview, .b5-tooltip) { position: absolute; z-index: 2; top: calc(50% + var(--b5-gauge-size) / 2 - var(--b5-cluster-knob) * .95); left: calc(var(--b5-gauge-size) - var(--b5-cluster-knob) * .95); }
+  .b5-download-group--cluster > :is(.b5-download-preview, .b5-tooltip)::before { display: none; }
+  .b5-download-group--cluster .b5-download-preview { width: var(--b5-cluster-knob); min-width: 0; height: var(--b5-cluster-knob); min-height: 0; padding: 0; border-radius: 50%; color: var(--b5-color-gold); background: radial-gradient(circle at 38% 32%, #4a3c34, #0c0908 72%); box-shadow: 0 0 0 2px #0a0807, 0 0 0 3.5px #8a6526, 0 4px 9px #000000d9; }
+  .b5-download-group--cluster .b5-download-preview:hover { color: #fff; background: radial-gradient(circle at 38% 32%, #6a5444, #120d0b 72%); }
+  .b5-download-group--cluster .b5-download-preview:focus-visible { outline-offset: 4px; }
+  .b5-download-group--cluster .b5-download-preview .b5-icon { width: 17px; height: 17px; }
+
   .b5-download-menu { position: fixed; z-index: 1001; inset: 0; margin: auto; width: min(380px, calc(100% - 24px)); max-height: calc(100dvh - 24px); padding: 0; overflow: auto; overscroll-behavior: contain; border: 1px solid var(--b5-color-edge); border-top: 2px solid var(--b5-color-gold); background: var(--b5-color-surface); color: var(--b5-color-text); box-shadow: 0 16px 64px #000b; scrollbar-width: thin; scrollbar-color: var(--b5-color-line) transparent; }
   .b5-download-menu__header { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 14px 18px; border-bottom: 1px solid var(--b5-color-line); background: #0002; font: 10px/1.5 var(--b5-font-mono); }
   .b5-download-menu__header .b5-eyebrow { font-size: 10px; letter-spacing: .06em; }
@@ -823,7 +867,8 @@
     .b5-ticker__track { animation: none; }
     .b5-ticker__item[aria-hidden='true'] { display: none; }
     .b5-download__boost::before { display: none; }
-    .b5-download__boost::after, .b5-odometer__strip { transition: none; }
+    .b5-download__boost::after, .b5-odometer__strip, .b5-gauge__needle { transition: none; }
+    .b5-gauge[data-b5-sweep] .b5-gauge__needle, .b5-download:is(:hover, :focus-visible) .b5-gauge__needle { animation: none; }
   }
 
   /* ---- Responsive: the online dashboard's breakpoints ------------------- */
@@ -883,6 +928,9 @@
     :is(.b5-tabs--paint, .b5-tabs--menu) > .b5-tablist .b5-tab, .b5-filter-group--menu .b5-filter { padding-inline: 12px; font-size: 15px; }
   }
   @media (max-width: 650px) {
+    .b5-download-group--cluster { --b5-gauge-size: 108px; --b5-cluster-bar: 76px; --b5-cluster-knob: 32px; }
+    .b5-download-group--cluster > .b5-download { padding-left: calc(var(--b5-gauge-size) / 2 + 10px); }
+    .b5-download-group--cluster > .b5-download > .b5-icon { display: none; }
     .b5-dialog--drawer { --b5-drawer-cut: 18px; }
     @supports (overflow-clip-margin: 20px) { .b5-hero { overflow-x: clip; overflow-clip-margin: 20px; } }
     .b5-section-header[data-b5-index]::before { font-size: 96px; }
