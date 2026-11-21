@@ -1,6 +1,7 @@
 import { enhance, notify, closeDialog, createFilterGroup, renderSparkline } from '../dist/b5-ui.js';
 import { components, person } from './catalog-data.js';
 import { downloadDesigns } from './download-designs.js';
+import { mountChoosers } from './download-chooser.js';
 
 const $ = id => document.getElementById(id);
 const node = (tag, className, text) => {
@@ -46,6 +47,8 @@ for (const [index, component] of components.entries()) {
 }
 
 enhance(document);
+// each download design opens its own chooser, in place
+let downloadChooser = mountChoosers($('catalog-download-stage'));
 $('catalog-total').textContent = `${components.length} component families`;
 let category = 'all';
 function filterCatalog() {
@@ -80,11 +83,13 @@ $('catalog-download-skin').addEventListener('change', event => { $('catalog-down
 $('catalog-download-design').addEventListener('change', event => {
   const design = downloadDesigns.find(item => item.id === event.target.value) ?? downloadDesigns[0];
   const markup = design.markup('catalog-download', 'catalog-build-dialog');
+  downloadChooser.destroy();
   $('catalog-download-stage').innerHTML = markup;
   $('catalog-download-skin').closest('.b5-field').hidden = !design.skins;
   if (design.skins) $('catalog-download').dataset.skin = $('catalog-download-skin').value;
   $('catalog-source-downloads').textContent = [markup.trim(), ...sourceExtras.downloads].join('\n\n');
   enhance(document).refresh();
+  downloadChooser = mountChoosers($('catalog-download-stage'));
 });
 document.querySelectorAll('[data-demo-toast]').forEach(button => button.addEventListener('click', () => notify(`${button.textContent.trim()}: shared notification example.`, { tone: button.dataset.demoToast })));
 $('catalog-save-settings').addEventListener('click', () => {

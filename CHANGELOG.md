@@ -68,6 +68,13 @@ progress dashboard (BP-work-server) uses the same chrome and controls.
 - The gallery's Download controls card switches between every download design: the classic
   bar, the dashboard, the cluster, four road signs, four licence plates and four billboards;
   `download-designs.html` lays them all side by side.
+- Each gallery download design opens its own chooser in place, in its own idiom, instead of
+  the floating menu: a drawer of shift lights under the tachometer (the needle follows the
+  package pointed at), a trip computer under the dashboard bar, strokes of paint under the
+  classic bar, lane signs dropping under the road signs (the message sign reads out the
+  lane), the back of the revolving plates, and billboards that turn over in slats,
+  shatter, or get a new poster pasted over them. Every design also moves when pointed at,
+  and C4 carries C1's chevrons.
 - A select's chosen value keeps the slant of its last italic letter instead of clipping it.
 - The stat strip's content sits inset from the band's ends, and each divider has the same
   gutter on both sides (`--b5-stat-gutter`), so a wide stat no longer runs into the divider

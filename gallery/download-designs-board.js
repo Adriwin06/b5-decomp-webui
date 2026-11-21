@@ -1,5 +1,6 @@
 import { enhance } from '../dist/b5-ui.js';
 import { downloadDesigns } from './download-designs.js';
+import { mountChoosers } from './download-chooser.js';
 
 // Rows by kind, one panel per design, each under the hero's own line of context. The markup
 // comes from the repository's own designs module, never from input or a remote service.
@@ -36,3 +37,4 @@ for (const [group, designs] of groups) {
   board.append(row);
 }
 enhance(document);
+mountChoosers(board);
