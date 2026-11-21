@@ -28,6 +28,12 @@
 .catalog-demo .b5-destination__logo { max-height: 330px; }
 .catalog-demo .b5-destination__label { right: 8%; bottom: 18px; }
 .catalog-demo-note { margin-top: 18px; }
+.catalog-design-stage { container-type: inline-size; }
+.catalog-design-stage .dd, .catalog-design-stage .b5-download-group--sign { max-width: 560px; }
+.catalog-design-controls { display: flex; flex-wrap: wrap; align-items: end; gap: 6px 28px; }
+.catalog-design-controls > .b5-field { flex: 0 1 280px; max-width: none; margin-top: 22px; }
+.catalog-design-controls > .catalog-skin-picker { flex-basis: 200px; }
+.catalog-design-all { align-self: center; margin: 22px 0 0 auto; }
 .catalog-skin-picker { max-width: 220px; margin-top: 24px; }
 .catalog-source { border-top: 1px solid var(--b5-color-line); padding: 13px 24px; background: #ffffff02; }
 .catalog-source > summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; list-style: none; cursor: pointer; color: var(--b5-color-muted); font: 10px/1.6 var(--b5-font-mono); text-transform: uppercase; letter-spacing: .06em; }

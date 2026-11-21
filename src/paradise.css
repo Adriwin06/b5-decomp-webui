@@ -277,7 +277,7 @@
   .b5-select-trigger { display: inline-flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; min-height: var(--b5-control-height); padding: 8px 2px 7px 0; border: 0; border-bottom: 1px solid #56433f; text-align: left; }
   .b5-select-trigger:hover:not(:disabled) { color: #fff; border-bottom-color: var(--b5-color-gold); }
   .b5-select-trigger[aria-expanded='true'] { border-bottom-color: transparent; }
-  .b5-select-trigger > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .b5-select-trigger > span { min-width: 0; padding-right: .2em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .b5-select-trigger::after { content: ''; flex: 0 0 auto; border: 4px solid transparent; border-top: 5px solid currentColor; translate: 0 3px; }
   .b5-select-trigger[aria-expanded='true']::after { transform: rotate(180deg); translate: 0 -2px; }
   .b5-select-trigger[aria-invalid='true'] { border-bottom-color: var(--b5-color-danger); }
@@ -338,6 +338,57 @@
   .b5-download-preview .b5-icon { width: 18px; height: 18px; }
   .b5-download-preview:hover { color: var(--b5-color-gold); background: #edbd5409; }
   .b5-download-preview:focus-visible { outline-offset: -5px; }
+
+  /* ---- Download sign: an overhead road sign ---------------------------- */
+  /* .b5-download-group--sign hangs the download button from a gantry as a guide sign in
+     the game's road-sign style. In its .b5-sign: the button (gantry lamps
+     .b5-sign__lamps, an exit tab .b5-sign__tab, the legend .b5-sign__legend with its line
+     of details, a down arrow .b5-sign__arrow), a variable message sign .b5-vms carrying a
+     figure in amber LED type beside it, and under it a plaque line .b5-sign__plaque for
+     the preview knob and notes. Pointed at or focused, the lamps light the sign, a sheen
+     crosses it and the arrow drops toward you. Narrow, the board drops onto the plaque line. */
+  .b5-download-group--sign { --b5-sign-green: #1f5a41; container-type: inline-size; display: block; width: 100%; padding-top: 56px; }
+  .b5-download-group--sign::before { inset: 0 -4px auto; height: 12px; clip-path: none; background: linear-gradient(180deg, #aaa299, #5d5851 55%, #2a2724); box-shadow: 0 5px 12px #000000a6; }
+  .b5-download-group--sign::after { inset: 12px -4px auto; height: 8px; clip-path: none; background: repeating-linear-gradient(118deg, transparent 0 8px, #4d4944 8px 10px), linear-gradient(#3a3632, #3a3632) bottom / 100% 2px no-repeat; }
+  .b5-sign { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: 'sign vms' 'plaque plaque'; align-items: start; gap: 14px 16px; }
+  .b5-download-group--sign .b5-download { grid-area: sign; position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; column-gap: 16px; width: 100%; min-height: 0; padding: 20px 22px 18px 26px; border: 0; border-radius: 12px; color: #fff; background: linear-gradient(170deg, #2c7051, var(--b5-sign-green) 55%, #17432f); box-shadow: inset 0 0 0 4px var(--b5-sign-green), inset 0 0 0 7px #f4f1ea, 0 12px 26px #000000b8; font: 600 14px/1.2 var(--b5-font-head); letter-spacing: .14em; text-align: left; text-transform: uppercase; transform: perspective(900px) rotateY(-6deg); transform-origin: 50% 0; transition: transform .4s cubic-bezier(.3, 1.4, .5, 1), filter .3s; }
+  .b5-download-group--sign .b5-download:is(:hover, :focus-visible) { color: #fff; filter: brightness(1.06); transform: perspective(900px) rotateY(-2deg); }
+  /* the face's sheen (in place of a skin's paint) and the rods it hangs from */
+  .b5-download-group--sign .b5-download::before { inset: 7px; border-radius: 6px; clip-path: none; background: linear-gradient(112deg, transparent 30%, #ffffff24 46%, transparent 62%) 130% 0 / 250% 100% no-repeat; box-shadow: none; opacity: 1; filter: none; transition: background-position .7s ease; }
+  .b5-download-group--sign .b5-download:is(:hover, :focus-visible)::before { background-position: -30% 0; }
+  .b5-download-group--sign .b5-download::after { position: absolute; bottom: 100%; left: 40%; right: 12%; width: auto; height: 36px; margin: 0; border: 0; background: linear-gradient(90deg, #77716a, #2a2724) left / 5px 100% no-repeat, linear-gradient(90deg, #77716a, #2a2724) right / 5px 100% no-repeat; transform: none; }
+  .b5-download-group--sign .b5-download strong::before { display: none; }
+  .b5-sign__lamps { position: absolute; inset: -36px 0 0; pointer-events: none; }
+  .b5-sign__lamps::before, .b5-sign__lamps::after { content: ''; position: absolute; top: 0; width: 30px; height: 9px; border-radius: 0 0 12px 12px; background: #2a2724; box-shadow: inset 0 -2px 0 #6b665f; transition: box-shadow .3s; }
+  .b5-sign__lamps::before { left: 18%; }
+  .b5-sign__lamps::after { right: 20%; }
+  .b5-download:is(:hover, :focus-visible, [aria-expanded='true']) .b5-sign__lamps::before, .b5-download:is(:hover, :focus-visible, [aria-expanded='true']) .b5-sign__lamps::after { box-shadow: inset 0 -2px 0 #fff3c4, 0 5px 12px 3px #fff2c48c, 0 46px 60px 14px #fff2c426; }
+  .b5-download-group--sign .b5-sign__tab { position: absolute; top: -26px; left: 24px; display: block; padding: 5px 12px 6px; border-radius: 7px 7px 0 0; color: #1c1408; background: #f0c33c; box-shadow: inset 0 0 0 3px #f0c33c, inset 0 0 0 5px #1c1408; font: 700 14px/1 var(--b5-font-head); letter-spacing: .12em; white-space: nowrap; }
+  .b5-download-group--sign .b5-sign__legend { display: grid; gap: 9px; min-width: 0; }
+  .b5-download-group--sign .b5-sign__legend strong { overflow: visible; font: 600 46px/.95 var(--b5-font-head); letter-spacing: .04em; white-space: nowrap; }
+  .b5-download-group--sign .b5-sign__legend small { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; overflow: visible; color: #fff; font: 600 13px/1.25 var(--b5-font-head); letter-spacing: .14em; text-transform: uppercase; white-space: normal; }
+  .b5-download-group--sign .b5-sign__legend small::after { content: ''; width: 7px; height: 7px; margin: -4px 0 0 2px; border: solid #f0c33c; border-width: 0 2px 2px 0; transform: rotate(45deg); transition: transform var(--b5-motion-fast), margin var(--b5-motion-fast); }
+  .b5-download-group--sign .b5-download[aria-expanded='true'] .b5-sign__legend small::after { margin-top: 3px; transform: rotate(225deg); }
+  .b5-sign__arrow { width: 44px; height: 62px; fill: #fff; filter: drop-shadow(0 1px 0 #0000004d); }
+  .b5-download:is(:hover, :focus-visible) .b5-sign__arrow { animation: b5-sign-arrow .9s ease-in-out infinite; }
+  @keyframes b5-sign-arrow { 50% { transform: translateY(7px); } }
+  /* A variable message sign: a figure in amber LED type, hung from the same gantry. */
+  .b5-vms { --b5-vms-pitch: 3px; grid-area: vms; position: relative; display: grid; justify-items: center; align-content: center; gap: calc(var(--b5-vms-pitch) * 2); min-width: 116px; margin-top: 8px; padding: 14px 16px 12px; border-radius: 4px; color: #eca631; background: radial-gradient(circle, #eca63112 0 .9px, transparent 1.2px) 0 0 / 3px 3px, #0b0908; box-shadow: inset 0 0 0 2px #2b2724, inset 0 0 0 4px #0b0908, inset 0 0 0 5px #45403a, 0 10px 22px #000000b3; font-family: var(--b5-font-led); font-synthesis: none; text-shadow: 0 0 6px #f0901e66; }
+  .b5-vms::before { content: ''; position: absolute; bottom: 100%; left: 50%; width: 5px; height: 44px; translate: -50% 0; background: linear-gradient(90deg, #77716a, #2a2724); }
+  .b5-vms__value { font-size: calc(var(--b5-vms-pitch) * 10); line-height: 1; white-space: pre; }
+  .b5-vms__label { font-size: calc(var(--b5-vms-pitch) * 4.5); line-height: 1; white-space: pre; }
+  .b5-sign__plaque { grid-area: plaque; display: flex; align-items: center; gap: 12px; min-width: 0; padding-left: 6px; color: var(--b5-color-muted); font: 12px/1.4 var(--b5-font-mono); }
+  .b5-download-group--sign .b5-download-preview { flex: none; width: 40px; min-width: 0; height: 40px; min-height: 0; padding: 0; border-radius: 50%; color: var(--b5-color-gold); background: radial-gradient(circle at 38% 32%, #4a3c34, #0c0908 72%); box-shadow: 0 0 0 2px #0a0807, 0 0 0 3.5px #8a6526, 0 4px 9px #000000d9; }
+  .b5-download-group--sign .b5-download-preview:hover { color: #fff; background: radial-gradient(circle at 38% 32%, #6a5444, #120d0b 72%); }
+  .b5-download-group--sign .b5-download-preview:focus-visible { outline-offset: 4px; }
+  @container (max-width: 440px) {
+    .b5-sign { grid-template-areas: 'sign sign' 'plaque vms'; align-items: center; }
+    .b5-vms { --b5-vms-pitch: 2px; min-width: 0; margin-top: 0; padding: 9px 12px 8px; }
+    .b5-vms::before { display: none; }
+    .b5-download-group--sign .b5-download { padding: 18px 16px 16px 20px; }
+    .b5-download-group--sign .b5-sign__legend strong { font-size: 38px; }
+    .b5-sign__arrow { width: 36px; height: 51px; }
+  }
 
   /* Boost: an optional .b5-download__boost first inside the button. Pointed at, speed lines
      stream past and the bottom edge charges like a boost bar; open, the bar stays lit. */
@@ -607,6 +658,8 @@
     .b5-download__boost::before { display: none; }
     .b5-download__boost::after, .b5-odometer__strip, .b5-gauge__needle { transition: none; }
     .b5-gauge[data-b5-sweep] .b5-gauge__needle, .b5-download:is(:hover, :focus-visible) .b5-gauge__needle { animation: none; }
+    .b5-download-group--sign .b5-download, .b5-download-group--sign .b5-download::before, .b5-sign__lamps::before, .b5-sign__lamps::after { transition: none; }
+    .b5-download:is(:hover, :focus-visible) .b5-sign__arrow { animation: none; }
   }
 
   /* ---- Responsive: the online dashboard's breakpoints ------------------- */

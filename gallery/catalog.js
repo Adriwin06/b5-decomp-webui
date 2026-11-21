@@ -1,5 +1,6 @@
 import { enhance, notify, closeDialog, createFilterGroup, renderSparkline } from '../dist/b5-ui.js';
 import { components, person } from './catalog-data.js';
+import { downloadDesigns } from './download-designs.js';
 
 const $ = id => document.getElementById(id);
 const node = (tag, className, text) => {
@@ -11,6 +12,7 @@ const node = (tag, className, text) => {
 
 // Markup below is imported from the repository's trusted specimen module,
 // never from user input, a remote service, or a query parameter.
+const sourceExtras = {}; // the dialogs a card's markup opens, as authored
 for (const [index, component] of components.entries()) {
   const article = node('article', `catalog-card${component.wide ? ' catalog-card--wide' : ''}`);
   article.id = component.id;
@@ -30,7 +32,8 @@ for (const [index, component] of components.entries()) {
   const pre = node('pre', 'b5-code');
   const code = node('code');
   code.id = `catalog-source-${component.id}`;
-  code.textContent = [component.markup.trim(), ...(component.sourceIds ?? []).map(id => $(id).outerHTML)].join('\n\n');
+  sourceExtras[component.id] = (component.sourceIds ?? []).map(id => $(id).outerHTML);
+  code.textContent = [(component.source ?? component.markup).trim(), ...sourceExtras[component.id]].join('\n\n');
   pre.append(code);
   const copy = node('button', 'b5-button b5-button--ghost', 'Copy markup ⧉');
   copy.type = 'button'; copy.dataset.b5Copy = code.id;
@@ -73,6 +76,16 @@ $('density-toggle').addEventListener('click', event => {
 $('catalog-status').addEventListener('change', event => { $('catalog-select-state').textContent = `Current status value: ${event.target.value}`; });
 $('catalog-lobby-filters').addEventListener('b5:filterchange', event => { $('catalog-filter-state').textContent = `Selected: ${event.detail.value}`; });
 $('catalog-download-skin').addEventListener('change', event => { $('catalog-download').dataset.skin = event.target.value; });
+// The Design switch puts one design in the card at a time; the treatment only dresses the bars.
+$('catalog-download-design').addEventListener('change', event => {
+  const design = downloadDesigns.find(item => item.id === event.target.value) ?? downloadDesigns[0];
+  const markup = design.markup('catalog-download', 'catalog-build-dialog');
+  $('catalog-download-stage').innerHTML = markup;
+  $('catalog-download-skin').closest('.b5-field').hidden = !design.skins;
+  if (design.skins) $('catalog-download').dataset.skin = $('catalog-download-skin').value;
+  $('catalog-source-downloads').textContent = [markup.trim(), ...sourceExtras.downloads].join('\n\n');
+  enhance(document).refresh();
+});
 document.querySelectorAll('[data-demo-toast]').forEach(button => button.addEventListener('click', () => notify(`${button.textContent.trim()}: shared notification example.`, { tone: button.dataset.demoToast })));
 $('catalog-save-settings').addEventListener('click', () => {
   closeDialog($('catalog-modal'), 'example-saved'); notify('Example settings action completed.', { tone: 'success' });

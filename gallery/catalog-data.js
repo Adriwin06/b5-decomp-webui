@@ -1,4 +1,6 @@
 // Trusted, repository-authored specimens. Product styling belongs in src/.
+import { downloadDesigns } from './download-designs.js';
+
 const icon = name => `<svg class="b5-icon" aria-hidden="true"><use href="../dist/assets/icons.svg#${name}"></use></svg>`;
 const ribbon = (text, tone = '') => `<span class="b5-ribbon"${tone ? ` data-tone="${tone}"` : ''}>${text}</span>`;
 const person = (initials, name, detail, color = '', role = '') => `<div class="b5-person"><span class="b5-avatar"${color ? ` data-color="${color}"` : ''} aria-hidden="true">${initials}</span><div class="b5-person__body"><div class="b5-person__name">${name}</div><div class="b5-person__meta">${detail}</div></div>${role ? `<span class="b5-person__role">${role}</span>` : ''}</div>`;
@@ -117,31 +119,12 @@ Be the first to hit the road.</div>
   },
   {
     id: 'downloads', title: 'Download controls', category: 'controls', wide: true,
-    summary: 'Build picker, download count and file preview. Demo choices download sample documentation; sizes are illustrative.',
+    summary: 'Build picker, download count and file preview, in every design: switch between the bars, the road signs, the plates and the billboards. Demo choices download sample documentation; sizes are illustrative.',
     keywords: 'download build full game update only package menu popover counter preview eye asphalt streak skyline tire burn torn split livery boost speed lines licence license plate odometer gauge tachometer rev needle cluster',
-    markup: `<div class="b5-download-group b5-download-group--cluster" data-b5-download-menu id="catalog-download-group">
-  <button class="b5-download" id="catalog-download" data-skin="tireburn" type="button" popovertarget="catalog-download-menu" aria-controls="catalog-download-menu">
-    <span class="b5-download__boost" aria-hidden="true"></span>
-    <span class="b5-gauge" data-b5-gauge aria-hidden="true"><span class="b5-gauge__badge">No. 179</span><span data-b5-odometer="128"></span><span class="b5-gauge__unit">Downloads</span></span>
-    ${icon('download')}<span><strong>Download build</strong><span class="b5-download__meta"><span class="b5-plate" aria-hidden="true"><span class="b5-plate__state">Paradise City</span><span class="b5-plate__number">3ADD8AD</span></span><small><span class="b5-sr-only">number 179, commit 3add8ad, 128 downloads, </span>v0.2.0 · PC</small></span></span>
-  </button>
-  <span class="b5-tooltip"><button class="b5-download-preview" type="button" data-b5-dialog-open="catalog-build-dialog" aria-label="Preview sample contents" aria-describedby="catalog-download-tooltip">${icon('eye')}</button><span id="catalog-download-tooltip" role="tooltip">Preview the sample contents</span></span>
-  <div class="b5-download-menu" id="catalog-download-menu" popover="auto" role="region" aria-labelledby="catalog-download-menu-title">
-    <header class="b5-download-menu__header"><span class="b5-eyebrow" id="catalog-download-menu-title">Choose your download</span><span class="b5-muted">v0.2.0</span></header>
-    <a class="b5-download-option" href="../docs/integration.md" download="sample-full-game-guide.md">
-      <span class="b5-download-option__icon" aria-hidden="true">${icon('folder')}</span>
-      <span class="b5-download-option__title">Full game</span><span class="b5-download-option__size">4.69 GB</span>
-      <span class="b5-download-option__description">Game files, DLLs and assets. For your first install or when the assets change.</span>
-    </a>
-    <a class="b5-download-option" href="../CHANGELOG.md" download="sample-update-notes.md">
-      <span class="b5-download-option__icon" aria-hidden="true">${icon('refresh')}</span>
-      <span class="b5-download-option__title">Update only</span><span class="b5-download-option__size">8.2 MB</span>
-      <span class="b5-download-option__description">Executable, DLLs and .cgsmap. Extract over your existing game folder.</span>
-    </a>
-    <footer class="b5-download-menu__note"><span class="b5-status" data-tone="success">Assets unchanged</span><p>Already have the game folder? <strong>Update only</strong> is all you need.</p><small class="b5-hint">Demo packages download sample documentation.</small></footer>
-  </div>
-</div>
-<label class="b5-field catalog-skin-picker"><span class="b5-label">Treatment</span><select class="b5-select" data-b5-select id="catalog-download-skin"><option value="tireburn">Tire burn</option><option value="asphalt">Asphalt</option><option value="streak">Crimson streak</option><option value="skyline">Paradise skyline</option><option value="torn">Torn poster</option><option value="split">Split livery</option></select></label>`, sourceIds: ['catalog-build-dialog'], api: 'enhance(root); // or createDownloadMenu(group)'
+    markup: `<div class="catalog-design-stage" id="catalog-download-stage">${downloadDesigns[0].markup('catalog-download', 'catalog-build-dialog')}</div>
+<div class="catalog-design-controls"><label class="b5-field catalog-design-picker"><span class="b5-label">Design</span><select class="b5-select" data-b5-select id="catalog-download-design"><optgroup label="Bar"><option value="cluster">X1 · Tachometer cluster (current)</option><option value="dashboard">X2 · Dashboard bar</option><option value="classic">X3 · Classic bar</option></optgroup><optgroup label="Road sign"><option value="sign">B1 · Guide sign</option><option value="sign-game">B2 · Paradise sign</option><option value="sign-exit">B3 · Exit only</option><option value="sign-route">B4 · Route shield</option></optgroup><optgroup label="Licence plate"><option value="plate-sunset">A1 · Sunset plate</option><option value="plate-paradise">A2 · Paradise plate</option><option value="plate-registration">A3 · Registration</option><option value="plate-night">A4 · Night plate</option></optgroup><optgroup label="Billboard"><option value="billboard">C1 · Billboard</option><option value="billboard-fire">C2 · Blast</option><option value="billboard-paint">C3 · Blast</option><option value="billboard-pasted">C4 · Pasted over</option></optgroup></select></label>
+<label class="b5-field catalog-skin-picker"><span class="b5-label">Treatment</span><select class="b5-select" data-b5-select id="catalog-download-skin"><option value="tireburn">Tire burn</option><option value="asphalt">Asphalt</option><option value="streak">Crimson streak</option><option value="skyline">Paradise skyline</option><option value="torn">Torn poster</option><option value="split">Split livery</option></select></label>
+<a class="b5-link catalog-design-all" href="./download-designs.html">All designs side by side ↗</a></div>`, source: downloadDesigns[0].markup('catalog-download', 'catalog-build-dialog'), sourceIds: ['catalog-build-dialog'], api: 'enhance(root); // or createDownloadMenu(group)'
   },
   {
     id: 'progress-rings', title: 'Progress rings', category: 'data', wide: true,

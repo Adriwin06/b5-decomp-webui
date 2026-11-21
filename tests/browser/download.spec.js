@@ -55,6 +55,31 @@ test('the cluster draws its gauge, rolls its odometer to the count and revs when
   expect(rolled).toEqual({ shown: 1042, drums: 4, value: '1042' });
 });
 
+test('the Design switch puts every download design in the card and brings the cluster back', async ({ page }) => {
+  await catalog(page);
+  const select = page.locator('#catalog-download-design');
+  const stage = page.locator('#catalog-download-stage');
+  const choose = value => select.evaluate((node, next) => { node.value = next; node.dispatchEvent(new Event('change', { bubbles: true })); }, value);
+  const values = await select.locator('option').evaluateAll(options => options.map(option => option.value));
+  expect(values).toHaveLength(15);
+  for (const value of values) {
+    await choose(value);
+    await expect(stage.locator('#catalog-download')).toBeVisible();
+  }
+  // the guide sign is a working download control, and the treatment only dresses the bars
+  await choose('sign');
+  await expect(page.locator('#downloads').getByRole('combobox', { name: 'Treatment', exact: true })).toBeHidden();
+  await page.locator('#catalog-download').click();
+  await expect(page.locator('#catalog-download')).toHaveAttribute('aria-expanded', 'true');
+  await page.keyboard.press('Escape');
+  // back to the cluster: its gauge, odometer and treatment return
+  await choose('cluster');
+  await expect(stage.locator('.b5-gauge__face')).toHaveCount(1);
+  await expect.poll(() => stage.locator('.b5-odometer__drum').count()).toBe(3);
+  await expect(page.locator('#downloads').getByRole('combobox', { name: 'Treatment', exact: true })).toBeVisible();
+  await expect(page.locator('#catalog-download')).toHaveAttribute('data-skin', 'tireburn');
+});
+
 test('download choices support keyboard navigation, normal Tab order and Escape focus return', async ({ page }) => {
   await catalog(page);
   const trigger = page.locator('#catalog-download');

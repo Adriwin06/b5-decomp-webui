@@ -61,6 +61,14 @@ progress dashboard (BP-work-server) uses the same chrome and controls.
   past and charges a boost bar along its bottom edge on hover, `.b5-plate` puts a short
   identifier on a licence plate, and `.b5-odometer` with `setOdometer()` shows a count on
   rolling digit drums.
+- `.b5-download-group--sign` hangs the download button from a gantry as an overhead road
+  sign: an exit tab, a big legend and a down arrow, gantry lamps that light it on hover or
+  focus, and a variable message sign (`.b5-vms`) beside it carrying a figure in amber LED
+  type.
+- The gallery's Download controls card switches between every download design: the classic
+  bar, the dashboard, the cluster, four road signs, four licence plates and four billboards;
+  `download-designs.html` lays them all side by side.
+- A select's chosen value keeps the slant of its last italic letter instead of clipping it.
 - The stat strip's content sits inset from the band's ends, and each divider has the same
   gutter on both sides (`--b5-stat-gutter`), so a wide stat no longer runs into the divider
   or the band's edge.
