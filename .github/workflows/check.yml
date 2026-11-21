@@ -67,5 +67,8 @@ jobs:
           ssh -i ~/.ssh/webui_deploy -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes -o BatchMode=yes \
             b5webui@adriwin.fr "deploy $GITHUB_SHA" < "$RUNNER_TEMP/b5-webui.tgz"
           rm -f ~/.ssh/webui_deploy
-          curl -fsS https://decomp.adriwin.fr/webui/DEPLOYED.txt
-          curl -fsS -o /dev/null https://decomp.adriwin.fr/webui/gallery/
+          # the site's own deploys answer 503 for a moment (its maintenance page covers
+          # /webui too): retry through that before checking the gallery went live
+          curl -fsS --retry 8 --retry-delay 10 https://decomp.adriwin.fr/webui/DEPLOYED.txt | tee "$RUNNER_TEMP/live.txt"
+          grep -q "${GITHUB_SHA:0:12}" "$RUNNER_TEMP/live.txt"
+          curl -fsS --retry 8 --retry-delay 10 -o /dev/null https://decomp.adriwin.fr/webui/gallery/
