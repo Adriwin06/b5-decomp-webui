@@ -29,6 +29,23 @@ test('the main download opens both packages; each choice downloads its own sampl
   }
 });
 
+test('the counter rolls its odometer to the count, and the plate and drums stay out of the name', async ({ page }) => {
+  await catalog(page);
+  const odometer = page.locator('#downloads .b5-download-counter .b5-odometer');
+  await expect(odometer).toHaveAttribute('aria-hidden', 'true');
+  await expect(odometer.locator('.b5-odometer__drum')).toHaveCount(3);
+  // each drum turns to its digit: 1, 2, 8
+  await expect.poll(() => odometer.locator('.b5-odometer__drum').evaluateAll(drums => drums.map(drum => drum.style.getPropertyValue('--b5-digit')).join(''))).toBe('128');
+  await expect(page.locator('#catalog-download')).toHaveAccessibleName(/^Download build commit 3add8ad, No\. 179/);
+  const rolled = await page.evaluate(async () => {
+    const { setOdometer } = await import('/dist/b5-ui.js');
+    const element = document.querySelector('#downloads .b5-odometer');
+    const shown = setOdometer(element, 1042.7, { digits: 3 });
+    return { shown, drums: element.querySelectorAll('.b5-odometer__drum').length, value: element.dataset.b5Odometer };
+  });
+  expect(rolled).toEqual({ shown: 1042, drums: 4, value: '1042' });
+});
+
 test('download choices support keyboard navigation, normal Tab order and Escape focus return', async ({ page }) => {
   await catalog(page);
   const trigger = page.locator('#catalog-download');

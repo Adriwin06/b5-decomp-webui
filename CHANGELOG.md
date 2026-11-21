@@ -52,6 +52,10 @@ progress dashboard (BP-work-server) uses the same chrome and controls.
   news crawl in amber LED type after the game's own, paused on hover or by its toggle
   (`createTicker()`) and still under reduced motion; hollow section numbers
   (`data-b5-index` on a section header) and `.b5-hud` gold corners.
+- The download control can read as a dashboard: `.b5-download__boost` streams speed lines
+  past and charges a boost bar along its bottom edge on hover, `.b5-plate` puts a short
+  identifier on a licence plate, and `.b5-odometer` with `setOdometer()` shows a count on
+  rolling digit drums.
 - The stat strip's content sits inset from the band's ends, and each divider has the same
   gutter on both sides (`--b5-stat-gutter`), so a wide stat no longer runs into the divider
   or the band's edge.

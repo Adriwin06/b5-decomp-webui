@@ -112,6 +112,42 @@ export function setProgress(element, value, { max = 100 } = {}) {
   return percent;
 }
 
+/**
+ * Show a whole number on an odometer's digit drums, padded to `digits`; changing it rolls
+ * the drums to the new figure, and a new odometer rolls up from zero once painted. The
+ * drums are decoration (aria-hidden): give the number in text beside them as well.
+ */
+export function setOdometer(element, value, { digits = 3 } = {}) {
+  const number = Math.max(0, Math.floor(Number(value) || 0));
+  const text = String(number).padStart(Math.max(1, digits), '0');
+  const doc = element.ownerDocument;
+  const drums = [...element.children].filter(node => node.classList.contains('b5-odometer__drum'));
+  const fresh = !drums.length;
+  while (drums.length < text.length) {
+    const drum = doc.createElement('span');
+    drum.className = 'b5-odometer__drum';
+    const strip = doc.createElement('span');
+    strip.className = 'b5-odometer__strip';
+    for (let digit = 0; digit <= 9; digit += 1) {
+      const face = doc.createElement('span');
+      face.textContent = String(digit);
+      strip.append(face);
+    }
+    drum.append(strip);
+    element.prepend(drum);
+    drums.unshift(drum);
+  }
+  while (drums.length > text.length) drums.shift().remove();
+  element.classList.add('b5-odometer');
+  element.setAttribute('aria-hidden', 'true');
+  element.dataset.b5Odometer = String(number);
+  const turn = () => [...text].forEach((digit, index) => drums[index].style.setProperty('--b5-digit', digit));
+  const win = doc.defaultView;
+  if (fresh && win?.requestAnimationFrame) win.requestAnimationFrame(() => win.requestAnimationFrame(turn));
+  else turn();
+  return number;
+}
+
 /** Small activity histogram. The accessible label includes the numeric series. */
 export function renderSparkline(element, values, { label = 'Activity' } = {}) {
   if (!Array.isArray(values) || values.some(value => !Number.isFinite(value) || value < 0)) throw new RangeError('Activity values must be nonnegative finite numbers');
@@ -430,6 +466,9 @@ export function enhance(root = document) {
       ownedFilters.set(group, createFilterGroup(group));
     }
     for (const element of root.querySelectorAll('[data-b5-progress]')) setProgress(element, Number(element.dataset.b5Progress), { max: Number(element.getAttribute('aria-valuemax') ?? 100) });
+    for (const element of root.querySelectorAll('[data-b5-odometer]')) {
+      if (!element.querySelector('.b5-odometer__drum')) setOdometer(element, Number(element.dataset.b5Odometer), { digits: Number(element.dataset.b5Digits) || 3 });
+    }
     for (const [pager, controller] of ownedPagers) {
       if (!root.contains(pager)) { controller.destroy(); ownedPagers.delete(pager); }
     }

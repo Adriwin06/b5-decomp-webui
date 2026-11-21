@@ -118,12 +118,12 @@ Be the first to hit the road.</div>
   {
     id: 'downloads', title: 'Download controls', category: 'controls', wide: true,
     summary: 'Build picker, download count and file preview. Demo choices download sample documentation; sizes are illustrative.',
-    keywords: 'download build full game update only package menu popover counter preview eye asphalt streak skyline tire burn torn split livery',
+    keywords: 'download build full game update only package menu popover counter preview eye asphalt streak skyline tire burn torn split livery boost speed lines licence license plate odometer',
     markup: `<div class="b5-download-group" data-b5-download-menu id="catalog-download-group">
   <button class="b5-download" id="catalog-download" data-skin="tireburn" type="button" popovertarget="catalog-download-menu" aria-controls="catalog-download-menu">
-    ${icon('download')}<span><strong>Download build</strong><small>v0.2.0 · PC</small></span>
+    <span class="b5-download__boost" aria-hidden="true"></span>${icon('download')}<span><strong>Download build</strong><span class="b5-download__meta"><span class="b5-plate" aria-hidden="true"><span class="b5-plate__state">Paradise City</span><span class="b5-plate__number">3ADD8AD</span></span><small><span class="b5-sr-only">commit 3add8ad, </span>No. 179 · v0.2.0 · PC</small></span></span>
   </button>
-  <span class="b5-download-counter"><strong>128</strong><small>Downloads</small></span>
+  <span class="b5-download-counter"><span data-b5-odometer="128"></span><span class="b5-sr-only">128</span><small>Downloads</small></span>
   <span class="b5-tooltip"><button class="b5-download-preview" type="button" data-b5-dialog-open="catalog-build-dialog" aria-label="Preview sample contents" aria-describedby="catalog-download-tooltip">${icon('eye')}</button><span id="catalog-download-tooltip" role="tooltip">Preview the sample contents</span></span>
   <div class="b5-download-menu" id="catalog-download-menu" popover="auto" role="region" aria-labelledby="catalog-download-menu-title">
     <header class="b5-download-menu__header"><span class="b5-eyebrow" id="catalog-download-menu-title">Choose your download</span><span class="b5-muted">v0.2.0</span></header>
