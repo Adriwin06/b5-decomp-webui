@@ -52,6 +52,11 @@ progress dashboard (BP-work-server) uses the same chrome and controls.
   news crawl in amber LED type after the game's own, paused on hover or by its toggle
   (`createTicker()`) and still under reduced motion; hollow section numbers
   (`data-b5-index` on a section header) and `.b5-hud` gold corners.
+- `.b5-download-group--cluster` turns the download control into an instrument cluster: a
+  tachometer pod (`.b5-gauge`, drawn by `renderGauge()` or `data-b5-gauge`) whose needle
+  sweeps when shown and revs to the redline on hover or focus, the build's number on its
+  face and the download odometer in its opening, the bar running out from under it and
+  the preview as a knob on its rim.
 - The download control can read as a dashboard: `.b5-download__boost` streams speed lines
   past and charges a boost bar along its bottom edge on hover, `.b5-plate` puts a short
   identifier on a licence plate, and `.b5-odometer` with `setOdometer()` shows a count on

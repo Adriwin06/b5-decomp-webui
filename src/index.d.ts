@@ -39,6 +39,8 @@ export function createFilterGroup(container: HTMLElement): {
 export function setProgress(element: HTMLElement, value: number, options?: { max?: number }): number;
 /** Whole numbers on rolling digit drums, padded to `digits` (3). Returns the number shown. */
 export function setOdometer(element: HTMLElement, value: number, options?: { digits?: number }): number;
+/** Draws a tachometer face into a .b5-gauge once; CSS turns its needle. */
+export function renderGauge(element: HTMLElement, options?: { max?: number; redline?: number }): HTMLElement;
 export function renderSparkline(element: HTMLElement, values: number[], options?: { label?: string }): void;
 export interface PagerState { page: number; pageCount: number; pageSize: number; total: number; from: number; to: number; }
 export function createPager(container: HTMLElement, options?: { page?: number; pageSize?: number; total?: number; unit?: string; locale?: string }): {

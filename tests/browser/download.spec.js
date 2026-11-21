@@ -29,14 +29,23 @@ test('the main download opens both packages; each choice downloads its own sampl
   }
 });
 
-test('the counter rolls its odometer to the count, and the plate and drums stay out of the name', async ({ page }) => {
+test('the cluster draws its gauge, rolls its odometer to the count and revs when pointed at', async ({ page }) => {
   await catalog(page);
-  const odometer = page.locator('#downloads .b5-download-counter .b5-odometer');
+  const gauge = page.locator('#downloads .b5-gauge');
+  await expect(gauge.locator('.b5-gauge__face')).toHaveCount(1);
+  await expect(gauge).toHaveAttribute('aria-hidden', 'true');
+  await expect(gauge.locator('.b5-gauge__numbers text')).toHaveText(['0', '2', '4', '6', '8']);
+  const needle = gauge.locator('.b5-gauge__needle');
+  const turn = () => needle.evaluate(node => getComputedStyle(node).getPropertyValue('--b5-needle').trim());
+  await expect.poll(turn).toBe('');
+  await page.locator('#catalog-download').hover();
+  await expect.poll(turn).toBe('111deg');
+  const odometer = gauge.locator('.b5-odometer');
   await expect(odometer).toHaveAttribute('aria-hidden', 'true');
   await expect(odometer.locator('.b5-odometer__drum')).toHaveCount(3);
   // each drum turns to its digit: 1, 2, 8
   await expect.poll(() => odometer.locator('.b5-odometer__drum').evaluateAll(drums => drums.map(drum => drum.style.getPropertyValue('--b5-digit')).join(''))).toBe('128');
-  await expect(page.locator('#catalog-download')).toHaveAccessibleName(/^Download build commit 3add8ad, No\. 179/);
+  await expect(page.locator('#catalog-download')).toHaveAccessibleName(/^Download build number 179, commit 3add8ad, 128 downloads, v0\.2\.0 · PC$/);
   const rolled = await page.evaluate(async () => {
     const { setOdometer } = await import('/dist/b5-ui.js');
     const element = document.querySelector('#downloads .b5-odometer');

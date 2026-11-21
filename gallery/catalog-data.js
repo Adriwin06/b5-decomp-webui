@@ -118,12 +118,13 @@ Be the first to hit the road.</div>
   {
     id: 'downloads', title: 'Download controls', category: 'controls', wide: true,
     summary: 'Build picker, download count and file preview. Demo choices download sample documentation; sizes are illustrative.',
-    keywords: 'download build full game update only package menu popover counter preview eye asphalt streak skyline tire burn torn split livery boost speed lines licence license plate odometer',
-    markup: `<div class="b5-download-group" data-b5-download-menu id="catalog-download-group">
+    keywords: 'download build full game update only package menu popover counter preview eye asphalt streak skyline tire burn torn split livery boost speed lines licence license plate odometer gauge tachometer rev needle cluster',
+    markup: `<div class="b5-download-group b5-download-group--cluster" data-b5-download-menu id="catalog-download-group">
   <button class="b5-download" id="catalog-download" data-skin="tireburn" type="button" popovertarget="catalog-download-menu" aria-controls="catalog-download-menu">
-    <span class="b5-download__boost" aria-hidden="true"></span>${icon('download')}<span><strong>Download build</strong><span class="b5-download__meta"><span class="b5-plate" aria-hidden="true"><span class="b5-plate__state">Paradise City</span><span class="b5-plate__number">3ADD8AD</span></span><small><span class="b5-sr-only">commit 3add8ad, </span>No. 179 · v0.2.0 · PC</small></span></span>
+    <span class="b5-download__boost" aria-hidden="true"></span>
+    <span class="b5-gauge" data-b5-gauge aria-hidden="true"><span class="b5-gauge__badge">No. 179</span><span data-b5-odometer="128"></span><span class="b5-gauge__unit">Downloads</span></span>
+    ${icon('download')}<span><strong>Download build</strong><span class="b5-download__meta"><span class="b5-plate" aria-hidden="true"><span class="b5-plate__state">Paradise City</span><span class="b5-plate__number">3ADD8AD</span></span><small><span class="b5-sr-only">number 179, commit 3add8ad, 128 downloads, </span>v0.2.0 · PC</small></span></span>
   </button>
-  <span class="b5-download-counter"><span data-b5-odometer="128"></span><span class="b5-sr-only">128</span><small>Downloads</small></span>
   <span class="b5-tooltip"><button class="b5-download-preview" type="button" data-b5-dialog-open="catalog-build-dialog" aria-label="Preview sample contents" aria-describedby="catalog-download-tooltip">${icon('eye')}</button><span id="catalog-download-tooltip" role="tooltip">Preview the sample contents</span></span>
   <div class="b5-download-menu" id="catalog-download-menu" popover="auto" role="region" aria-labelledby="catalog-download-menu-title">
     <header class="b5-download-menu__header"><span class="b5-eyebrow" id="catalog-download-menu-title">Choose your download</span><span class="b5-muted">v0.2.0</span></header>
