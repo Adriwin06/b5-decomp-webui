@@ -106,11 +106,13 @@ renderSparkline($('catalog-sparkline'), [2, 5, 3, 8, 4, 9, 7, 12, 6, 8, 14, 10],
 const drawerBody = $('catalog-drawer-body');
 const drawerOriginal = [...drawerBody.childNodes];
 function restoreDrawer() {
+  $('catalog-detail-kind').textContent = 'Example unit';
   $('catalog-detail-title').textContent = 'BrnCamera.cpp';
   drawerBody.replaceChildren(...drawerOriginal);
   $('catalog-detail-back').hidden = true;
 }
 $('catalog-nested-open').addEventListener('click', () => {
+  $('catalog-detail-kind').textContent = 'Example function';
   $('catalog-detail-title').textContent = 'ExampleCamera::Update';
   drawerBody.replaceChildren(node('p', 'b5-muted', 'An example function view, rendered by the application inside the shared drawer.'), node('pre', 'b5-code', 'ExampleCamera::Update(float deltaTime)'));
   $('catalog-detail-back').hidden = false;

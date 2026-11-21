@@ -67,7 +67,7 @@ test('outside clicks dismiss the chooser and the eye opens the separate contents
   const preview = page.getByRole('button', { name: 'Preview sample contents' });
   await preview.click();
   await expect(panel).toBeHidden();
-  await expect(page.getByRole('dialog', { name: 'Sample build contents' })).toBeVisible();
+  await expect(page.getByRole('dialog', { name: 'Build contents sample-build.zip' })).toBeVisible();
   await page.keyboard.press('Escape'); await expect(preview).toBeFocused();
 });
 

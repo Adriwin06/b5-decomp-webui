@@ -76,7 +76,7 @@ Be the first to hit the road.</div>
     id: 'empty-state', title: 'Illustrated empty states', category: 'feedback', wide: true,
     summary: 'A directional sign, skyline decoration and a clear next action.',
     keywords: 'empty state downtown sign open roads skyline get connected no lobbies updated refresh note',
-    markup: `<div class="b5-empty b5-empty--illustrated"><span class="b5-empty__symbol" aria-hidden="true"></span><h3>Open roads. Your move.</h3><p>No lobbies right now. Host a Freeburn session in-game and it will appear here.</p><a class="b5-link" href="./examples.html#connect-example">Get connected ↗</a></div><div class="b5-directory-note"><span class="b5-dot" data-tone="success"></span><span>Updated 23:36:32</span><span class="b5-directory-note__aside">Refreshes every 5 seconds</span></div>`
+    markup: `<div class="b5-stack"><div class="b5-empty b5-empty--illustrated"><span class="b5-empty__symbol" aria-hidden="true"></span><h3>Open roads. Your move.</h3><p>No lobbies right now. Host a Freeburn session in-game and it will appear here.</p><a class="b5-link" href="./examples.html#connect-example">Get connected ↗</a></div><div class="b5-directory-note"><span class="b5-dot" data-tone="success"></span><span>Updated 23:36:32</span><span class="b5-directory-note__aside">Refreshes every 5 seconds</span></div><div class="b5-empty b5-empty--illustrated"><span class="b5-empty__symbol b5-empty__symbol--diamond" aria-hidden="true"></span><h3>Engines off. Pick a unit.</h3><p>No one has work claimed right now. Claims from the queue show up here with their lease.</p><a class="b5-link" href="#empty-state">See the queue ↓</a></div></div>`
   },
   {
     id: 'search-refresh', title: 'Search & refresh', category: 'controls',
