@@ -76,6 +76,12 @@ progress dashboard (BP-work-server) uses the same chrome and controls.
   shatter, or get a new poster pasted over them. Every design also moves when pointed at,
   and C4 carries C1's chevrons.
 - A select's chosen value keeps the slant of its last italic letter instead of clipping it.
+- The fifteen download designs and their choosers move from the gallery into the library as
+  an optional module: `download-designs.css` and `download-designs.js`, whose
+  `renderDownloadDesign()` draws any design from a build's data (number, commit, age,
+  count, the full game and the optional update, a note) and keeps it current, so a site
+  swaps designs by name. The app can take a choice first (to check a quota) and set the
+  note; a build without an update offers the full game alone.
 - The stat strip's content sits inset from the band's ends, and each divider has the same
   gutter on both sides (`--b5-stat-gutter`), so a wide stat no longer runs into the divider
   or the band's edge.

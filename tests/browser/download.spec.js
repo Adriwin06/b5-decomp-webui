@@ -57,7 +57,7 @@ test('the cluster draws its gauge, rolls its odometer to the count and revs when
   await expect(odometer.locator('.b5-odometer__drum')).toHaveCount(3);
   // each drum turns to its digit: 1, 2, 8
   await expect.poll(() => odometer.locator('.b5-odometer__drum').evaluateAll(drums => drums.map(drum => drum.style.getPropertyValue('--b5-digit')).join(''))).toBe('128');
-  await expect(page.locator('#catalog-download')).toHaveAccessibleName(/^Download build number 179, commit 3add8ad, 128 downloads, v0\.2\.0 · PC$/);
+  await expect(page.locator('#catalog-download')).toHaveAccessibleName(/^Download build number 179, commit 3add8ad, 128 downloads, 3h ago · 4\.69 GB$/);
   const rolled = await page.evaluate(async () => {
     const { setOdometer } = await import('/dist/b5-ui.js');
     const element = document.querySelector('#downloads .b5-odometer');
@@ -141,7 +141,63 @@ test('a design chooser opens onto its first choice from the keyboard, cycles wit
   await expect(page.locator('#catalog-download')).toBeFocused();
 });
 
+test('a design renders from live data, updates in place and hands its choices and preview to the app', async ({ page }) => {
+  await catalog(page);
+  await page.evaluate(async () => {
+    const { renderDownloadDesign } = await import('/dist/download-designs.js');
+    const slot = document.createElement('div');
+    slot.id = 'probe-slot';
+    document.querySelector('#downloads .catalog-demo').prepend(slot);
+    window.probeLog = [];
+    window.probeData = { number: 180, commit: '<b>c0ffee</b>', age: '1 min ago', count: 7, full: { size: '4.70 GB', href: '/nowhere-full' }, update: null, note: { tone: 'warning', label: 'Assets changed', text: 'Take the full game.' } };
+    window.probe = renderDownloadDesign(slot, 'sign-game', {
+      prefix: 'probe', data: window.probeData,
+      onChoose: (item, event) => { window.probeLog.push(`choose ${item.key}`); event.preventDefault(); },
+      onPreview: () => window.probeLog.push('preview')
+    });
+  });
+  const slot = page.locator('#probe-slot');
+  const trigger = page.locator('#probe');
+  // data is text, never markup
+  await expect(slot.locator('.b5-sign__plaque')).toContainText('commit <b>c0ffee</b> · 1 min ago');
+  await expect(trigger).toHaveAccessibleName(/^Download build number 180, commit <b>c0ffee<\/b>, 7 downloads, Paradise City, 4\.70 GB$/);
+  // a build without an update offers one lane
+  await trigger.click();
+  const panel = page.locator('#probe-menu');
+  await expect(panel.getByRole('link')).toHaveCount(1);
+  await expect(panel).toContainText('Assets changed');
+  // the app takes the choice first; the chooser stays open for its answer
+  await panel.getByRole('link', { name: /^Full game/ }).click();
+  expect(await page.evaluate(() => window.probeLog)).toEqual(['choose full']);
+  await expect(trigger).toHaveAttribute('aria-expanded', 'true');
+  await page.evaluate(() => window.probe.setNote({ tone: 'warning', label: 'Daily limit reached', text: 'Back tomorrow.' }));
+  await expect(panel).toContainText('Daily limit reached');
+  await page.evaluate(() => window.probe.close());
+  await expect(trigger).toHaveAttribute('aria-expanded', 'false');
+  // a new count or age changes in place, keeping the same button
+  await trigger.evaluate(node => { node.dataset.mark = 'kept'; });
+  await page.evaluate(() => window.probe.update({ ...window.probeData, count: 8, age: '2 min ago' }));
+  await expect(trigger).toHaveAttribute('data-mark', 'kept');
+  await expect(slot.locator('.b5-vms__value')).toHaveText('8');
+  await expect(slot.locator('.b5-sign__plaque')).toContainText('2 min ago');
+  await expect(trigger).toHaveAccessibleName(/8 downloads/);
+  // a new build redraws, here with its update
+  await page.evaluate(() => window.probe.update({ ...window.probeData, number: 181, count: 0, update: { size: '9 MB', href: '/nowhere-update' } }));
+  await expect(page.locator('#probe')).not.toHaveAttribute('data-mark', 'kept');
+  await page.locator('#probe').click();
+  await expect(page.locator('#probe-menu').getByRole('link')).toHaveCount(2);
+  await page.keyboard.press('Escape');
+  await slot.getByRole('button', { name: 'Preview build contents' }).click();
+  expect(await page.evaluate(() => window.probeLog)).toEqual(['choose full', 'preview']);
+  // an unknown design is an error, not a blank slot
+  expect(await page.evaluate(async () => {
+    const { renderDownloadDesign } = await import('/dist/download-designs.js');
+    try { renderDownloadDesign(document.createElement('div'), 'nope'); return false; } catch (error) { return error instanceof RangeError; }
+  })).toBe(true);
+});
+
 test('every design chooser passes automated WCAG AA checks while open', async ({ page }) => {
+  test.setTimeout(120_000); // axe checks fifteen open designs
   await catalog(page);
   for (const value of await designs(page)) {
     await choose(page, value);
@@ -162,7 +218,7 @@ test('outside clicks dismiss a design chooser and the eye opens the separate con
   await page.locator('#downloads .catalog-card__header').click();
   await expect(panel).toBeHidden(); await expect(trigger).toHaveAttribute('aria-expanded', 'false');
   await trigger.click();
-  const preview = page.getByRole('button', { name: 'Preview sample contents' });
+  const preview = page.getByRole('button', { name: 'Preview build contents' });
   await preview.click();
   await expect(panel).toBeHidden();
   await expect(page.getByRole('dialog', { name: 'Build contents sample-build.zip' })).toBeVisible();

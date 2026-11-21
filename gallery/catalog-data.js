@@ -1,5 +1,5 @@
 // Trusted, repository-authored specimens. Product styling belongs in src/.
-import { downloadDesigns } from './download-designs.js';
+import { downloadData, downloadDesigns, sampleDownload } from '../dist/download-designs.js';
 
 const icon = name => `<svg class="b5-icon" aria-hidden="true"><use href="../dist/assets/icons.svg#${name}"></use></svg>`;
 const ribbon = (text, tone = '') => `<span class="b5-ribbon"${tone ? ` data-tone="${tone}"` : ''}>${text}</span>`;
@@ -121,11 +121,11 @@ Be the first to hit the road.</div>
     id: 'downloads', title: 'Download controls', category: 'controls', wide: true,
     summary: 'Build picker, download count and file preview, in every design: switch between the bars, the road signs, the plates and the billboards. Demo choices download sample documentation; sizes are illustrative.',
     keywords: 'download build full game update only package menu popover counter preview eye asphalt streak skyline tire burn torn split livery boost speed lines licence license plate odometer gauge tachometer rev needle cluster',
-    markup: `<div class="catalog-design-stage" id="catalog-download-stage">${downloadDesigns[0].markup('catalog-download', 'catalog-build-dialog')}</div>
+    markup: `<div class="catalog-design-stage" id="catalog-download-stage"></div>
 <div class="catalog-design-controls"><label class="b5-field catalog-design-picker"><span class="b5-label">Design</span><select class="b5-select" data-b5-select id="catalog-download-design"><optgroup label="Bar"><option value="cluster">X1 · Tachometer cluster (current)</option><option value="dashboard">X2 · Dashboard bar</option><option value="classic">X3 · Classic bar</option></optgroup><optgroup label="Road sign"><option value="sign">B1 · Guide sign</option><option value="sign-game">B2 · Paradise sign</option><option value="sign-exit">B3 · Exit only</option><option value="sign-route">B4 · Route shield</option></optgroup><optgroup label="Licence plate"><option value="plate-sunset">A1 · Sunset plate</option><option value="plate-paradise">A2 · Paradise plate</option><option value="plate-registration">A3 · Registration</option><option value="plate-night">A4 · Night plate</option></optgroup><optgroup label="Billboard"><option value="billboard">C1 · Billboard</option><option value="billboard-fire">C2 · Blast</option><option value="billboard-paint">C3 · Blast</option><option value="billboard-pasted">C4 · Pasted over</option></optgroup></select></label>
 <label class="b5-field catalog-skin-picker"><span class="b5-label">Treatment</span><select class="b5-select" data-b5-select id="catalog-download-skin"><option value="tireburn">Tire burn</option><option value="asphalt">Asphalt</option><option value="streak">Crimson streak</option><option value="skyline">Paradise skyline</option><option value="torn">Torn poster</option><option value="split">Split livery</option></select></label>
-<a class="b5-link catalog-design-all" href="./download-designs.html">All designs side by side ↗</a></div>`, source: downloadDesigns[0].markup('catalog-download', 'catalog-build-dialog'), sourceIds: ['catalog-build-dialog'], api: `enhance(root); // the library menu, or createDownloadMenu(group)
-mountChoosers(root); // each design's own chooser: gallery/download-chooser.js`
+<a class="b5-link catalog-design-all" href="./download-designs.html">All designs side by side ↗</a></div>`, source: downloadDesigns[0].markup('catalog-download', downloadData(sampleDownload), { dialog: 'catalog-build-dialog' }), sourceIds: ['catalog-build-dialog'], api: `enhance(root); // the library menu, or createDownloadMenu(group)
+renderDownloadDesign(slot, 'sign-game', { data, onChoose, onPreview }); // download-designs.js`
   },
   {
     id: 'progress-rings', title: 'Progress rings', category: 'data', wide: true,

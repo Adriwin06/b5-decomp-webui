@@ -1,7 +1,6 @@
 import { enhance, notify, closeDialog, createFilterGroup, renderSparkline } from '../dist/b5-ui.js';
 import { components, person } from './catalog-data.js';
-import { downloadDesigns } from './download-designs.js';
-import { mountChoosers } from './download-chooser.js';
+import { downloadData, downloadDesigns, renderDownloadDesign, sampleDownload } from '../dist/download-designs.js';
 
 const $ = id => document.getElementById(id);
 const node = (tag, className, text) => {
@@ -46,9 +45,11 @@ for (const [index, component] of components.entries()) {
   $('catalog-grid').append(article);
 }
 
+// The download card draws one design at a time from the library's download-designs.js, with
+// the sample build's data; each opens its own chooser in place.
+const drawDownload = id => renderDownloadDesign($('catalog-download-stage'), id, { prefix: 'catalog-download', data: sampleDownload, dialog: 'catalog-build-dialog' });
+let download = drawDownload('cluster');
 enhance(document);
-// each download design opens its own chooser, in place
-let downloadChooser = mountChoosers($('catalog-download-stage'));
 $('catalog-total').textContent = `${components.length} component families`;
 let category = 'all';
 function filterCatalog() {
@@ -82,14 +83,13 @@ $('catalog-download-skin').addEventListener('change', event => { $('catalog-down
 // The Design switch puts one design in the card at a time; the treatment only dresses the bars.
 $('catalog-download-design').addEventListener('change', event => {
   const design = downloadDesigns.find(item => item.id === event.target.value) ?? downloadDesigns[0];
-  const markup = design.markup('catalog-download', 'catalog-build-dialog');
-  downloadChooser.destroy();
-  $('catalog-download-stage').innerHTML = markup;
+  download.destroy();
+  download = drawDownload(design.id);
   $('catalog-download-skin').closest('.b5-field').hidden = !design.skins;
   if (design.skins) $('catalog-download').dataset.skin = $('catalog-download-skin').value;
+  const markup = design.markup('catalog-download', downloadData(sampleDownload), { dialog: 'catalog-build-dialog' });
   $('catalog-source-downloads').textContent = [markup.trim(), ...sourceExtras.downloads].join('\n\n');
   enhance(document).refresh();
-  downloadChooser = mountChoosers($('catalog-download-stage'));
 });
 document.querySelectorAll('[data-demo-toast]').forEach(button => button.addEventListener('click', () => notify(`${button.textContent.trim()}: shared notification example.`, { tone: button.dataset.demoToast })));
 $('catalog-save-settings').addEventListener('click', () => {

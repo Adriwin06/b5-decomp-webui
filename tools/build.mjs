@@ -71,13 +71,19 @@ export async function build() {
   ]);
   const { version } = JSON.parse(packageText);
   const banner = `/* b5-decomp-webui v${version} | Code: MIT | Artwork: see THIRD_PARTY.md */\n`;
-  const tokenCss = `@layer b5.tokens, b5.base, b5.components, b5.utilities;\n@layer b5.tokens {\n  :where(.b5-ui) {\n${compileTokens(JSON.parse(tokens))}\n  }\n}\n`;
+  const tokenCss = `@layer b5.tokens, b5.base, b5.components, b5.downloads, b5.utilities;\n@layer b5.tokens {\n  :where(.b5-ui) {\n${compileTokens(JSON.parse(tokens))}\n  }\n}\n`;
   await writeFile(path.join(output, 'b5-ui.css'), banner + tokenCss + css + '\n' + paradise);
   await copyFile(path.join(root, 'src/index.js'), path.join(output, 'b5-ui.js'));
   await copyFile(path.join(root, 'src/select.js'), path.join(output, 'select.js'));
   await copyFile(path.join(root, 'src/pager.js'), path.join(output, 'pager.js'));
   await copyFile(path.join(root, 'src/download.js'), path.join(output, 'download.js'));
   await copyFile(path.join(root, 'src/index.d.ts'), path.join(output, 'b5-ui.d.ts'));
+  // The optional download designs: their module imports the core as it is named in dist.
+  const designs = await readFile(path.join(root, 'src/download-designs.js'), 'utf8');
+  if (!designs.includes("from './index.js'")) throw new Error('download-designs.js should import the core from ./index.js');
+  await writeFile(path.join(output, 'download-designs.js'), designs.replaceAll("from './index.js'", "from './b5-ui.js'"));
+  await writeFile(path.join(output, 'download-designs.css'), banner + await readFile(path.join(root, 'src/download-designs.css'), 'utf8'));
+  await copyFile(path.join(root, 'src/download-designs.d.ts'), path.join(output, 'download-designs.d.ts'));
   for (const entry of await readdir(path.join(root, 'assets'), { withFileTypes: true })) {
     if (entry.isFile()) await copyFile(path.join(root, 'assets', entry.name), path.join(output, 'assets', entry.name));
   }

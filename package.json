@@ -16,7 +16,12 @@
       "types": "./dist/b5-ui.d.ts",
       "import": "./dist/b5-ui.js"
     },
+    "./download-designs": {
+      "types": "./dist/download-designs.d.ts",
+      "import": "./dist/download-designs.js"
+    },
     "./style.css": "./dist/b5-ui.css",
+    "./download-designs.css": "./dist/download-designs.css",
     "./tokens": "./tokens/paradise.tokens.json",
     "./assets/*": "./dist/assets/*"
   },

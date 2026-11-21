@@ -1,9 +1,8 @@
 import { enhance } from '../dist/b5-ui.js';
-import { downloadDesigns } from './download-designs.js';
-import { mountChoosers } from './download-chooser.js';
+import { downloadDesigns, renderDownloadDesign, sampleDownload } from '../dist/download-designs.js';
 
 // Rows by kind, one panel per design, each under the hero's own line of context. The markup
-// comes from the repository's own designs module, never from input or a remote service.
+// comes from the library's designs module, never from input or a remote service.
 const board = document.getElementById('dd-board');
 const groups = Map.groupBy(downloadDesigns, design => design.group);
 for (const [group, designs] of groups) {
@@ -30,11 +29,10 @@ for (const [group, designs] of groups) {
     kicker.className = 'dd-kicker';
     kicker.innerHTML = 'THE LATEST PC BUILD <em>■ Live</em>';
     const stage = document.createElement('div');
-    stage.innerHTML = design.markup(`dd-${design.id}`);
+    renderDownloadDesign(stage, design.id, { prefix: `dd-${design.id}`, data: sampleDownload });
     panel.append(label, kicker, stage);
     row.append(panel);
   }
   board.append(row);
 }
 enhance(document);
-mountChoosers(board);

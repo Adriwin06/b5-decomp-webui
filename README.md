@@ -73,6 +73,28 @@ The stylesheet scopes its base styles and tokens to `.b5-ui`; components use
 the `b5-` prefix. Set `data-b5-density="compact"` on the wrapper or a subtree for
 compact controls. Touch devices retain 44px controls in either density.
 
+### Download designs
+
+The download control comes in fifteen designs (bars, road signs, licence plates,
+billboards; see the gallery's Download controls card), each opening its packages in
+place. They are optional: load `download-designs.css` after `b5-ui.css` and import
+`download-designs.js`. Every design reads the same data, so swapping one for another
+is a change of name:
+
+```js
+import { renderDownloadDesign } from '/ui/download-designs.js';
+
+const download = renderDownloadDesign(slot, 'sign-game', {
+  data: { number: 179, commit: '3add8ad', age: '3h ago', count: 128,
+          full: { size: '4.69 GB', href: '/download/latest' },
+          update: { size: '8.2 MB', href: '/download/latest/update' } },
+  onChoose(item, event) { /* event.preventDefault() keeps the chooser open */ },
+  onPreview() { /* the eye */ }
+});
+download.update(nextData);   // a new build redraws; a new count or age updates in place
+download.setNote({ tone: 'warning', label: 'Daily limit reached', text: 'Back tomorrow.' });
+```
+
 Bundlers can import `b5-decomp-webui/style.css` and named exports from
 `b5-decomp-webui`. Type declarations accompany the module. Generate a
 distributable package with `npm pack`; applications should pin a release version

@@ -60,7 +60,7 @@ test('download skins, preview, drawer back navigation and refresh behave as demo
   const treatment = page.locator('#downloads').getByRole('combobox', { name: 'Treatment', exact: true });
   await treatment.click(); await page.getByRole('option', { name: 'Paradise skyline' }).click();
   await expect(page.locator('#catalog-download')).toHaveAttribute('data-skin', 'skyline');
-  await page.getByRole('button', { name: 'Preview sample contents' }).click();
+  await page.getByRole('button', { name: 'Preview build contents' }).click();
   await expect(page.getByRole('dialog', { name: 'Build contents sample-build.zip' })).toBeVisible();
   await page.keyboard.press('Escape');
   await page.getByRole('button', { name: 'Inspect translation unit', exact: false }).click();
