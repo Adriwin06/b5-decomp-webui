@@ -52,6 +52,9 @@ progress dashboard (BP-work-server) uses the same chrome and controls.
   news crawl in amber LED type after the game's own, paused on hover or by its toggle
   (`createTicker()`) and still under reduced motion; hollow section numbers
   (`data-b5-index` on a section header) and `.b5-hud` gold corners.
+- The stat strip's content sits inset from the band's ends, and each divider has the same
+  gutter on both sides (`--b5-stat-gutter`), so a wide stat no longer runs into the divider
+  or the band's edge.
 - The drawer leans: a slanted leading edge (`--b5-drawer-cut`) with a red-to-gold blade, a
   title plate whose `.b5-dialog__kind` sits on the red menu paint, slanted close and back
   plates, hatched section titles (`.b5-drawer-heading`), leaning tiles, smaller painted
