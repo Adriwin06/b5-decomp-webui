@@ -348,12 +348,15 @@
   .b5-connection__address:hover, .b5-connection__address:hover svg { color: var(--b5-color-gold); }
 
   /* ---- Statistics ------------------------------------------------------- */
-  .b5-stat-strip { position: relative; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); padding: 23px 0 21px; border-block: 1px solid var(--b5-color-line); background: linear-gradient(90deg, #2c202133, #0a090944); }
+  /* The band's content sits inset from its ends, and each divider has the same gutter on
+     both sides (--b5-stat-gutter), so a stat's widest line never runs into the divider or
+     the band's edge. */
+  .b5-stat-strip { --b5-stat-gutter: 18px; position: relative; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); padding: 23px var(--b5-stat-gutter) 21px; border-block: 1px solid var(--b5-color-line); background: linear-gradient(90deg, #2c202133, #0a090944); }
   .b5-stat-strip::after { content: ''; position: absolute; top: -3px; right: 0; width: 200px; height: 4px; background: var(--b5-color-accent); transform: skew(-40deg); }
   .b5-stat { min-width: 0; }
-  .b5-stat-strip > .b5-stat { padding-left: 24px; border-right: 1px solid var(--b5-color-line); }
+  .b5-stat-strip > .b5-stat { padding-inline: var(--b5-stat-gutter); border-right: 1px solid var(--b5-color-line); }
   .b5-stat-strip > .b5-stat:first-child { padding-left: 0; }
-  .b5-stat-strip > .b5-stat:last-child { border-right: 0; }
+  .b5-stat-strip > .b5-stat:last-child { padding-right: 0; border-right: 0; }
   .b5-stat__label { color: var(--b5-color-soft); font: italic 15px var(--b5-font-display); letter-spacing: .6px; text-transform: uppercase; }
   .b5-stat__value { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 13px; color: var(--b5-color-text); font: italic 46px/1.35 var(--b5-font-display); }
   .b5-stat__value > strong { font: inherit; }
@@ -876,10 +879,9 @@
     .b5-connection__kicker { font-size: 10px; letter-spacing: .5px; }
     .b5-connection .b5-status { font-size: 11px; }
     .b5-connection__address { padding-block: 12px 7px; font-size: clamp(13px, 3.4vw, 16px); }
-    .b5-stat-strip { grid-auto-flow: row; grid-template-columns: 1fr 1fr; row-gap: 22px; }
-    .b5-stat-strip > .b5-stat { padding-left: 20px; }
+    .b5-stat-strip { --b5-stat-gutter: 16px; grid-auto-flow: row; grid-template-columns: 1fr 1fr; row-gap: 22px; }
     .b5-stat-strip > .b5-stat:nth-child(odd) { padding-left: 0; }
-    .b5-stat-strip > .b5-stat:nth-child(even) { border-right: 0; }
+    .b5-stat-strip > .b5-stat:nth-child(even) { padding-right: 0; border-right: 0; }
     .b5-stat__label { font-size: 14px; }
     .b5-stat__value { font-size: 39px; }
     .b5-directory { grid-template-columns: 1fr; gap: 43px; }
