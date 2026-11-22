@@ -16,13 +16,13 @@ jobs:
       - run: npm test
       - run: npm pack --dry-run
 
-  # Once the tests pass, a push to main or dashboard-parity redeploys the gallery behind
+  # Once the tests pass, a push to main redeploys the gallery behind
   # https://decomp.adriwin.fr/webui. The deploy key (secret WEBUI_DEPLOY_KEY) can do one thing
   # on the server: hand tools/server/b5-webui-deploy.sh a bundle, which it unpacks as a new
   # release and switches to. A push older than the live gallery leaves it alone.
   deploy-gallery:
     needs: test
-    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dashboard-parity')
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     concurrency:
       group: webui-gallery
